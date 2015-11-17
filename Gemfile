@@ -17,6 +17,12 @@ gem 'figaro', '~> 1.1.1'
 gem 'high_voltage', '~> 2.4.0'
 gem 'pg', '~> 0.18.4'
 gem 'simple_form', '~> 3.2.0'
+
+# I18n
+gem 'rails-i18n', '~> 4.0.0'
+gem 'devise-i18n', '~> 0.12.1'
+gem 'devise-i18n-views', '~> 0.3.4'
+
 group :development do
   gem 'better_errors'
   gem 'capistrano', '~> 3.0.1'
