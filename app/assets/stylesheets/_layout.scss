@@ -1,4 +1,17 @@
 body {
-  padding-top: 50px;
+  padding-top: 70px;
   padding-bottom: 20px;
+  > .container {
+    > hr {
+      border-color: #fff;
+      height: 1px;
+    }
+    > footer {
+      text-align: center;
+      font-size: 12px;
+    }
+  }
+}
+.field_with_errors {
+  color: #f44336;
 }
