@@ -1,3 +1,11 @@
+Documentation:
+  Enabled: false
+Metrics/LineLength:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Style/BlockComments:
+  Enabled: false
 AllCops:
   RunRailsCops: true
   Include:
