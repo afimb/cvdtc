@@ -18,6 +18,7 @@ gem 'figaro', '~> 1.1.1'
 gem 'high_voltage', '~> 2.4.0'
 gem 'pg', '~> 0.18.4'
 gem 'simple_form', '~> 3.2.0'
+gem 'nprogress-rails', '~> 0.1.6.7'
 
 # I18n
 gem 'rails-i18n', '~> 4.0.0'

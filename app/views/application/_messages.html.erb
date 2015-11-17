@@ -1,0 +1,13 @@
+<% if flash.any? %>
+  <% class_name = { notice: 'info', alert: 'warning', error: 'danger' } %>
+  <% flash.each do |name, msg| %>
+    <% if msg.is_a?(String) %>
+      <% name = name.to_sym %>
+      <div class="alert alert-dismissable alert-<%= class_name.key?(name) ? class_name[name] : 'success' %>">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <h4><%= t(name) %></h4>
+        <p><%= msg %></p>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
