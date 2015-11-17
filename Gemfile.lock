@@ -144,6 +144,8 @@ GEM
     json (1.8.3)
     launchy (2.4.3)
       addressable (~> 2.3)
+    letter_opener (1.4.1)
+      launchy (~> 2.2)
     listen (3.0.4)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
@@ -341,6 +343,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails (~> 4.0.5)
   launchy
+  letter_opener
   nprogress-rails (~> 0.1.6.7)
   pg (~> 0.18.4)
   pry-rails
