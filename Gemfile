@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 ruby '2.2.3'
+gem 'bundler', '~> 1.10.6'
 gem 'rails', '~> 4.2.5'
 gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier', '~> 2.7.2'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails', '~> 4.0.5'
 gem 'turbolinks', '~> 2.5.3'
@@ -54,4 +55,12 @@ group :test do
   gem 'database_cleaner'
   gem 'launchy'
   gem 'selenium-webdriver'
+end
+
+# Rails Assets
+source 'https://rails-assets.org' do
+  gem 'rails-assets-html5shiv', '~> 3.7.3'
+  gem 'rails-assets-respond', '~> 1.4.2'
+  gem 'rails-assets-bootstrap', '~> 3.3.5'
+  gem 'rails-assets-bootstrap-material-design', '~> 0.3.0'
 end
