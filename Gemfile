@@ -24,16 +24,16 @@ gem 'puma', '~> 2.15.3'
 gem 'rails_admin', '~> 0.7.0'
 
 # I18n
-gem 'rails-i18n', '~> 4.0.0'
+gem 'rails-i18n', '~> 4.0.6'
 gem 'devise-i18n', '~> 0.12.1'
-gem 'devise-i18n-views', '~> 0.3.4'
+gem 'devise-i18n-views', '~> 0.3.6'
 
 group :development do
   gem 'better_errors'
-  gem 'capistrano', '~> 3.0.1'
-  gem 'capistrano-bundler'
-  gem 'capistrano-rails', '~> 1.1.0'
-  gem 'capistrano-rails-console'
+  gem 'capistrano', '~> 3.4.0'
+  gem 'capistrano-bundler', '~> 1.1.4'
+  gem 'capistrano-rails', '~> 1.1.5'
+  gem 'capistrano-rails-console', '~> 1.0.1'
   gem 'capistrano-rvm', '~> 0.1.1'
   gem 'guard-bundler'
   gem 'guard-rails'
@@ -45,6 +45,7 @@ group :development do
   gem 'rb-inotify', require: false
   gem 'spring-commands-rspec'
   gem 'letter_opener'
+  gem 'bundler-audit'
 end
 group :development, :test do
   gem 'factory_girl_rails'
