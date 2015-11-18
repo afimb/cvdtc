@@ -12,6 +12,9 @@
       <ul class="nav navbar-nav">
         <li<%= is_active(:visitors) %>><%= link_to 'Home', root_path %></li>
         <li<%= is_active(:pages) %>><%= link_to 'About', page_path('about') %></li>
+        <% if user_signed_in? && current_user.admin? %>
+          <li><%= link_to 'Admin', rails_admin_path %></li>
+        <% end %>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
