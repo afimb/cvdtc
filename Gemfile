@@ -25,6 +25,7 @@ gem 'rails_admin', '~> 0.7.0'
 gem 'grape', '~> 0.13.0'
 gem 'grape_logging', '~> 1.1.2'
 gem 'grape-attack', '~> 0.1.1'
+gem 'grape-swagger-rails', '~> 0.1.0'
 
 # I18n
 gem 'rails-i18n', '~> 4.0.6'
