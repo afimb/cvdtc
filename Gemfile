@@ -19,6 +19,8 @@ gem 'high_voltage', '~> 2.4.0'
 gem 'pg', '~> 0.18.4'
 gem 'simple_form', '~> 3.2.0'
 gem 'nprogress-rails', '~> 0.1.6.7'
+gem 'rails_12factor', '~> 0.0.3', group: :production
+gem 'puma', '~> 2.15.3'
 
 # I18n
 gem 'rails-i18n', '~> 4.0.0'
@@ -48,7 +50,6 @@ group :development, :test do
   gem 'faker'
   gem 'pry-rails'
   gem 'pry-rescue'
-  gem 'puma'
   gem 'rspec-rails'
   gem 'rubocop'
 end
