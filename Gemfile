@@ -8,10 +8,10 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails', '~> 4.0.5'
 gem 'turbolinks', '~> 2.5.3'
 gem 'jbuilder', '~> 2.0'
+gem 'spring'
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
-  gem 'spring'
 end
 gem 'devise', '~> 3.5.2'
 gem 'figaro', '~> 1.1.1'
