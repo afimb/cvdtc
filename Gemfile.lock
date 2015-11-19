@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/brunto/transit-validator-i18n.git
+  revision: c2b8d3d194e29cf0c7f512f39fdb64e28018f772
+  branch: master
+  specs:
+    transit-validator-i18n (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -498,6 +505,7 @@ DEPENDENCIES
   sinatra (~> 1.4.6)
   spring
   spring-commands-rspec
+  transit-validator-i18n!
   turbolinks (~> 2.5.3)
   uglifier (~> 2.7.2)
   web-console (~> 2.0)

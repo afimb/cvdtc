@@ -5,7 +5,7 @@
       <% name = name.to_sym %>
       <div class="alert alert-dismissable alert-<%= class_name.key?(name) ? class_name[name] : 'success' %>">
         <button type="button" class="close" data-dismiss="alert">×</button>
-        <h4><%= t(name) %></h4>
+        <h4><%= t("flash.title.#{name}") %></h4>
         <p><%= msg %></p>
       </div>
     <% end %>

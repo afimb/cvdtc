@@ -33,6 +33,7 @@ gem 'sinatra', '~> 1.4.6', require: nil
 gem 'rails-i18n', '~> 4.0.6'
 gem 'devise-i18n', '~> 0.12.1'
 gem 'devise-i18n-views', '~> 0.3.6'
+gem 'transit-validator-i18n', github: 'brunto/transit-validator-i18n', branch: 'master'
 
 group :development do
   gem 'better_errors'
