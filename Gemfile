@@ -52,6 +52,7 @@ group :development do
   gem 'spring-commands-rspec'
   gem 'letter_opener'
   gem 'bundler-audit'
+  gem 'localeapp'
 end
 group :development, :test do
   gem 'factory_girl_rails'
