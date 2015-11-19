@@ -26,6 +26,8 @@ gem 'grape', '~> 0.13.0'
 gem 'grape_logging', '~> 1.1.2'
 gem 'grape-attack', '~> 0.1.1'
 gem 'grape-swagger-rails', '~> 0.1.0'
+gem 'sidekiq', '~> 4.0.1'
+gem 'sinatra', '~> 1.4.6', require: nil
 
 # I18n
 gem 'rails-i18n', '~> 4.0.6'
