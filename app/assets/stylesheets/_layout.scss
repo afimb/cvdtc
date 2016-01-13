@@ -1,17 +1,17 @@
+html {
+  font-size: 62.5%
+}
+
 body {
   padding-top: 70px;
   padding-bottom: 20px;
-  > .container {
-    > hr {
-      border-color: #fff;
-      height: 1px;
-    }
-    > footer {
-      text-align: center;
-      font-size: 12px;
-    }
-  }
+  font-size: 1.2rem;
 }
+
+hr {
+  border-color: #aaa;
+}
+
 .field_with_errors {
   color: #f44336;
 }

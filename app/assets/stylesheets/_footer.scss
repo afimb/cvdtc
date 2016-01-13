@@ -1,0 +1,19 @@
+footer {
+  text-align: center;
+  font-size: 1.2rem;
+  .cvdtc {
+    &-list {
+      margin: 0;
+      padding: 0;
+      > li {
+        list-style: none;
+        display: inline-block;
+        vertical-align: top;
+        margin: 0 0.5em;
+        a {
+          font-size: 0.95em;
+        }
+      }
+    }
+  }
+}
