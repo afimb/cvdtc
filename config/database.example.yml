@@ -16,7 +16,7 @@ development:
   adapter:  postgresql
   host:     localhost
   encoding: unicode
-  database: transit-validator_development
+  database: cvdtc_development
   pool:     5
   username:
   password:
@@ -44,7 +44,7 @@ test:
   adapter:  postgresql
   host:     localhost
   encoding: unicode
-  database: transit-validator_test
+  database: cvdtc_test
   pool:     5
   username:
   password:
@@ -54,7 +54,7 @@ production:
   adapter:  postgresql
   host:     localhost
   encoding: unicode
-  database: transit-validator_production
+  database: cvdtc_production
   pool:     5
   username:
   password:

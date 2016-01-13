@@ -1,4 +1,4 @@
-Transit Validator
+CVDTC
 ================
 
 This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
@@ -15,8 +15,8 @@ Ruby on Rails
 
 This application requires:
 
-- Ruby 2.2.3
-- Rails 4.2.5
+- Ruby 2.3.x
+- Rails 4.2.x
 - Redis
 
 Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.html).
@@ -46,9 +46,9 @@ License
 
 A ruby translation project managed on [Locale](http://www.localeapp.com/) that's open to all!
 
-## Contributing to transit-validator
+## Contributing to cvdtc
 
-- Edit the translations directly on the [transit-validator](http://www.localeapp.com/projects/public?search=transit-validator) project on Locale.
+- Edit the translations directly on the [cvdtc](http://www.localeapp.com/projects/public?search=cvdtc) project on Locale.
 - **That's it!**
 - The maintainer will then pull translations from the Locale project and push to Github.
 
