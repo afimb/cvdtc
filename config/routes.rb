@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   mount GrapeSwaggerRails::Engine => '/documentation'
 
   # RailsAdmin and Sidekiq
-  authenticate :user, lambda { |u| u.admin? } do
+  authenticate :user, ->(u) { u.admin? } do
     mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
     require 'sidekiq/web'
     mount Sidekiq::Web => '/sidekiq', as: 'sidekiq'

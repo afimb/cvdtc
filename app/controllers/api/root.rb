@@ -2,17 +2,17 @@ require 'grape-swagger'
 
 module API
   module ErrorFormatter
-    def self.call(message, backtrace, options, env)
-      { :response_type => 'error', :response => message }.to_json
+    def self.call(message, _backtrace, _options, _env)
+      { response_type: 'error', response: message }.to_json
     end
   end
 
   class Root < Grape::API
-    prefix    'api'
-    format    :json
+    prefix 'api'
+    format :json
 
     logger.formatter = GrapeLogging::Formatters::Default.new
-    use GrapeLogging::Middleware::RequestLogger, { logger: logger }
+    use GrapeLogging::Middleware::RequestLogger, logger: logger
 
     rescue_from :all unless Rails.env.development?
     error_formatter :json, API::ErrorFormatter
