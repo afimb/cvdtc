@@ -9,10 +9,6 @@ gem 'jquery-rails', '~> 4.0.5'
 gem 'turbolinks', '~> 2.5.3'
 gem 'jbuilder', '~> 2.0'
 gem 'spring', '~> 1.5.0'
-group :development, :test do
-  gem 'byebug'
-  gem 'web-console', '~> 2.0'
-end
 gem 'devise', '~> 3.5.2'
 gem 'figaro', '~> 1.1.1'
 gem 'high_voltage', '~> 2.4.0'
@@ -35,6 +31,17 @@ gem 'devise-i18n', '~> 0.12.1'
 gem 'devise-i18n-views', '~> 0.3.7'
 gem 'cvdtc-i18n', github: 'afimb/cvdtc-i18n', branch: 'master'
 
+group :development, :test do
+  gem 'byebug'
+  gem 'factory_girl_rails'
+  gem 'faker'
+  gem 'rspec-rails'
+  gem 'rubocop'
+  gem 'web-console', '~> 2.0'
+  gem 'pry-rails'
+  gem 'pry-byebug'
+  gem 'pry-rescue'
+end
 group :development do
   gem 'better_errors'
   gem 'capistrano', '~> 3.4.0'
@@ -54,14 +61,6 @@ group :development do
   gem 'letter_opener'
   gem 'bundler-audit'
   gem 'localeapp'
-end
-group :development, :test do
-  gem 'factory_girl_rails'
-  gem 'faker'
-  gem 'pry-rails'
-  gem 'pry-rescue'
-  gem 'rspec-rails'
-  gem 'rubocop'
 end
 group :test do
   gem 'capybara'

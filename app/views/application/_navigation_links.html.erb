@@ -10,8 +10,8 @@
     </div>
     <div class="navbar-collapse collapse navbar-inverse-collapse">
       <ul class="nav navbar-nav">
-        <li<%= active(:visitors) %>><%= link_to t('validate'), root_path %></li>
-        <li<%= active(:pages) %>><%= link_to t('convert'), page_path('about') %></li>
+        <li<%= active(:visitors, :index) %>><%= link_to t('validate'), root_path %></li>
+        <li<%= active(:visitors, :export) %>><%= link_to t('export'), export_path %></li>
         <% if user_signed_in? && current_user.admin? %>
           <li><%= link_to t('admin'), rails_admin_path %></li>
           <li><%= link_to t('sidekiq'), sidekiq_path %></li>

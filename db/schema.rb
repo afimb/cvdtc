@@ -19,8 +19,10 @@ ActiveRecord::Schema.define(version: 20160113160123) do
   create_table "jobs", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "name",                      null: false
+    t.integer  "iev_action",    default: 0, null: false
     t.integer  "format",                    null: false
-    t.string   "file",                      null: false
+    t.string   "file"
+    t.string   "url"
     t.integer  "format_export"
     t.string   "file_md5",                  null: false
     t.integer  "status",        default: 0, null: false

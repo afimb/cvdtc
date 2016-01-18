@@ -1,0 +1,23 @@
+<%= simple_form_for(@job, html: { class: 'form-horizontal' }) do |f| %>
+  <%= f.error_notification %>
+
+  <%= f.input :iev_action, as: :hidden %>
+  <%= f.input :format, collection: Job.formats.map{ |format, _index| [format, format] } %>
+
+  <ul class="nav nav-pills">
+    <li class="active"><a data-toggle="tab" href="#file">File</a></li>
+    <li><a data-toggle="tab" href="#url">URL</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="file" class="tab-pane fade in active">
+      <%= f.input :file, as: :file %>
+    </div>
+    <div id="url" class="tab-pane fade">
+      <%= f.input :url %>
+    </div>
+  </div>
+
+  <%= f.input :format_export, collection: Job.format_exports %>
+  <%= f.button :submit, class: 'btn btn-primary' %>
+<% end %>

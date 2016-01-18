@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   # Application
   root to: 'visitors#index'
+  get 'export', to: 'visitors#export', as: 'export'
+  post 'jobs', to: 'visitors#create', as: 'jobs'
 
   # Devise
   devise_for :users

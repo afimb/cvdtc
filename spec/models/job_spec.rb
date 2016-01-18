@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Job, type: :model do
   it 'has a valid factory' do
     expect(build(:job, :import)).to be_valid
+    expect(build(:job, :import_with_url)).to be_valid
   end
 
   context '#import' do
