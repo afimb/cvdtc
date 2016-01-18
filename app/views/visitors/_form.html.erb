@@ -18,6 +18,7 @@
     </div>
   </div>
 
-  <%= f.input :format_export, collection: Job.format_exports %>
+  <%= f.input :format_export, collection: Job.format_exports.map{ |format, _index| [format, format] }  if @job.export_job? %>
+
   <%= f.button :submit, class: 'btn btn-primary' %>
 <% end %>

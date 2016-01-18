@@ -8,7 +8,7 @@ class CreateJobs < ActiveRecord::Migration
       t.string :file
       t.string :url
       t.integer :format_export
-      t.string :file_md5, null: false
+      t.string :file_md5
       t.integer :status, null: false, default: 0
 
       t.timestamps null: false

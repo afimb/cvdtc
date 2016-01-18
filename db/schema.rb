@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20160118095336) do
     t.string   "file"
     t.string   "url"
     t.integer  "format_export"
-    t.string   "file_md5",                  null: false
+    t.string   "file_md5"
     t.integer  "status",        default: 0, null: false
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false

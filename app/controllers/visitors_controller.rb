@@ -10,8 +10,10 @@ class VisitorsController < ApplicationController
 
   def create
     @job = Job.new(job_params)
+    @job.record_file_or_url(params[:job][:file])
+    @job.user = current_user if user_signed_in?
     if @job.save
-      flash[:notice] = 'Job started'
+      flash[:notice] = I18n.t('job.status.pending')
       redirect_to root_path
     else
       render 'index'
@@ -26,12 +28,9 @@ class VisitorsController < ApplicationController
   end
 
   def job_params
-    params.require(:job).permit(
-                    :iev_action,
-                    :format,
-                    :file,
-                    :url,
-                    :format_export
-    )
+    params.require(:job).permit(:iev_action,
+                                :format,
+                                :url,
+                                :format_export)
   end
 end
