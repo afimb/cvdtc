@@ -22,7 +22,14 @@
   end
 
   trait :import_with_url do
+    format :gtfs
     file nil
     url 'https://data.toulouse-metropole.fr/explore/dataset/tisseo-gtfs/files/bd1298f158bc39ed9065e0c17ebb773b/download/'
   end
+
+   trait :import_with_wrong_url do
+     format :gtfs
+     file nil
+     url 'ftp://data.toulouse-metropole.fr/explore/dataset/tisseo-gtfs/files/bd1298f158bc39ed9065e0c17ebb773b/download/'
+   end
 end

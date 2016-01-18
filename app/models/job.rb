@@ -18,7 +18,7 @@ class Job < ActiveRecord::Base
   validates :iev_action, presence: true
   validates :format, presence: true
   validates :file, presence: true, if: Proc.new { |a| a.url.blank? }
-  validates :url, format: { with: URI.regexp }, if: Proc.new { |a| a.url.present? }
+  validates :url, format: URI::regexp(%w(http https)), if: Proc.new { |a| a.url.present? }
   validates :file_md5, presence: true
   validates_with JobFormatValidator
 
