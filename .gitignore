@@ -88,3 +88,7 @@ pickle-email-*.html
 
 .localeapp
 /config/initializers/localeapp.rb
+
+/public/uploads/*
+
+!.keep

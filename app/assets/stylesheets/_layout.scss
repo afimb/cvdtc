@@ -15,3 +15,7 @@ hr {
 .field_with_errors {
   color: #f44336;
 }
+
+.glyphicon > span {
+  display: none;
+}

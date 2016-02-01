@@ -24,6 +24,7 @@ gem 'grape-attack', '~> 0.1.1'
 gem 'grape-swagger-rails', '~> 0.1.0'
 gem 'sidekiq', '~> 4.0.1'
 gem 'sinatra', '~> 1.4.6', require: nil
+gem 'ievkit', github: 'afimb/ievkit', branch: 'master'
 
 # I18n
 gem 'rails-i18n', '~> 4.0.7'
@@ -76,4 +77,5 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-respond', '~> 1.4.2'
   gem 'rails-assets-bootstrap', '~> 3.3.6'
   gem 'rails-assets-bootstrap-material-design', '~> 0.3.0'
+  gem 'rails-assets-clipboard', '~> 1.5.5'
 end

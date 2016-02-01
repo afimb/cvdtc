@@ -1,0 +1,27 @@
+"use strict";
+
+(function($){
+  var progressJob = function() {
+    var $el = $('[data-progress-job]');
+    console.log($el);
+    if($el.length == 1) {
+      var url = $el.data('progress-job');
+      $.ajax({
+        url: url
+      })
+      .done(function( datas ) {
+        if(datas.redirect) {
+          window.location.href = datas.redirect;
+        }else{
+          $('#progress-bar-steps').css('width', datas.steps_percent + '%');
+          $('#progress-bar-current-step').css('width', datas.current_step_percent + '%');
+        }
+      });
+      window.setTimeout(progressJob, <%= raw ENV['TIMEOUT'] %>);
+    }
+  };
+
+  $(document).ready( function () {
+    progressJob();
+  });
+})(jQuery);

@@ -3,6 +3,15 @@ Rails.application.routes.draw do
   root to: 'visitors#index'
   get 'export', to: 'visitors#export', as: 'export'
   post 'jobs', to: 'visitors#create', as: 'jobs'
+  get 'job/:id', to: 'jobs#show', as: 'job'
+  get 'job/:id/progress', to: 'jobs#progress', as: 'progress_job'
+  get 'job/:id/report', to: 'jobs#report', as: 'report_job'
+  delete 'job/:id', to: 'jobs#destroy', as: 'destroy_job'
+  delete 'job/:id', to: 'jobs#cancel', as: 'cancel_job'
+
+  authenticate :user do
+    get 'jobs', to: 'jobs#index'
+  end
 
   # Devise
   devise_for :users

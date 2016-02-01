@@ -1,0 +1,16 @@
+<h1><%= t('jobs.index.title') %></h1>
+
+<ul>
+  <% @jobs.each do |job| %>
+    <li>
+      <% if job.scheduled? %><span class="glyphicon glyphicon-refresh"></span><% end %>
+      <% url = job.terminated? ? report_job_path(job) : job_path(job) %>
+      <%= link_to url do %>
+        <%= job.name %>
+      <% end %>
+      <%= link_to destroy_job_path(job), 'data-method': :delete, 'data-confirm':  t('job.destroy.confirm') do %>
+        <span class="glyphicon glyphicon-trash"><span><%= t('job.destroy.title') %></span></span>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

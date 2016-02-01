@@ -7,4 +7,5 @@
 //= require bootstrap-material-design
 //= require nprogress
 //= require nprogress-turbolinks
+//= require clipboard
 //= require_tree .

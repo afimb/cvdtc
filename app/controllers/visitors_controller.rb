@@ -14,7 +14,8 @@ class VisitorsController < ApplicationController
     @job.user = current_user if user_signed_in?
     if @job.save
       flash[:notice] = I18n.t('job.status.pending')
-      redirect_to root_path
+      IevkitJob.perform_later(@job.id)
+      redirect_to job_path(@job)
     else
       render 'index'
     end
