@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: git://github.com/afimb/ievkit.git
-  revision: 3422e0d005d0b37691cde41fa0dcbbe8c3dfeda2
+  revision: ba0c3e3283dd1a951202ca3b994ece725712c796
   branch: master
   specs:
     ievkit (0.1.0)

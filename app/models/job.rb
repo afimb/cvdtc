@@ -34,16 +34,19 @@ class Job < ActiveRecord::Base
   scope :find_pending, ->(id) { where(id: id, status: Job.statuses[:pending]).limit(1) }
   scope :destroy_by_user, ->(id, user_id) { where('id = ? AND (user_id IS NULL OR user_id = ?)', id, user_id).destroy_all }
 
+  attr_reader :all_links
+  after_initialize :load_ievkit
+
   def name=(name)
     super(File.basename(name, File.extname(name)).humanize)
   end
 
   def file=(name)
-    super(clean_filename(name))
+    super(clean_filename(name)) if name.present?
   end
 
   def list_links
-    {}.tap{ |hash|
+    @all_links = {}.tap{ |hash|
       self.links.map{ |link| hash[link.name.to_sym] = link.url}
     }
   end
@@ -81,27 +84,23 @@ class Job < ActiveRecord::Base
     links = self.list_links
     return false unless links.present?
     return true if self.terminated?
-    ievkit_job = Ievkit::Job.new(ENV['IEV_REFERENTIAL'])
-    result = ievkit_job.terminated_job?(links[:forwarding_url])
-    self.terminated! if result
-    result
+    self.terminated! if @ievkit_job.terminated_job?(links[:forwarding_url])
   end
 
   def progress_steps
     datas = {}
-    if list_links
-      ievkit_job = Ievkit::Job.new(ENV['IEV_REFERENTIAL'])
-      report = ievkit_job.get_job(list_links[:action_report])
+    return datas if list_links.blank?
+    if @all_links[:action_report].blank?
+      update_links
+    else
+      report = @ievkit_job.get_job(@all_links[:action_report])
       if report['action_report'] && report['action_report']['progression']
         report = report['action_report']['progression']
         index_current_step = report['current_step'].to_i - 1
-
-        datas = {
-          current_step: report['current_step'].to_i,
-          steps_count: report['steps_count'].to_i,
-          current_step_realized: report['steps'][index_current_step]['realized'].to_i,
-          current_step_total: report['steps'][index_current_step]['total'].to_i
-        }
+        datas[:current_step] = report['current_step'].to_i
+        datas[:steps_count] = report['steps_count'].to_i
+        datas[:current_step_realized] = report['steps'][index_current_step]['realized'].to_i
+        datas[:current_step_total] = report['steps'][index_current_step]['total'].to_i
         datas[:steps_percent] = datas[:current_step].percent_of(datas[:steps_count]).round(2)
         datas[:current_step_percent] = datas[:current_step_realized].percent_of(datas[:current_step_total]).round(2)
       end
@@ -110,6 +109,10 @@ class Job < ActiveRecord::Base
   end
 
   protected
+
+  def load_ievkit
+    @ievkit_job = Ievkit::Job.new(ENV['IEV_REFERENTIAL'])
+  end
 
   def clean_filename(name)
     base = File.basename(name, File.extname(name))
@@ -120,6 +123,16 @@ class Job < ActiveRecord::Base
     File.delete(path_file)
   rescue => e
     logger.info "File not found to delete: #{e.message}"
+  end
+
+  def update_links
+    unless is_terminated?
+      result = @ievkit_job.get_job(@all_links[:forwarding_url])
+      result.each do |link|
+        puts link.inspect
+        self.links.find_or_create_by!(name: link[0], url: link[1])
+      end
+    end
   end
 
 end
