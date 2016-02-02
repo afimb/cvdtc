@@ -47,7 +47,7 @@ class Job < ActiveRecord::Base
 
   def list_links
     @all_links = {}.tap{ |hash|
-      self.links.map{ |link| hash[link.name.to_sym] = link.url}
+      self.links(true).map{ |link| hash[link.name.to_sym] = link.url}
     }
   end
 
@@ -73,27 +73,28 @@ class Job < ActiveRecord::Base
   end
 
   def ievkit_delete
-    link = self.list_links[:delete]
-    if link
-      ievkit = Ievkit::Job.new(ENV['IEV_REFERENTIAL'])
-      ievkit.delete_job(link)
-    end
+    return if @all_links.blank?
+    @ievkit.delete_job(@all_links[:delete])
   end
 
   def is_terminated?
-    links = self.list_links
-    return false unless links.present?
-    return true if self.terminated?
-    self.terminated! if @ievkit_job.terminated_job?(links[:forwarding_url])
+    return false if @all_links.blank?
+    return true if terminated?
+    if @ievkit.terminated_job?(@all_links[:forwarding_url])
+      update_links
+      self.terminated!
+    else
+      false
+    end
   end
 
   def progress_steps
     datas = {}
-    return datas if list_links.blank?
+    return datas if @all_links.blank?
     if @all_links[:action_report].blank?
       update_links
     else
-      report = @ievkit_job.get_job(@all_links[:action_report])
+      report = @ievkit.get_job(@all_links[:action_report])
       if report['action_report'] && report['action_report']['progression']
         report = report['action_report']['progression']
         index_current_step = report['current_step'].to_i - 1
@@ -111,7 +112,8 @@ class Job < ActiveRecord::Base
   protected
 
   def load_ievkit
-    @ievkit_job = Ievkit::Job.new(ENV['IEV_REFERENTIAL'])
+    @ievkit = Ievkit::Job.new(ENV['IEV_REFERENTIAL'])
+    list_links
   end
 
   def clean_filename(name)
@@ -126,13 +128,16 @@ class Job < ActiveRecord::Base
   end
 
   def update_links
-    unless is_terminated?
-      result = @ievkit_job.get_job(@all_links[:forwarding_url])
-      result.each do |link|
-        puts link.inspect
-        self.links.find_or_create_by!(name: link[0], url: link[1])
-      end
+    url = @all_links[:forwarding_url]
+    if @ievkit.terminated_job?(url)
+      url = @ievkit.get_job(url)
+      self.links.find_or_create_by(name: 'terminated_job', url: url)
     end
+    result = @ievkit.get_job(url)
+    result.each do |link|
+      self.links.find_or_create_by(name: link[0], url: link[1])
+    end
+    list_links
   end
 
 end

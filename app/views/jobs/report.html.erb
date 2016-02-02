@@ -1,6 +1,28 @@
-<div class="row">
-  <div class="col-sm-12">
-    <h1>Report</h1>
-
+<div class="cvd-ReportBlock">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1><%= @job.name %> - <%= @job.format.upcase %></h1>
+      <h2><%= t('report.validation_ended_at') %> <%= l(@job.updated_at, format: :long) %></h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+      <%= render 'report_badges' %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <%= render 'report_links' %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <%= render 'report_filters' %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <%= render 'report_results' %>
+    </div>
   </div>
 </div>

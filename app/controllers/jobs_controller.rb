@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
   before_action :authenticate_user!, only: [:index, :destroy]
-  before_action :job, only: [:show, :progress]
+  before_action :job, only: [:show, :progress, :report]
 
   def index
     @jobs = Job.find_my_job(current_user)
@@ -19,7 +19,9 @@ class JobsController < ApplicationController
     render json: @datas
   end
 
-  def report; end
+  def report
+
+  end
 
   def cancel
     Job.destroy_by_user(params[:id], (user_signed_in? ? current_user.id : nil))

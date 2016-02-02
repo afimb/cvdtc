@@ -1,0 +1,12 @@
+<div class="btn-group" role="group">
+  <%=
+    link_to root_path, class: 'btn btn-default' do
+      t('report.download')
+    end
+  %>
+  <%=
+    link_to root_path, class: 'btn btn-default', 'data-confirm': t('job.destroy.confirm'), 'data-method': :delete do
+      t('report.delete')
+    end
+  %>
+</div>

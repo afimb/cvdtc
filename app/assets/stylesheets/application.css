@@ -3,6 +3,7 @@
  *= require bootstrap-material-design
  *= require nprogress
  *= require nprogress-bootstrap
- *= require_tree .
- *= require_self
+ *= require layout
+ *= require report
+ *= require footer
  */
