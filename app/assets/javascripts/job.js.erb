@@ -1,9 +1,19 @@
 "use strict";
 
 (function($){
+  var setProgressBar = function(val1, val2) {
+    var $pb1 = $('#progress-bar-steps');
+    $pb1.css('width', val1 + '%');
+    $pb1.find('.progress-bar-value').text(val1);
+    $pb1.attr('aria-valuenow', val1);
+    var $pb2 = $('#progress-bar-current-step');
+    $pb2.css('width', val2 + '%');
+    $pb2.find('.progress-bar-value').text(val2);
+    $pb2.attr('aria-valuenow', val2);
+  };
+
   var progressJob = function() {
     var $el = $('[data-progress-job]');
-    console.log($el);
     if($el.length == 1) {
       var url = $el.data('progress-job');
       $.ajax({
@@ -11,17 +21,47 @@
       })
       .done(function( datas ) {
         if(datas.redirect) {
+          setProgressBar(100, 100);
           window.location.href = datas.redirect;
         }else{
-          $('#progress-bar-steps').css('width', datas.steps_percent + '%');
-          $('#progress-bar-current-step').css('width', datas.current_step_percent + '%');
+          setProgressBar(datas.steps_percent, datas.current_step_percent);
         }
       });
       window.setTimeout(progressJob, <%= raw ENV['TIMEOUT'] %>);
     }
   };
 
+  var format_switch = function(format) {
+    var $el = $('[name="job[iev_action]"]');
+    if ($el.length == 1) {
+      var val = $el.val();
+      if (val == 'convert_job') {
+        if (format == 'convert_neptune') {
+          $('[data-convert-to="neptune"]').removeClass('hide');
+        } else {
+          $('[data-convert-to="neptune"]').addClass('hide');
+        }
+        if (format == 'convert_gtfs') {
+          $('[data-convert-to="gtfs"]').removeClass('hide');
+        } else {
+          $('[data-convert-to="gtfs"]').addClass('hide');
+        }
+      }
+    }
+  }
+
   $(document).ready( function () {
     progressJob();
+    var $format = $('[name="job[format_convert]"]');
+    format_switch($format.val());
+    $format.change( function() {
+      format_switch($(this).val());
+    });
+
+//    var $format = $('[name="job[format]"]');
+//    format_switch($format.val());
+//    $format.change( function() {
+//      format_switch($(this).val());
+//    });
   });
 })(jQuery);

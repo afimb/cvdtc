@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   # Application
   root to: 'visitors#index'
-  get 'export', to: 'visitors#export', as: 'export'
+  get 'convert', to: 'visitors#convert', as: 'convert'
   post 'jobs', to: 'visitors#create', as: 'jobs'
   get 'job/:id', to: 'jobs#show', as: 'job'
   get 'job/:id/progress', to: 'jobs#progress', as: 'progress_job'
-  get 'job/:id/report', to: 'jobs#report', as: 'report_job'
+  get 'job/:id/validation', to: 'jobs#validation', as: 'validation_job'
   delete 'job/:id', to: 'jobs#destroy', as: 'destroy_job'
   delete 'job/:id', to: 'jobs#cancel', as: 'cancel_job'
 

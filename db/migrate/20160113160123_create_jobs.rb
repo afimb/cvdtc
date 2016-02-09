@@ -7,9 +7,16 @@ class CreateJobs < ActiveRecord::Migration
       t.integer :format, null: false
       t.string :file
       t.string :url
-      t.integer :format_export
+      t.integer :format_convert
       t.string :file_md5
       t.integer :status, null: false, default: 0
+      t.string :prefix
+      t.string :time_zone
+      t.integer :max_distance_for_commercial, null: false, default: 0
+      t.boolean :ignore_last_word, null: false, default: false
+      t.integer :ignore_end_chars, null: false, default: 0
+      t.integer :max_distance_for_connection_link, null: false, default: 0
+
 
       t.timestamps null: false
     end

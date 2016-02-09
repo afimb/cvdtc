@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
   before_action :authenticate_user!, only: [:index, :destroy]
-  before_action :job, only: [:show, :progress, :report]
+  before_action :job, only: [:show, :progress, :validation]
 
   def index
     @jobs = Job.find_my_job(current_user)
@@ -8,7 +8,7 @@ class JobsController < ApplicationController
 
   def show
     if @job.is_terminated?
-      redirect_to report_job_path(@job)
+      redirect_to validation_job_path(@job)
     else
       progress_steps
     end
@@ -19,17 +19,21 @@ class JobsController < ApplicationController
     render json: @datas
   end
 
-  def report
-
+  def validation
+    @report = @job.validation_report
   end
 
   def cancel
-    Job.destroy_by_user(params[:id], (user_signed_in? ? current_user.id : nil))
+    job = Job.find_with_id_and_user(params[:id], (user_signed_in? ? current_user.id : nil))
+    job.ievkit_cancel_or_delete(:cancel)
+    job.destroy
     redirect_to root_path
   end
 
   def destroy
-    Job.destroy_all(id: params[:id], user: current_user)
+    job = Job.find_by(id: params[:id], user: current_user)
+    job.ievkit_cancel_or_delete(:delete)
+    job.destroy
     redirect_to root_path
   end
 
@@ -40,6 +44,6 @@ class JobsController < ApplicationController
   end
 
   def progress_steps
-    @datas = @job.is_terminated? ? { redirect: report_job_path } : @job.progress_steps
+    @datas = @job.is_terminated? ? { redirect: validation_job_path } : @job.progress_steps
   end
 end

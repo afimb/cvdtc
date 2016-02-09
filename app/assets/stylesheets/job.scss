@@ -1,3 +1,17 @@
 .progress {
-  height: 10px;
+  height: 20px;
+}
+.cvd {
+  &-FormBlock {
+    width: 60%;
+    margin: 0 auto;
+    .form-group {
+      background-color: #F7F7F7;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .checkbox, .checkbox-material {
+      margin-right: 10px;
+    }
+  }
 }

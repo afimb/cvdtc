@@ -18,16 +18,22 @@ ActiveRecord::Schema.define(version: 20160118095336) do
 
   create_table "jobs", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "name",                      null: false
-    t.integer  "iev_action",    default: 0, null: false
-    t.integer  "format",                    null: false
+    t.string   "name",                                             null: false
+    t.integer  "iev_action",                       default: 0,     null: false
+    t.integer  "format",                                           null: false
     t.string   "file"
     t.string   "url"
-    t.integer  "format_export"
+    t.integer  "format_convert"
     t.string   "file_md5"
-    t.integer  "status",        default: 0, null: false
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.integer  "status",                           default: 0,     null: false
+    t.string   "prefix"
+    t.string   "time_zone"
+    t.integer  "max_distance_for_commercial",      default: 0,     null: false
+    t.boolean  "ignore_last_word",                 default: false, null: false
+    t.integer  "ignore_end_chars",                 default: 0,     null: false
+    t.integer  "max_distance_for_connection_link", default: 0,     null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
   end
 
   add_index "jobs", ["user_id"], name: "index_jobs_on_user_id", using: :btree

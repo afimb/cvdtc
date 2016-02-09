@@ -1,10 +1,11 @@
 <h1><%= t('jobs.index.title') %></h1>
 
+<% if @jobs.present? %>
 <ul>
   <% @jobs.each do |job| %>
     <li>
       <% if job.scheduled? %><span class="glyphicon glyphicon-refresh"></span><% end %>
-      <% url = job.terminated? ? report_job_path(job) : job_path(job) %>
+      <% url = job.terminated? ? validation_job_path(job) : job_path(job) %>
       <%= link_to url do %>
         <%= job.name %>
       <% end %>
@@ -14,3 +15,6 @@
     </li>
   <% end %>
 </ul>
+<% else %>
+  <p><%= t('jobs.no_history') %></p>
+<% end %>

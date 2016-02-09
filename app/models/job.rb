@@ -1,8 +1,8 @@
 class JobFormatValidator < ActiveModel::Validator
   def validate(record)
-    if record.format_export
-      if record.format_export.end_with?(record.format)
-        record.errors[:format_export] << I18n.t('activerecord.errors.messages.invalid_format_export')
+    if record.format_convert
+      if record.format_convert.end_with?(record.format)
+        record.errors[:format_convert] << I18n.t('activerecord.errors.messages.invalid_format_convert')
       end
     end
     if record.file.present? && record.url.present?
@@ -22,17 +22,16 @@ class Job < ActiveRecord::Base
   validates :url, format: URI::regexp(%w(http https)), if: Proc.new { |a| a.url.present? }
   validates_with JobFormatValidator
 
-  enum iev_action: [ :validate_job, :export_job ]
+  enum iev_action: [ :validate_job, :convert_job ]
   enum format: [ :gtfs, :neptune, :netex ]
-  enum format_export: [ :export_gtfs, :export_neptune, :export_netex ] # TODO - Upgrade to Rails5 and add suffix http://edgeapi.rubyonrails.org/classes/ActiveRecord/Enum.html
+  enum format_convert: [ :convert_gtfs, :convert_neptune, :convert_netex ] # TODO - Upgrade to Rails5 and add suffix http://edgeapi.rubyonrails.org/classes/ActiveRecord/Enum.html
   enum status: [ :pending, :scheduled, :terminated, :canceled ]
 
-  before_destroy :ievkit_delete
   after_destroy :delete_file
 
   scope :find_my_job, ->(user) { where(user: user).order(created_at: :desc) }
   scope :find_pending, ->(id) { where(id: id, status: Job.statuses[:pending]).limit(1) }
-  scope :destroy_by_user, ->(id, user_id) { where('id = ? AND (user_id IS NULL OR user_id = ?)', id, user_id).destroy_all }
+  scope :find_with_id_and_user, ->(id, user_id) { where('id = ? AND (user_id IS NULL OR user_id = ?)', id, user_id).destroy_all }
 
   attr_reader :all_links
   after_initialize :load_ievkit
@@ -45,6 +44,10 @@ class Job < ActiveRecord::Base
     super(clean_filename(name)) if name.present?
   end
 
+  def prefix=(name)
+    super(name.parameterize) if name.present?
+  end
+
   def list_links
     @all_links = {}.tap{ |hash|
       self.links(true).map{ |link| hash[link.name.to_sym] = link.url}
@@ -54,11 +57,14 @@ class Job < ActiveRecord::Base
   def record_file_or_url(file_uploaded)
     return unless file_uploaded && self.url
     self.file = file_uploaded.original_filename if file_uploaded && self.url.blank?
+    fullpath_file = path_file
 
-    begin
-      File.open(path_file, "wb") { |f| self.url.blank? ? f.write(file_uploaded.read) : f.write(Net::HTTP.get(URI(self.url))) } # TODO => Put into a worker if URL
-    rescue => e
-      self.errors[:url] = I18n.t('job.unable_to_proceed', { message: e.message })
+    if self.url.blank?
+      begin
+        File.open(fullpath_file, "wb") { |f| f.write(file_uploaded.read) }
+      rescue => e
+        self.errors[:url] = I18n.t('job.unable_to_proceed', { message: e.message })
+      end
     end
   end
 
@@ -72,9 +78,9 @@ class Job < ActiveRecord::Base
     File.join('public', 'uploads', filename)
   end
 
-  def ievkit_delete
+  def ievkit_cancel_or_delete(action)
     return if @all_links.blank?
-    @ievkit.delete_job(@all_links[:delete])
+    @ievkit.delete_job(@all_links[action.to_sym])
   end
 
   def is_terminated?
@@ -94,7 +100,7 @@ class Job < ActiveRecord::Base
     if @all_links[:action_report].blank?
       update_links
     else
-      report = @ievkit.get_job(@all_links[:action_report])
+      report, lines_ok, lines_nok = action_report
       if report['action_report'] && report['action_report']['progression']
         report = report['action_report']['progression']
         index_current_step = report['current_step'].to_i - 1
@@ -107,6 +113,19 @@ class Job < ActiveRecord::Base
       end
     end
     datas
+  end
+
+  def action_report
+    report = @ievkit.get_job(@all_links[:action_report])
+    lines_ok = report['action_report']['lines'] ?
+                report['action_report']['lines'].select{ |line| line['status'] = 'OK'  }.count : 0
+    lines_nok = report['action_report']['lines'] ?
+                  report['action_report']['lines'].select{ |line| line['status'] != 'OK'  }.count : 0
+    [report, lines_ok, lines_nok]
+  end
+
+  def validation_report
+    @ievkit.get_job(@all_links[:validation_report])
   end
 
   protected
