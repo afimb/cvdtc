@@ -128,6 +128,12 @@ class Job < ActiveRecord::Base
     @ievkit.get_job(@all_links[:validation_report])
   end
 
+  def short_url=(url)
+    super(Bitly.client.shorten(url).short_url)
+  rescue => e
+    logger.info "Unable to access shorten url services: #{e.message}"
+  end
+
   protected
 
   def load_ievkit
@@ -158,5 +164,4 @@ class Job < ActiveRecord::Base
     end
     list_links
   end
-
 end

@@ -25,11 +25,14 @@ gem 'grape-swagger-rails', '~> 0.1.0'
 gem 'sidekiq', '~> 4.0.1'
 gem 'sinatra', '~> 1.4.6', require: nil
 gem 'ievkit', github: 'afimb/ievkit', branch: 'master'
+gem 'bitly', '~> 0.10.4'
+gem 'kaminari', '~> 0.16.3'
 
 # I18n
 gem 'rails-i18n', '~> 4.0.7'
 gem 'devise-i18n', '~> 0.12.1'
 gem 'devise-i18n-views', '~> 0.3.7'
+gem 'kaminari-i18n', '~> 0.3.2'
 gem 'cvdtc-i18n', github: 'afimb/cvdtc-i18n', branch: 'master'
 
 group :development, :test do

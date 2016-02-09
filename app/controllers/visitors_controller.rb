@@ -17,6 +17,8 @@ class VisitorsController < ApplicationController
       flash[:notice] = I18n.t('job.status.pending')
       UrlJob.perform_later(@job.id) if @job.url.present?
       IevkitJob.perform_later(@job.id)
+      @job.short_url = job_url(@job)
+      @job.save
       redirect_to job_path(@job)
     else
       render 'index'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160118095336) do
+ActiveRecord::Schema.define(version: 20160209124444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20160118095336) do
     t.integer  "max_distance_for_connection_link", default: 0,     null: false
     t.datetime "created_at",                                       null: false
     t.datetime "updated_at",                                       null: false
+    t.string   "short_url"
   end
 
   add_index "jobs", ["user_id"], name: "index_jobs_on_user_id", using: :btree

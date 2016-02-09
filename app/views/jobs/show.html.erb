@@ -1,18 +1,13 @@
 <div class="row">
   <div class="col-sm-12" data-progress-job="<%= progress_job_path(@job.id, format: :js) %>">
-    <h1>Progress</h1>
-
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, a...
-    </p>
-
+    <h1><%= t('jobs.progress') %></h1>
     <p>
       Nom du fichier/URL en cours de validation/conversion : <%= @job.name %> - <%= @job.format %>
     </p>
     <p>
       Voici le lien pour obtenir le résultat de la validation/conversion ou son état d'avancement :
-      <strong><%= job_url(@job) %></strong>
-      <button class="btn-clipboard" data-clipboard-text="<%= job_url(@job) %>">
+      <strong><%= @job.short_url %></strong>
+      <button class="btn-clipboard" data-clipboard-text="<%= @job.short_url %>">
         <span class="glyphicon glyphicon-copy"></span>
       </button>
     </p>

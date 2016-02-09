@@ -3,7 +3,7 @@ class JobsController < ApplicationController
   before_action :job, only: [:show, :progress, :validation]
 
   def index
-    @jobs = Job.find_my_job(current_user)
+    @jobs = Job.find_my_job(current_user).page(params[:page])
   end
 
   def show
