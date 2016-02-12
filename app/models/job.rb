@@ -69,7 +69,16 @@ class Job < ActiveRecord::Base
   end
 
   def params_file
-    File.join('public', 'validate_gtfs.json')
+    args = { id: self.id }
+    if self.gtfs?
+      # TODO - Fill and add somewhere time_zone
+      args.merge!({ object_id_prefix: 'CHANGE_ME',
+                    max_distance_for_commercial: 0,
+                    ignore_last_word: 0,
+                    ignore_end_chars: 0,
+                    max_distance_for_connection_link: 0 })
+    end
+    parameters = ParametersService.new(self.format, args, self.format_convert)
   end
 
   def path_file
@@ -132,6 +141,10 @@ class Job < ActiveRecord::Base
     super(Bitly.client.shorten(url).short_url)
   rescue => e
     logger.info "Unable to access shorten url services: #{e.message}"
+  end
+
+  def mine?(user)
+    self.user == user
   end
 
   protected

@@ -3,5 +3,32 @@
     &-lines {
       width: 20%;
     }
+    &-results {
+      ul {
+        margin: 0;
+        padding: 0 0 0 22px;
+      }
+      li {
+        list-style: none;
+      }
+    }
+  }
+  &-AccordionBlock {
+    .panel-title {
+      > a {
+        display: block;
+      }
+    }
+  }
+  &-ColorBlock {
+    &-check {
+      color: white;
+    }
+    &-alert {
+      color: orange;
+    }
+    &-error {
+      color: red;
+    }
   }
 }

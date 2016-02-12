@@ -5,18 +5,25 @@ class IevkitJob < ActiveJob::Base
     @job = Job.find_pending(args).first
     if @job
       ievkit = Ievkit::Job.new(ENV['IEV_REFERENTIAL'])
-      forwarding_url = ievkit.post_job(:validator, @job.format, iev_file: @job.path_file, iev_params: @job.params_file)
+      parameters = ParametersService.new(@job.format, { id: @job.id }, @job.format_convert)
+      job_tmp_file = Rails.root.join('tmp', "parameters-#{@job.id}.json")
+      File.open(job_tmp_file, 'wb') do |f|
+        f.write parameters.to_json
+      end
+      forwarding_url = ievkit.post_job(:validator, @job.format, iev_file: @job.path_file, iev_params: job_tmp_file.to_s)
       if forwarding_url['error_code']
-        retry_job
+        retry_job(wait: 30.seconds)
         return
       end
       @job.scheduled!
       @job.links.create(name: 'forwarding_url', url: forwarding_url)
       links = ievkit.get_job(forwarding_url)
-      links.each do |link|
-        @job.links.build(name: link[0], url: link[1])
+      if links.is_a? Array
+        links.each do |link|
+          @job.links.build(name: link[0], url: link[1])
+        end
+        @job.save
       end
-      @job.save
     end
   end
 end

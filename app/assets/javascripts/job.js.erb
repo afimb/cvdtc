@@ -50,18 +50,12 @@
     }
   }
 
-  $(document).ready( function () {
+  $(document).on('page:change', function () {
     progressJob();
     var $format = $('[name="job[format_convert]"]');
     format_switch($format.val());
     $format.change( function() {
       format_switch($(this).val());
     });
-
-//    var $format = $('[name="job[format]"]');
-//    format_switch($format.val());
-//    $format.change( function() {
-//      format_switch($(this).val());
-//    });
   });
 })(jQuery);

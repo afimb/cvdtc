@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
   before_action :authenticate_user!, only: [:index, :destroy]
-  before_action :job, only: [:show, :progress, :validation]
+  before_action :job, only: [:show, :progress, :validation, :download_validation]
 
   def index
     @jobs = Job.find_my_job(current_user).page(params[:page])
@@ -20,7 +20,13 @@ class JobsController < ApplicationController
   end
 
   def validation
-    @report = @job.validation_report
+    @validation_report = ValidationService.new(@job.validation_report)
+    @report, @lines_ok, @lines_nok = @job.action_report
+  end
+
+  def download_validation
+    # TODO: Export in CSV format
+    send_data @job.validation_report, filename: "#{@job.name}-#{@job.id}.json", type: "application/json"
   end
 
   def cancel
