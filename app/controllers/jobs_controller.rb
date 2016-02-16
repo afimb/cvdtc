@@ -20,8 +20,12 @@ class JobsController < ApplicationController
   end
 
   def validation
-    @validation_report = ValidationService.new(@job.validation_report)
+    @validation_report = ValidationService.new(@job.validation_report, params[:q])
+    @elements_to_paginate = @lines = Kaminari.paginate_array(@validation_report.lines).page(params[:page]).per(ENV['NUMBER_RESULTS_PER_PAGE'])
+    @filenames = @validation_report.filenames
+    @tests = @validation_report.tests
     @report, @lines_ok, @lines_nok = @job.action_report
+    @search_for = @validation_report.search_for
   end
 
   def download_validation

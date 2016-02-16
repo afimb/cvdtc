@@ -324,6 +324,7 @@ GEM
     rails-assets-clipboard (1.5.5)
     rails-assets-html5shiv (3.7.3)
     rails-assets-jquery (2.1.4)
+    rails-assets-jquery-highlightRegex (0.1.2)
     rails-assets-respond (1.4.2)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
@@ -529,6 +530,7 @@ DEPENDENCIES
   rails-assets-bootstrap-material-design (~> 0.3.0)!
   rails-assets-clipboard (~> 1.5.5)!
   rails-assets-html5shiv (~> 3.7.3)!
+  rails-assets-jquery-highlightRegex (~> 0.1.2)!
   rails-assets-respond (~> 1.4.2)!
   rails-i18n (~> 4.0.7)
   rails_12factor (~> 0.0.3)

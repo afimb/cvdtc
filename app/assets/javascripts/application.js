@@ -8,4 +8,5 @@
 //= require nprogress
 //= require nprogress-turbolinks
 //= require clipboard
+//= require jquery-highlightRegex
 //= require_tree .

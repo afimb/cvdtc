@@ -1,7 +1,17 @@
-<form class="form-inline">
+<%= form_tag validation_job_path(@job), method: :get, class: 'form-inline cvd-SearchBlock' do %>
   <div class="form-group">
-    <label for="search"><%= t('search') %></label>
-    <input type="text" class="form-control" id="search" placeholder="<%= t('search', default: 'Search') %>">
+    <%= label_tag :q, t('search_form.label.search') %>
+    <%= search_field_tag :q, @search_for&.join(','), class: 'form-control' %>
   </div>
-  <button type="submit" class="btn btn-primary"><%= t('submit') %></button>
-</form>
+  <%= submit_tag t('search_form.submit', default: 'Submit'), class: 'btn btn-primary' %>
+<% end %>
+
+<% if @search_for.present? %>
+  <script>
+    $(document).on('page:change', function() {
+      <% @search_for.each do |q| %>
+        $('#accordion').highlightRegex(/<%= q %>/ig);
+      <% end %>
+    });
+  </script>
+<% end %>

@@ -2,6 +2,11 @@
   height: 20px;
 }
 .cvd {
+  &-BadgesBlock {
+    li {
+      margin: 10px 0
+    }
+  }
   &-FormBlock {
     width: 60%;
     margin: 0 auto;
@@ -14,4 +19,12 @@
       margin-right: 10px;
     }
   }
+  &-SearchBlock {
+    margin: 20px 0;
+    input[type=search] {
+      width: 400px;
+    }
+  }
 }
+.panel-group .panel, .panel-heading { border-radius: inherit; }
+.panel-group .panel + .panel { margin-top: 3px; }
