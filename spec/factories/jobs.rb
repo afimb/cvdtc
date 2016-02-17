@@ -13,12 +13,12 @@
 
   trait :export do
     format :gtfs
-    format_export :export_neptune
+    format_convert :convert_neptune
   end
 
   trait :import_export do
     format :gtfs
-    format_export :export_gtfs
+    format_convert :convert_gtfs
   end
 
   trait :import_with_url do
