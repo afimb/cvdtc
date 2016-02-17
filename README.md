@@ -1,4 +1,4 @@
-CVDTC [![Build Status](https://travis-ci.org/afimb/cvdtc.svg?branch=master)](https://travis-ci.org/afimb/cvdtc) [![Code Climate](https://codeclimate.com/github/afimb/chouette2.png)](https://codeclimate.com/github/afimb/chouette2)
+CVDTC [![Build Status](https://travis-ci.org/afimb/cvdtc.svg?branch=master)](https://travis-ci.org/afimb/cvdtc) [![Code Climate](https://codeclimate.com/github/afimb/cvdtc/badges/gpa.svg)](https://codeclimate.com/github/afimb/cvdtc) 
 ================
 
 This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
