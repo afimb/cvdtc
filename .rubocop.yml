@@ -4,10 +4,14 @@ Metrics/LineLength:
   Enabled: false
 Metrics/MethodLength:
   Enabled: false
+Metrics/AbcSize:
+  Enabled: false
 Style/BlockComments:
   Enabled: false
+Rails:
+  Enabled: true
 AllCops:
-  RunRailsCops: true
+  TargetRubyVersion: 2.3
   Include:
     - '**/Gemfile'
     - '**/Rakefile'

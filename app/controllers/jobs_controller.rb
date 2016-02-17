@@ -38,7 +38,7 @@ class JobsController < ApplicationController
 
   def download_validation
     # TODO: Export in CSV format
-    send_data @job.validation_report, filename: "#{@job.name}-#{@job.id}.json", type: "application/json"
+    send_data @job.validation_report, filename: "#{@job.name}-#{@job.id}.json", type: 'application/json'
   end
 
   def cancel

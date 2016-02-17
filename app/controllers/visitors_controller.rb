@@ -42,7 +42,6 @@ class VisitorsController < ApplicationController
                                 :max_distance_for_commercial,
                                 :ignore_last_word,
                                 :ignore_end_chars,
-                                :max_distance_for_connection_link
-    )
+                                :max_distance_for_connection_link)
   end
 end

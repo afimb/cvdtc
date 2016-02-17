@@ -17,7 +17,6 @@ class CreateJobs < ActiveRecord::Migration
       t.integer :ignore_end_chars, null: false, default: 0
       t.integer :max_distance_for_connection_link, null: false, default: 0
 
-
       t.timestamps null: false
     end
   end

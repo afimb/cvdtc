@@ -1,7 +1,7 @@
 class ValidationService
   attr_reader :reports, :lines, :filenames, :tests, :search_for
 
-  def initialize(validation_report, search_for=nil)
+  def initialize(validation_report, search_for = nil)
     @validations = validation_report
     @search_for = search_for ? search_for.split(',').compact.collect(&:strip).map(&:to_s).map(&:downcase) : nil
     @reports = []
@@ -28,10 +28,10 @@ class ValidationService
           report_dup.error_value = error['error_value']
           report_dup.reference_value = error['reference_value']
           file_infos = error['source']['file']
-          if file_infos && file_infos.has_key?('filename')
+          if file_infos && file_infos.key?('filename')
             report_dup.filename = file_infos['filename']
-            report_dup.line_number = file_infos['line_number'] if file_infos.has_key? 'line_number'
-            report_dup.column_number = file_infos['column_number'] if file_infos.has_key? 'column_number'
+            report_dup.line_number = file_infos['line_number'] if file_infos.key? 'line_number'
+            report_dup.column_number = file_infos['column_number'] if file_infos.key? 'column_number'
           end
           if error['target']
             error['target'].each_with_index do |target, index|
@@ -41,16 +41,16 @@ class ValidationService
           end
           pass = true
           if @search_for.present?
-            pass = report_dup.to_h.select{ |key, value|
-              @search_for.select{ |search_value|
-                value.to_s.downcase =~ /#{search_value}/ }.present? }.count == @search_for.count ? true : false
+            count = report_dup.to_h.count do |_key, value|
+              @search_for.count { |search_value| value.to_s.downcase =~ /#{search_value}/ } > 0
+            end
+            pass = count == @search_for.count ? true : false
           end
-          if pass
-            @lines << { name: error['source']['label'] }
-            @filenames << { status: report_dup.status, error_count: report_dup.error_count, name: file_infos['filename'] } if file_infos
-            @tests << test['test_id']
-            @reports << report_dup
-          end
+          next unless pass
+          @lines << { name: error['source']['label'] }
+          @filenames << { status: report_dup.status, error_count: report_dup.error_count, name: file_infos['filename'] } if file_infos
+          @tests << test['test_id']
+          @reports << report_dup
         end
       else
         @reports << report
@@ -63,16 +63,16 @@ class ValidationService
 
   def clean_datas
     if @filenames.present?
-      @filenames.compact.reject!{ |f| f[:name].blank? }
-      @filenames.uniq!{ |f| f[:name] }
-      @filenames.sort_by!{ |a| a[:name] }
+      @filenames.compact.reject! { |f| f[:name].blank? }
+      @filenames.uniq! { |f| f[:name] }
+      @filenames.sort_by! { |a| a[:name] }
     end
     if @lines.present?
-      @lines.compact.reject!{ |f| f[:name].blank? }
-      @lines.uniq!{ |f| f[:name] }
-      @lines.sort_by!{ |a| a[:name] }
+      @lines.compact.reject! { |f| f[:name].blank? }
+      @lines.uniq! { |f| f[:name] }
+      @lines.sort_by! { |a| a[:name] }
     end
-    @tests = @tests.compact.reject{ |c| c.blank? }.uniq.sort if @tests.present?
+    @tests = @tests.compact.reject(&:blank?).uniq.sort if @tests.present?
   end
 
   def class_name(report)
