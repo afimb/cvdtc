@@ -1,4 +1,4 @@
-<p><%= t('report.total_results') %> <%= @validation_report.lines.count %></p>
+<p><%= t('report.total_results') %> <%= @total_elements %></p>
 
 <div class="panel-group cvd-AccordionBlock" id="accordion" role="tablist" aria-multiselectable="true">
   <% @elements_to_paginate.each_with_index do |first_element, index| %>
@@ -6,13 +6,20 @@
       <div class="panel-heading" role="tab" id="heading-<%= index %>">
         <h4 class="panel-title">
           <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-<%= index %>" aria-expanded="false" aria-controls="collapse-<%= index %>">
-            <%= first_element %>
+            <% if @default_view == :files %>
+              <span class="cvd-ColorBlock-<%= first_element[:status] %> glyphicon glyphicon-<%= first_element[:status] %>"></span>
+            <% end %>
+            <%= first_element[:name] %>
+            <% if @default_view == :files %>
+              <%# TODO - Error in each file %>
+              <span class="pull-right"><%= @validation_report.reports.select{ |report| report[:filename] == first_element[:name] }.count %> <%= t('error_count', default: 'errors') %></span>
+            <% end %>
           </a>
         </h4>
       </div>
       <div id="collapse-<%= index %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-<%= index %>">
         <div class="panel-body cvd-ReportBlock-results">
-          <%= render 'report_results_lft', { first_element: first_element } %>
+          <%= render "report_results_#{@default_view}", { name: first_element[:name] } %>
         </div>
       </div>
     </div>

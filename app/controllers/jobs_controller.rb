@@ -20,9 +20,17 @@ class JobsController < ApplicationController
   end
 
   def validation
+    @default_view = params[:default_view] ? params[:default_view].to_sym : :files
     @validation_report = ValidationService.new(@job.validation_report, params[:q])
-    @elements_to_paginate = @lines = Kaminari.paginate_array(@validation_report.lines).page(params[:page]).per(ENV['NUMBER_RESULTS_PER_PAGE'])
-    @filenames = @validation_report.filenames
+    if @default_view == :files
+      @elements_to_paginate = @filenames = Kaminari.paginate_array(@validation_report.filenames).page(params[:page]).per(ENV['NUMBER_RESULTS_PER_PAGE'])
+      @lines = @validation_report.lines
+      @total_elements = @validation_report.filenames.count
+    else
+      @elements_to_paginate = @lines = Kaminari.paginate_array(@validation_report.lines).page(params[:page]).per(ENV['NUMBER_RESULTS_PER_PAGE'])
+      @filenames = @validation_report.filenames
+      @total_elements = @validation_report.lines.count
+    end
     @tests = @validation_report.tests
     @report, @lines_ok, @lines_nok = @job.action_report
     @search_for = @validation_report.search_for

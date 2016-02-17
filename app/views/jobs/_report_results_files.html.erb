@@ -1,0 +1,19 @@
+<% reports = @validation_report.reports.select{ |r| r.filename == name } %>
+
+<% all_reports_2 = [] %>
+
+<ul>
+  <% @tests.each do |test_id| %>
+    <% reports2 = reports.select{ |r| r.test_id == test_id } %>
+    <% all_reports_2.concat(reports2) %>
+    <% if reports2.present? %>
+      <li>
+        <strong><%= test_id %></strong>
+        <%= t("validation_report.details.#{test_id}") %>
+        <%= render 'report_results_tests', { reports: reports2 } %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
+
+<%= render 'report_results_tests', { reports: (reports - all_reports_2) } %>

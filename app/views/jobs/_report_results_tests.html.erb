@@ -1,22 +1,45 @@
-<ul>
-  <% reports.each do |report| %>
-    <li>
-      <strong>
-        <%= t('report.file.line') %> <%= report.line_number %>
-        <%= t('report.file.column') %> <%= report.column_number %>
-      </strong>
-      <br>
-      <span class="cvd-ColorBlock-<%= report.status %> glyphicon glyphicon-<%= report.status %>"></span> <%= report.test_id %>
-      -
-      <%= t("validation_report.details.#{report.test_id}") %>
-      (<span><%= report.error_count %> <%= t('error_count', default: 'errors') %></span>)
-      <ul>
-        <li>
-          <%= report.error_id %>
-          -
-          <%= t("validation_report.details.detail_#{report.error_id}", report.to_h) %>
-        </li>
-      </ul>
-    </li>
+<% if @default_view == :lines %>
+  <ul>
+    <% reports.each do |report| %>
+      <li>
+        <strong>
+          <%= t('report.file.line') %> <%= report.line_number %>
+          <%= t('report.file.column') %> <%= report.column_number %>
+        </strong>
+        <br>
+        <span class="cvd-ColorBlock-<%= report.status %> glyphicon glyphicon-<%= report.status %>"></span> <%= report.test_id %>
+        -
+        <%= t("validation_report.details.#{report.test_id}") %>
+        (<span><%= report.error_count %> <%= t('error_count', default: 'errors') %></span>)
+        <ul>
+          <li>
+            <%= report.error_id %>
+            -
+            <%= t("validation_report.details.detail_#{report.error_id}", report.to_h) %>
+          </li>
+        </ul>
+      </li>
+    <% end %>
+  </ul>
+<% elsif @default_view == :files %>
+  <% if reports[0] %>
+    <span class="pull-right"><%= reports[0].error_count %> <%= t('error_count', default: 'errors') %></span>
   <% end %>
-</ul>
+  <ul>
+    <% reports.each do |report| %>
+      <li>
+        <strong>
+          <%= t('report.file.line') %> <%= report.line_number %>
+          <%= t('report.file.column') %> <%= report.column_number %>
+        </strong>
+        <ul>
+          <li>
+            <%= report.error_id %>
+            -
+            <%= t("validation_report.details.detail_#{report.error_id}", report.to_h) %>
+          </li>
+        </ul>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

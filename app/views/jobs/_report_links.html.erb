@@ -1,14 +1,26 @@
-<div class="btn-group" role="group">
+<div class="btn-group pull-right" role="group">
   <%=
-    link_to download_validation_job_path(@job), class: 'btn btn-default' do
+    link_to download_validation_job_path(@job), class: 'btn btn-primary' do
       t('report.download')
     end
   %>
   <% if @job.mine?(current_user) %>
     <%=
-      link_to destroy_job_path(@job), class: 'btn btn-default', 'data-confirm': t('job.destroy.confirm'), 'data-method': :delete do
+      link_to destroy_job_path(@job), class: 'btn btn-danger', 'data-confirm': t('job.destroy.confirm'), 'data-method': :delete do
         t('report.delete')
       end
     %>
   <% end %>
+</div>
+<div class="btn-group pull-left" role="group">
+  <%=
+    link_to validation_job_path(@job, default_view: 'lines'), class: "btn btn-#{@default_view == :lines ? 'warning' : 'default'}" do
+      t('report.default_view.lines')
+    end
+  %>
+  <%=
+    link_to validation_job_path(@job, default_view: 'files'), class: "btn btn-#{@default_view == :files ? 'warning' : 'default'}" do
+      t('report.default_view.files')
+    end
+  %>
 </div>

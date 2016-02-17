@@ -1,14 +1,14 @@
-<% reports = @validation_report.reports.select{ |r| r.source_label == first_element } %>
+<% reports = @validation_report.reports.select{ |r| r.source_label == name } %>
 
 <% all_reports_2 = [] %>
 
 <ul>
   <% @filenames.each do |filename| %>
-    <% reports2 = reports.select{ |r| r.filename == filename } %>
+    <% reports2 = reports.select{ |r| r.filename == filename[:name] } %>
     <% all_reports_2.concat(reports2) %>
     <% if reports2.present? %>
       <li>
-        <strong>File: <%= filename %></strong>
+        <strong>File: <%= filename[:name] %></strong>
         <%= render 'report_results_tests', { reports: reports2 } %>
       </li>
     <% end %>

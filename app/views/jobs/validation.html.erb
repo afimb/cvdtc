@@ -6,15 +6,17 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-3">
-      <%= render 'report_badges' %>
-    </div>
-  </div>
-  <div class="row">
     <div class="col-sm-12">
       <%= render 'report_links' %>
     </div>
   </div>
+  <% if @default_view == :lines %>
+    <div class="row">
+      <div class="col-sm-3">
+        <%= render 'report_badges' %>
+      </div>
+    </div>
+  <% end %>
   <div class="row">
     <div class="col-sm-12">
       <%= render 'report_filters' %>

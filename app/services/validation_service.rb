@@ -38,35 +38,47 @@ class ValidationService
               report_dup.send("target_#{index}_label=", target['label'])
               report_dup.send("target_#{index}_objectid=", target['objectid'])
             end
-            pass = true
-            if @search_for.present?
-              pass = report_dup.to_h.select{ |key, value|
-                @search_for.select{ |search_value|
-                  value.to_s.downcase =~ /#{search_value}/ }.present? }.count == @search_for.count ? true : false
-            end
-            if pass
-              @lines << error['source']['label']
-              @filenames << file_infos['filename'] if file_infos
-              @tests << test['test_id']
-              @reports << report_dup
-            end
+          end
+          pass = true
+          if @search_for.present?
+            pass = report_dup.to_h.select{ |key, value|
+              @search_for.select{ |search_value|
+                value.to_s.downcase =~ /#{search_value}/ }.present? }.count == @search_for.count ? true : false
+          end
+          if pass
+            @lines << { name: error['source']['label'] }
+            @filenames << { status: report_dup.status, error_count: report_dup.error_count, name: file_infos['filename'] } if file_infos
+            @tests << test['test_id']
+            @reports << report_dup
           end
         end
       else
         @reports << report
       end
     end
-    @lines = @lines.compact.reject { |c| c.blank? }.uniq.sort
-    @filenames = @filenames.compact.reject { |c| c.blank? }.uniq.sort
-    @tests = @tests.compact.reject { |c| c.blank? }.uniq.sort
+    clean_datas
   end
 
   private
+
+  def clean_datas
+    if @filenames.present?
+      @filenames.compact.reject!{ |f| f[:name].blank? }
+      @filenames.uniq!{ |f| f[:name] }
+      @filenames.sort_by!{ |a| a[:name] }
+    end
+    if @lines.present?
+      @lines.compact.reject!{ |f| f[:name].blank? }
+      @lines.uniq!{ |f| f[:name] }
+      @lines.sort_by!{ |a| a[:name] }
+    end
+    @tests = @tests.compact.reject{ |c| c.blank? }.uniq.sort if @tests.present?
+  end
 
   def class_name(report)
     severity = report.severity.downcase.to_sym
     result = report.result.downcase.to_sym
     return 'check' if result == :ok
-    severity == :warning ? 'alert' : 'error'
+    severity == :warning ? 'alert' : 'remove'
   end
 end
