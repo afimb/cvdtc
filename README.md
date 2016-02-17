@@ -18,6 +18,7 @@ This application requires:
 - Ruby 2.3.x
 - Rails 4.2.x
 - Redis
+- Sidekiq
 
 Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.html).
 
@@ -42,14 +43,4 @@ Credits
 License
 -------
 
----
-
-A ruby translation project managed on [Locale](http://www.localeapp.com/) that's open to all!
-
-## Contributing to cvdtc
-
-- Edit the translations directly on the [cvdtc](http://www.localeapp.com/projects/public?search=cvdtc) project on Locale.
-- **That's it!**
-- The maintainer will then pull translations from the Locale project and push to Github.
-
-Happy translating!
+This project is licensed under the CeCILL-B license, a copy of which can be found in the [LICENSE](./LICENSE.md) file.
