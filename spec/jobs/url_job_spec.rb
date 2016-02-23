@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe UrlJob, type: :job do
-  context '#validate' do
+  context '#validate_or_convert' do
     let(:job_with_url) { create(:job, :import_with_url) }
 
     it 'can download file from url' do
