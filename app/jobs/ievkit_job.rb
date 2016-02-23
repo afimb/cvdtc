@@ -4,7 +4,7 @@ class IevkitJob < ActiveJob::Base
   def perform(*args)
     args = args.reduce
     @job = Job.find_pending(args[:id]).first
-    if @job
+    if @job && File.file?(@job.path_file)
       ievkit = Ievkit::Job.new(ENV['IEV_REFERENTIAL'])
       parameters = ParametersService.new(@job)
       job_tmp_file = Rails.root.join('tmp', "parameters-#{@job.id}.json")

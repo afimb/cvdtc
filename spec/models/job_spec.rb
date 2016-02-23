@@ -5,7 +5,7 @@ RSpec.describe Job, type: :model do
     expect(build(:job, :import)).to be_valid
   end
 
-  context '#import' do
+  context '#validate' do
     let(:job_import) { build(:job, :import) }
     let(:job_import_with_url) { build(:job, :import_with_url) }
     let(:job_import_with_wrong_url) { build(:job, :import_with_wrong_url) }

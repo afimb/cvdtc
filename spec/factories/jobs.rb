@@ -4,7 +4,7 @@ FactoryGirl.define do
     name 'Metz GTFS'
     file 'gtfs_current.zip'
     file_md5 'bae9ad8e3a61808d8b2c4b758c10fa79'
-    status :scheduled
+    status :pending
   end
 
   trait :import do
