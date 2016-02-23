@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
   before_action :authenticate_user!, only: [:index, :destroy]
-  before_action :job, only: [:show, :progress, :validation, :download_validation]
+  before_action :job, only: [:show, :progress, :short_url, :validation, :convert, :download_validation, :download_convert]
 
   def index
     @jobs = Job.find_my_job(current_user).page(params[:page])
@@ -8,7 +8,7 @@ class JobsController < ApplicationController
 
   def show
     if @job.is_terminated?
-      redirect_to validation_job_path(@job)
+      redirect_to @job.format_convert.present? ? convert_job_path(@job) : validation_job_path(@job)
     else
       progress_steps
     end
@@ -17,6 +17,12 @@ class JobsController < ApplicationController
   def progress
     progress_steps
     render json: @datas
+  end
+
+  def short_url
+    respond_to do |format|
+      format.js
+    end
   end
 
   def validation
@@ -36,9 +42,15 @@ class JobsController < ApplicationController
     @search_for = @validation_report.search_for
   end
 
+  def convert; end
+
   def download_validation
     # TODO: Export in CSV format
     send_data @job.validation_report, filename: "#{@job.name}-#{@job.id}.json", type: 'application/json'
+  end
+
+  def download_convert
+    send_data @job.convert_report, filename: File.basename(@job.list_links[:data]), type: 'application/zip'
   end
 
   def cancel
@@ -62,6 +74,6 @@ class JobsController < ApplicationController
   end
 
   def progress_steps
-    @datas = @job.is_terminated? ? { redirect: validation_job_path } : @job.progress_steps
+    @datas = @job.is_terminated? ? { redirect: job_path(@job) } : @job.progress_steps
   end
 end

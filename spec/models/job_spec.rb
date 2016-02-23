@@ -5,7 +5,7 @@ RSpec.describe Job, type: :model do
     expect(build(:job, :import)).to be_valid
   end
 
-  context '#import' do
+  context '#validate' do
     let(:job_import) { build(:job, :import) }
     let(:job_import_with_url) { build(:job, :import_with_url) }
     let(:job_import_with_wrong_url) { build(:job, :import_with_wrong_url) }
@@ -23,15 +23,18 @@ RSpec.describe Job, type: :model do
       job_import_with_wrong_url.valid?
       expect(job_import_with_wrong_url.errors.messages).to have_key(:url)
     end
+
+    it 'can perform new import job' do
+    end
   end
 
-  context '#export' do
-    let(:job_export) { build(:job, :export) }
+  context '#convert' do
+    let(:job_convert) { build(:job, :convert) }
 
     it 'has a format_convert' do
-      expect(job_export.format).to_not be_nil
-      expect(job_export.format_convert).to_not be_nil
-      expect(job_export.format_convert).to_not eq(job_export.format)
+      expect(job_convert.format).to_not be_nil
+      expect(job_convert.format_convert).to_not be_nil
+      expect(job_convert.format_convert).to_not eq(job_convert.format)
     end
 
     it 'has error on same format' do

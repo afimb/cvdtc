@@ -44,7 +44,7 @@ class Job < ActiveRecord::Base
     super(clean_filename(name)) if name.present?
   end
 
-  def prefix=(name)
+  def object_id_prefix=(name)
     super(name.parameterize) if name.present?
   end
 
@@ -54,7 +54,8 @@ class Job < ActiveRecord::Base
 
   def record_file_or_url(file_uploaded)
     return unless file_uploaded && url
-    self.file = file_uploaded.original_filename if file_uploaded && url.blank?
+
+    self.file = file_uploaded.original_filename if url.blank?
     fullpath_file = path_file
 
     if url.blank?
@@ -68,12 +69,13 @@ class Job < ActiveRecord::Base
 
   def params_file
     args = { id: id }
-    if gtfs?
-      args[:object_id_prefix] = 'CHANGE_ME'
-      args[:max_distance_for_commercial] = 0
-      args[:ignore_last_word] = 0
-      args[:ignore_end_chars] = 0
-      args[:max_distance_for_connection_link] = 0
+    if gtfs? && format_convert.present?
+      args[:object_id_prefix] = object_id_prefix
+      args[:max_distance_for_commercial] = max_distance_for_commercial
+      args[:ignore_last_word] = ignore_last_word
+      args[:ignore_end_chars] = ignore_end_chars
+      args[:max_distance_for_connection_link] = max_distance_for_connection_link
+      args[:time_zone] = time_zone
     end
     ParametersService.new(format, args, format_convert)
   end
@@ -107,7 +109,7 @@ class Job < ActiveRecord::Base
       update_links
     else
       report, _lines_ok, _lines_nok = action_report
-      if report['action_report'] && report['action_report']['progression']
+      if report && report['action_report'] && report['action_report']['progression']
         report = report['action_report']['progression']
         index_current_step = report['current_step'].to_i - 1
         datas[:current_step] = report['current_step'].to_i
@@ -124,7 +126,7 @@ class Job < ActiveRecord::Base
   def action_report
     report = @ievkit.get_job(@all_links[:action_report])
     lines_ok = lines_nok = 0
-    if report['action_report']['lines']
+    if report && report['action_report'] && report['action_report']['lines']
       lines_ok = report['action_report']['lines'].count { |line| line['status'] = 'OK' }
       lines_nok = report['action_report']['lines'].count { |line| line['status'] != 'OK' }
     end
@@ -135,8 +137,12 @@ class Job < ActiveRecord::Base
     @ievkit.get_job(@all_links[:validation_report])
   end
 
+  def convert_report
+    @ievkit.get_job(@all_links[:data])
+  end
+
   def short_url=(url)
-    super(Bitly.client.shorten(url).short_url)
+    super(url.present? ? Bitly.client.shorten(url).short_url : '')
   rescue => e
     logger.info "Unable to access shorten url services: #{e.message}"
   end
@@ -167,11 +173,15 @@ class Job < ActiveRecord::Base
     url = @all_links[:forwarding_url]
     if @ievkit.terminated_job?(url)
       url = @ievkit.get_job(url)
-      links.find_or_create_by(name: 'terminated_job', url: url)
+      job_link = Link.find_or_initialize_by(job_id: id, name: 'terminated_job')
+      job_link.url = url
+      job_link.save
     end
     result = @ievkit.get_job(url)
     result.each do |link|
-      links.find_or_create_by(name: link[0], url: link[1])
+      job_link = Link.find_or_initialize_by(job_id: id, name: link[0])
+      job_link.url = link[1]
+      job_link.save
     end
     list_links
   end

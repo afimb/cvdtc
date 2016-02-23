@@ -4,13 +4,9 @@
     <p>
       Nom du fichier/URL en cours de validation/conversion : <%= @job.name %> - <%= @job.format %>
     </p>
-    <p>
-      Voici le lien pour obtenir le résultat de la validation/conversion ou son état d'avancement :
-      <strong><%= @job.short_url %></strong>
-      <button class="btn-clipboard" data-clipboard-text="<%= @job.short_url %>">
-        <span class="glyphicon glyphicon-copy"></span>
-      </button>
-    </p>
+    <div id="cvd-ShortUrlBlock">
+      <%= render 'short_url' %>
+    </div>
 
     <%= render 'progress_bar' %>
 

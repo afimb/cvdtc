@@ -6,7 +6,7 @@
       <li>
         <% if job.scheduled? %><span class="glyphicon glyphicon-refresh"></span><% end %>
         <% url = job.terminated? ? validation_job_path(job) : job_path(job) %>
-        <%= link_to url do %>
+        <%= link_to job_path(job) do %>
           <%= job.name %>
         <% end %>
         (

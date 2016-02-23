@@ -1,0 +1,17 @@
+<div class="cvd-ReportBlock">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>
+        <%= @job.name %> -
+        <%= t('job.convert_from') %> <%= @job.format.upcase %>
+        <%= t('job.convert_to') %> <%= @job.format_convert.split('_')[1].upcase %>
+      </h1>
+      <h2><%= t('report.convert_ended_at') %> <%= l(@job.updated_at, format: :long) %></h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <%= link_to t('convert.download'), download_convert_job_path(@job), class: 'btn btn-primary', 'data-no-turbolink': true %>
+    </div>
+  </div>
+</div>

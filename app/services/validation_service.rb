@@ -8,7 +8,7 @@ class ValidationService
     @lines = []
     @filenames = []
     @tests = []
-    do_report
+    do_report if @validations
   end
 
   def do_report

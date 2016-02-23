@@ -31,20 +31,34 @@
     }
   };
 
+  var shortUrl = function() {
+    var $el = $('[data-shorturl]');
+    if($el.length == 1) {
+      var url = $el.data('shorturl');
+      $.get(url);
+      window.setTimeout(shortUrl, <%= raw ENV['TIMEOUT'] %>);
+    }
+  };
+
   var format_switch = function(format) {
     var $el = $('[name="job[iev_action]"]');
     if ($el.length == 1) {
       var val = $el.val();
       if (val == 'convert_job') {
-        if (format == 'convert_neptune') {
-          $('[data-convert-to="neptune"]').removeClass('hide');
-        } else {
-          $('[data-convert-to="neptune"]').addClass('hide');
+        $('[data-convert-both="gtfs"]').addClass('hide');
+        $('[data-convert-input="gtfs"]').addClass('hide');
+        $('[data-convert-output="gtfs"]').addClass('hide');
+
+        var format = $('[name="job[format]"]').val();
+        var format_convert = $('[name="job[format_convert]"]').val();
+
+        if (format == 'gtfs') {
+          $('[data-convert-both="gtfs"]').removeClass('hide');
+          $('[data-convert-input="gtfs"]').removeClass('hide');
         }
-        if (format == 'convert_gtfs') {
-          $('[data-convert-to="gtfs"]').removeClass('hide');
-        } else {
-          $('[data-convert-to="gtfs"]').addClass('hide');
+        if (format_convert == 'convert_gtfs') {
+          $('[data-convert-both="gtfs"]').removeClass('hide');
+          $('[data-convert-output="gtfs"]').removeClass('hide');
         }
       }
     }
@@ -52,10 +66,13 @@
 
   $(document).on('page:change', function () {
     progressJob();
-    var $format = $('[name="job[format_convert]"]');
-    format_switch($format.val());
-    $format.change( function() {
-      format_switch($(this).val());
+    shortUrl();
+    format_switch();
+    $('[name="job[format]"]').change( function() {
+      format_switch();
+    });
+    $('[name="job[format_convert]"]').change( function() {
+      format_switch();
     });
   });
 })(jQuery);
