@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20160209124444) do
     t.integer  "format_convert"
     t.string   "file_md5"
     t.integer  "status",                           default: 0,     null: false
-    t.string   "prefix"
+    t.string   "object_id_prefix"
     t.string   "time_zone"
     t.integer  "max_distance_for_commercial",      default: 0,     null: false
     t.boolean  "ignore_last_word",                 default: false, null: false

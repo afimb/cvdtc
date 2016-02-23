@@ -23,16 +23,18 @@
   <% if @job.convert_job? %>
     <div class="form-group">
       <%= f.input :format_convert, collection: Job.format_converts.map{ |format, _index| [t(format), format] } %>
-      <%= f.input :prefix %>
-      <div class="hide" data-convert-to="neptune">
-        <%= f.input :time_zone, as: :grouped_select, group_method: :last,
-                    collection: grouped_time_zone, selected: Time.zone.name %>
+      <div class="hide" data-convert-both="gtfs">
+        <%= f.input :object_id_prefix %>
       </div>
-      <div class="hide" data-convert-to="gtfs">
+      <div class="hide" data-convert-input="gtfs">
         <%= f.input :max_distance_for_commercial %>
         <%= f.input :ignore_last_word %>
         <%= f.input :ignore_end_chars %>
         <%= f.input :max_distance_for_connection_link %>
+      </div>
+      <div class="hide" data-convert-output="gtfs">
+        <%= f.input :time_zone, as: :grouped_select, group_method: :last,
+                    collection: grouped_time_zone, selected: Time.zone.name %>
       </div>
     </div>
   <% end %>

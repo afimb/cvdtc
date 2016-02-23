@@ -10,7 +10,7 @@ class CreateJobs < ActiveRecord::Migration
       t.integer :format_convert
       t.string :file_md5
       t.integer :status, null: false, default: 0
-      t.string :prefix
+      t.string :object_id_prefix
       t.string :time_zone
       t.integer :max_distance_for_commercial, null: false, default: 0
       t.boolean :ignore_last_word, null: false, default: false

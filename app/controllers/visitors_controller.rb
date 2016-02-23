@@ -10,15 +10,16 @@ class VisitorsController < ApplicationController
 
   def create
     @job = Job.new(job_params)
+    @job.user = current_user
     file_or_url = params[:job][:file] ? params[:job][:file] : params[:job][:url]
     @job.record_file_or_url(file_or_url)
-    @job.user = current_user if user_signed_in?
     if @job.save
       flash[:notice] = I18n.t('job.status.pending')
-      UrlJob.perform_later(@job.id) if @job.url.present?
-      IevkitJob.perform_later(@job.id)
-      @job.short_url = job_url(@job)
-      @job.save
+      if @job.url.present?
+        UrlJob.perform_later(id: @job.id, job_url: job_url(@job.id))
+      else
+        IevkitJob.perform_later(id: @job.id, job_url: job_url(@job.id))
+      end
       redirect_to job_path(@job)
     else
       render 'index'
@@ -37,7 +38,7 @@ class VisitorsController < ApplicationController
                                 :format,
                                 :url,
                                 :format_convert,
-                                :prefix,
+                                :object_id_prefix,
                                 :time_zone,
                                 :max_distance_for_commercial,
                                 :ignore_last_word,

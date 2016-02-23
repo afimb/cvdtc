@@ -1,31 +1,25 @@
 class ParametersService
-  def initialize(format, args, format_convert)
-    @format = format.to_s
-    @args = args
-    @format_convert = format_convert.split('_')[1].to_s if format_convert.to_s['_']
+  def initialize(job)
+    @job = job
+    @format = job.format.to_s
+    @format_convert = job.format_convert.split('_')[1].to_s if job.format_convert.to_s['_']
   end
 
   def to_json
     base = {
       user_name: 'CVDTC',
-      name: "Job #{@args[:id]}",
+      name: "Job #{@job.id}",
       organisation_name: 'AFIMB',
-      object_id_prefix: @format.upcase,
       references_type: 'line',
-      referential_name: ENV['IEV_REFERENTIAL']
+      referential_name: ENV['IEV_REFERENTIAL'],
+      object_id_prefix: 'CVDTC'
     }
     if @format_convert
       {
         parameters: {
           convert: {
-            "#{@format}-import": '',
-            "#{@format_convert}-export": {
-              object_id_prefix: @args[:object_id_prefix],
-              max_distance_for_commercial: @args[:max_distance_for_commercial],
-              ignore_last_word: @args[:ignore_last_word],
-              ignore_end_chars: @args[:ignore_end_chars],
-              max_distance_for_connection_link: @args[:max_distance_for_connection_link]
-            }
+            "#{@format}-input": input_format_params,
+            "#{@format_convert}-output": output_format_params
           }.merge!(base)
         }
       }.to_json
@@ -39,6 +33,27 @@ class ParametersService
   end
 
   private
+
+  def input_format_params
+    if @format == 'gtfs'
+      {
+        object_id_prefix: @job.object_id_prefix,
+        max_distance_for_commercial: @job.max_distance_for_commercial,
+        ignore_last_word: @job.ignore_last_word,
+        ignore_end_chars: @job.ignore_end_chars,
+        max_distance_for_connection_link: @job.max_distance_for_connection_link
+      }
+    end
+  end
+
+  def output_format_params
+    if @format_convert == 'gtfs'
+      {
+        object_id_prefix: @job.object_id_prefix,
+        time_zone: @job.time_zone
+      }
+    end
+  end
 
   def validate_params
     {
