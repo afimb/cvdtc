@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :job do
     user
-    name 'Tisseo GTFS'
-    file 'tisseo_gtfs.zip'
-    file_md5 '6b464070117e27b80ab0b1c2826b3970'
+    name 'Metz GTFS'
+    file 'gtfs_current.zip'
+    file_md5 'bae9ad8e3a61808d8b2c4b758c10fa79'
     status :scheduled
   end
 
@@ -11,7 +11,7 @@ FactoryGirl.define do
     format :gtfs
   end
 
-  trait :export do
+  trait :convert do
     format :gtfs
     format_convert :convert_neptune
   end
@@ -24,7 +24,7 @@ FactoryGirl.define do
   trait :import_with_url do
     format :gtfs
     file nil
-    url 'https://data.toulouse-metropole.fr/explore/dataset/tisseo-gtfs/files/bd1298f158bc39ed9065e0c17ebb773b/download/'
+    url 'http://geo-ws.metzmetropole.fr/services/opendata/gtfs_current.zip'
   end
 
   trait :import_with_wrong_url do
