@@ -6,10 +6,15 @@ body {
   padding-top: 70px;
   padding-bottom: 20px;
   font-size: 1.2rem;
+  background-color: rgba(238, 238, 238, 0.5);
 }
 
 hr {
   border-color: #aaa;
+}
+
+h1 {
+  font-size: 34px;
 }
 
 .field_with_errors {
@@ -26,5 +31,5 @@ hr {
 
 body > .container {
   background-color: #fff;
-  padding-bottom: 30px;
+  padding: 30px;
 }
