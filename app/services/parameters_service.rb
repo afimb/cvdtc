@@ -35,24 +35,22 @@ class ParametersService
   private
 
   def input_format_params
-    if @format == 'gtfs'
-      {
-        object_id_prefix: @job.object_id_prefix,
-        max_distance_for_commercial: @job.max_distance_for_commercial,
-        ignore_last_word: @job.ignore_last_word,
-        ignore_end_chars: @job.ignore_end_chars,
-        max_distance_for_connection_link: @job.max_distance_for_connection_link
-      }
-    end
+    return {} unless @format == 'gtfs'
+    {
+      object_id_prefix: @job.object_id_prefix,
+      max_distance_for_commercial: @job.max_distance_for_commercial,
+      ignore_last_word: @job.ignore_last_word,
+      ignore_end_chars: @job.ignore_end_chars,
+      max_distance_for_connection_link: @job.max_distance_for_connection_link
+    }
   end
 
   def output_format_params
-    if @format_convert == 'gtfs'
-      {
-        object_id_prefix: @job.object_id_prefix,
-        time_zone: @job.time_zone
-      }
-    end
+    return {} unless @format_convert == 'gtfs'
+    {
+      object_id_prefix: @job.object_id_prefix,
+      time_zone: @job.time_zone
+    }
   end
 
   def validate_params

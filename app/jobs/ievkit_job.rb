@@ -12,9 +12,9 @@ class IevkitJob < ActiveJob::Base
         f.write parameters.to_json
       end
       forwarding_url = if @job.format_convert
-                         ievkit.post_job(:converter, nil, iev_file: @job.path_file, iev_params: job_tmp_file.to_s)
+                         ievkit.post_job(:converter, nil, iev_file: @job.path_file.to_s, iev_params: job_tmp_file.to_s)
                        else
-                         ievkit.post_job(:validator, @job.format, iev_file: @job.path_file, iev_params: job_tmp_file.to_s)
+                         ievkit.post_job(:validator, @job.format, iev_file: @job.path_file.to_s, iev_params: job_tmp_file.to_s)
                        end
 
       if forwarding_url['error_code']

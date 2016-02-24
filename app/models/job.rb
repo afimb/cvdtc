@@ -25,11 +25,12 @@ class Job < ActiveRecord::Base
   enum iev_action: %w(validate_job convert_job)
   enum format: %w(gtfs neptune netex)
   enum format_convert: %w(convert_gtfs convert_neptune convert_netex) # TODO: Upgrade to Rails5 and add suffix http://edgeapi.rubyonrails.org/classes/ActiveRecord/Enum.html
-  enum status: %w(pending scheduled terminated canceled)
+  enum status: %w(waiting pending scheduled terminated canceled)
 
   after_destroy :delete_file
 
   scope :find_my_job, ->(user) { where(user: user).order(created_at: :desc) }
+  scope :find_waiting, ->(id) { where(id: id, status: Job.statuses[:waiting]).limit(1) }
   scope :find_pending, ->(id) { where(id: id, status: Job.statuses[:pending]).limit(1) }
   scope :find_with_id_and_user, ->(id, user_id) { where('id = ? AND (user_id IS NULL OR user_id = ?)', id, user_id).destroy_all }
 
@@ -83,7 +84,7 @@ class Job < ActiveRecord::Base
   def path_file
     filename = (url.present? ? clean_filename(url) : file)
     self.name ||= filename
-    File.join('public', 'uploads', filename)
+    Rails.root.join('public', 'uploads', filename)
   end
 
   def ievkit_cancel_or_delete(action)
@@ -149,6 +150,12 @@ class Job < ActiveRecord::Base
 
   def mine?(user)
     self.user == user
+  end
+
+  def launch_jobs(job_url)
+    UrlJob.perform_later(id) if url.present?
+    pending! unless url.present?
+    IevkitJob.perform_later(id: id, job_url: job_url)
   end
 
   protected

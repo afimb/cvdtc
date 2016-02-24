@@ -14,9 +14,8 @@ class VisitorsController < ApplicationController
     file_or_url = params[:job][:file] ? params[:job][:file] : params[:job][:url]
     @job.record_file_or_url(file_or_url)
     if @job.save
+      @job.launch_jobs(job_url(@job.id))
       flash[:notice] = I18n.t('job.status.pending')
-      UrlJob.perform_later(@job.id) if @job.url.present?
-      IevkitJob.perform_later(id: @job.id, job_url: job_url(@job.id))
       redirect_to job_path(@job)
     else
       render 'index'
