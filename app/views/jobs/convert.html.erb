@@ -6,11 +6,14 @@
         <%= t('job.convert_from') %> <%= @job.format.upcase %>
         <%= t('job.convert_to') %> <%= @job.format_convert.split('_')[1].upcase %>
       </h1>
-      <h2><%= t('report.convert_ended_at') %> <%= l(@job.updated_at, format: :long) %></h2>
+      <h2><%= t('report.convert_ended_at') %> <small>(<%= l(@job.updated_at, format: :long) %>)</small></h2>
     </div>
   </div>
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
+      <% unless @job.list_links.key?(:output) %>
+        <p>Erreur lors de la conversion votre fichier source est peut-être non valide. <%= link_to 'Tester la validité de mon fichier', root_path, class: 'btn btn-info' %></p>
+      <% end %>
       <%= link_to t('convert.download'), download_convert_job_path(@job), class: 'btn btn-primary', 'data-no-turbolink': true %>
     </div>
   </div>

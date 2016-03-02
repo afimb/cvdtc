@@ -40,6 +40,15 @@
     }
   };
 
+  var waitingStatus = function() {
+    var $el = $('[data-statusurl]');
+    if($el.length == 1) {
+      var url = $el.data('statusurl');
+      $.get(url);
+      window.setTimeout(waitingStatus, <%= raw ENV['TIMEOUT'] %>);
+    }
+  };
+
   var format_switch = function(format) {
     var $el = $('[name="job[iev_action]"]');
     if ($el.length == 1) {
@@ -49,8 +58,8 @@
         $('[data-convert-input="gtfs"]').addClass('hide');
         $('[data-convert-output="gtfs"]').addClass('hide');
 
-        var format = $('[name="job[format]"]').val();
-        var format_convert = $('[name="job[format_convert]"]').val();
+        var format = $('[name="job[format]"]:checked').val();
+        var format_convert = $('[name="job[format_convert]"]:checked').val();
 
         if (format == 'gtfs') {
           $('[data-convert-both="gtfs"]').removeClass('hide');
@@ -60,11 +69,17 @@
           $('[data-convert-both="gtfs"]').removeClass('hide');
           $('[data-convert-output="gtfs"]').removeClass('hide');
         }
+        if (format == 'gtfs' || format_convert == 'convert_gtfs') {
+          $('#cvd-FormBlock-moreOptions-button').show();
+        } else {
+          $('#cvd-FormBlock-moreOptions-button').hide();
+        }
       }
     }
-  }
+  };
 
   $(document).on('page:change', function () {
+    window.setTimeout(waitingStatus, <%= raw ENV['TIMEOUT'] %>);
     progressJob();
     shortUrl();
     format_switch();

@@ -2,25 +2,56 @@
   <div class="col-md-8 col-md-offset-2">
     <h1><%= t('jobs.index.title') %></h1>
     <% if @jobs.present? %>
-      <ul>
-        <% @jobs.each do |job| %>
-          <li>
-            <% if job.scheduled? %><span class="glyphicon glyphicon-refresh"></span><% end %>
-            <% url = job.terminated? ? validation_job_path(job) : job_path(job) %>
-            <%= link_to job_path(job) do %>
-              <%= job.name %>
+      <div class="table-responsive">
+        <table class="table table-condensed table-hover">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Date</th>
+              <th>Format</th>
+              <th>Format de conversion</th>
+              <th>Nom</th>
+              <th>Lien</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @jobs.each do |job| %>
+              <tr class="cvd-ShowOnHoverBlock">
+                <td>
+                  <% title = job.convert_job? ? t('converted', default: 'Converted') : t('validated', default: 'Validated') %>
+                  <span data-toggle="tooltip"  title="<%= title %>" class="glyphicon glyphicon-<%= job.convert_job? ? 'random' : 'list-alt' %>">
+                    <span class="hide"><%= title %></span>
+                  </span>
+                </td>
+                <td><%= l(job.created_at, format: :short) %></td>
+                <td><%= job.format.upcase %></td>
+                <td><%= job.format_convert&.gsub('convert_', '')&.upcase %></td>
+                <td>
+                  <% if job.scheduled? %><span class="glyphicon glyphicon-refresh"></span><% end %>
+                  <% url = job.terminated? ? validation_job_path(job) : job_path(job) %>
+                  <%= link_to job_path(job) do %>
+                    <%= job.name %>
+                  <% end %>
+                </td>
+                <td>
+                  <% if job.short_url %>
+                    <span class="glyphicon glyphicon-link"></span>
+                    <%= link_to job.short_url do %>
+                      <%= job.short_url %>
+                    <% end %>
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to destroy_job_path(job), class: 'cvd-ShowOnHoverBlock-element', 'data-method': :delete, 'data-confirm':  t('job.destroy.confirm') do %>
+                    <span class="glyphicon glyphicon-trash"><span><%= t('job.destroy.title') %></span></span>
+                  <% end %>
+                </td>
+              </tr>
             <% end %>
-            (
-            <%= link_to job.short_url do %>
-              <%= job.short_url %>
-            <% end %>
-            )
-            <%= link_to destroy_job_path(job), 'data-method': :delete, 'data-confirm':  t('job.destroy.confirm') do %>
-              <span class="glyphicon glyphicon-trash"><span><%= t('job.destroy.title') %></span></span>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
+          </tbody>
+        </table>
+      </div>
       <%= paginate @jobs %>
     <% else %>
       <p><%= t('jobs.no_history') %></p>

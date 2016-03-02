@@ -1,45 +1,43 @@
-<% if @default_view == :lines %>
-  <ul>
-    <% reports.each do |report| %>
-      <li>
-        <strong>
-          <%= t('report.file.line') %> <%= report.line_number %>
-          <%= t('report.file.column') %> <%= report.column_number %>
-        </strong>
-        <br>
-        <span class="cvd-ColorBlock-<%= report.status %> glyphicon glyphicon-<%= report.status %>"></span> <%= report.test_id %>
-        -
-        <%= t("validation_report.details.#{report.test_id}") %>
-        (<span><%= report.error_count %> <%= t('error_count', default: 'errors') %></span>)
-        <ul>
-          <li>
-            <%= report.error_id %>
-            -
-            <%= t("validation_report.details.detail_#{report.error_id}", report.to_h) %>
-          </li>
-        </ul>
-      </li>
-    <% end %>
-  </ul>
-<% elsif @default_view == :files %>
-  <% if reports[0] %>
-    <span class="pull-right"><%= reports[0].error_count %> <%= t('error_count', default: 'errors') %></span>
+<% previous_test_id = '' %>
+<% previous_error_id = '' %>
+
+<ul>
+  <% reports.each_with_index do |report, index| %>
+    <li>
+      <% if index > 10 %>
+        <p class="cvd-ReportBlock-errorId">...<%= reports.count - 10 %> de plus.</p>
+        <% break %>
+      <% else %>
+        <% if @default_view == :lines %>
+          <% if previous_test_id != report.test_id %>
+            <strong>
+              <span class="cvd-ColorBlock-<%= report.status %> glyphicon glyphicon-<%= report.status %>"></span>
+              <%= link_to "http://www.chouette.mobi/neptune-validation/v22/fr/#{report.test_id}.html" do %>
+                <%= report.test_id %>
+              <% end %>
+              <span class="cvd-ReportBlock-errorInfo">
+                (<%= report.error_count %> <%= t('error_count', default: 'errors') %>)
+              </span>
+              -
+              <%= t("validation_report.details.#{report.test_id}") %>
+            </strong>
+
+            <% previous_test_id = report.test_id %>
+          <% end %>
+          <% if previous_error_id != report.error_id %>
+            <p class="cvd-ReportBlock-errorId"><%= previous_error_id = report.error_id %></p>
+          <% end %>
+          <p class="cvd-ReportBlock-errorId-detail"><%= t("validation_report.details.detail_#{report.error_id}", report.to_h) %></p>
+        <% else %>
+          <ul>
+            <li>
+              <strong><%= report.error_id %></strong>
+              -
+              <%= t("validation_report.details.detail_#{report.error_id}", report.to_h) %>
+            </li>
+          </ul>
+        <% end %>
+      <% end %>
+    </li>
   <% end %>
-  <ul>
-    <% reports.each do |report| %>
-      <li>
-        <strong>
-          <%= t('report.file.line') %> <%= report.line_number %>
-          <%= t('report.file.column') %> <%= report.column_number %>
-        </strong>
-        <ul>
-          <li>
-            <%= report.error_id %>
-            -
-            <%= t("validation_report.details.detail_#{report.error_id}", report.to_h) %>
-          </li>
-        </ul>
-      </li>
-    <% end %>
-  </ul>
-<% end %>
+</ul>

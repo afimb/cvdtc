@@ -6,5 +6,6 @@
  *= require layout
  *= require job
  *= require report
+ *= require pages
  *= require footer
  */

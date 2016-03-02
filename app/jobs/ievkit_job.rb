@@ -17,7 +17,7 @@ class IevkitJob < ActiveJob::Base
                          ievkit.post_job(:validator, @job.format, iev_file: @job.path_file.to_s, iev_params: job_tmp_file.to_s)
                        end
 
-      if forwarding_url['error_code']
+      if forwarding_url.blank? || forwarding_url['error_code']
         retry_job(wait: 30.seconds)
         return
       end

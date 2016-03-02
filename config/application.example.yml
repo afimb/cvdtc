@@ -17,6 +17,14 @@
 # production:
 #   stripe_api_key: sk_live_EeHnL644i6zo4Iyq4v1KdV9H
 #   stripe_publishable_key: pk_live_9lcthxpSIHbGwmdO941O1XVU
-ADMIN_NAME: First User
-ADMIN_EMAIL: user@example.com
-ADMIN_PASSWORD: changeme
+ADMIN_NAME: 'First User'
+ADMIN_EMAIL: 'user@example.com'
+ADMIN_PASSWORD: 'changeme'
+TIMEOUT: '5000'
+IEV_VERSION: '1.0'
+IEV_HOST: 'http://localhost'
+IEV_PORT: '8080'
+IEV_PATH: 'cvdtc_cv'
+IEV_REFERENTIAL: 'anonymous'
+BITLY_TOKEN: '' # used to shorten URL
+NUMBER_RESULTS_PER_PAGE: '100'

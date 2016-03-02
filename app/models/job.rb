@@ -139,7 +139,8 @@ class Job < ActiveRecord::Base
   end
 
   def convert_report
-    @ievkit.get_job(@all_links[:data])
+    file = @all_links[:output] ? @all_links[:output] : @all_links[:data]
+    @ievkit.get_job(file)
   end
 
   def short_url=(url)
@@ -167,7 +168,9 @@ class Job < ActiveRecord::Base
 
   def clean_filename(name)
     base = File.basename(name, File.extname(name))
-    [base.parameterize, File.extname(name)].join
+    extname = File.extname(name)
+    extname = '.zip' if extname.blank?
+    [base.parameterize,'_', id, extname].join
   end
 
   def delete_file

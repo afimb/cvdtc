@@ -2,11 +2,20 @@
   <div class="col-sm-12" data-progress-job="<%= progress_job_path(@job.id, format: :js) %>">
     <h1><%= t('jobs.progress') %></h1>
     <p>
-      Nom du fichier/URL en cours de validation/conversion : <%= @job.name %> - <%= @job.format %>
+      Nom du fichier/URL en cours de <%= @job.format_convert ? 'conversion' : 'validation' %> : <%= @job.name %> - <%= @job.format %>
     </p>
     <div id="cvd-ShortUrlBlock">
       <%= render 'short_url' %>
     </div>
+    <div id="cvd-WaitingStatusBlock">
+      <%= render 'status' %>
+    </div>
+
+    <% unless @job.scheduled? %>
+      <div>
+        Le traitement de votre fichier est en file d'attente et commencera après téléchargement de votre fichier dans un peu plus de <%= (Sidekiq::Queue.new.latency + ((ENV['TIMEOUT'].to_i / 1000) * 2 )).round %> secondes.
+      </div>
+    <% end %>
 
     <%= render 'progress_bar' %>
 

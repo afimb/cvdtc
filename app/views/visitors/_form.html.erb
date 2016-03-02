@@ -2,7 +2,7 @@
   <%= f.error_notification %>
 
   <%= f.input :iev_action, as: :hidden %>
-  <%= f.input :format, collection: Job.formats.map{ |format, _index| [t(format), format] } %>
+  <%= f.input :format, as: :radio_buttons, collection: Job.formats.map{ |format, _index| [t(format), format] } %>
 
   <div class="form-group">
     <ul class="nav nav-pills">
@@ -22,22 +22,29 @@
 
   <% if @job.convert_job? %>
     <div class="form-group">
-      <%= f.input :format_convert, collection: Job.format_converts.map{ |format, _index| [t(format), format] } %>
-      <div class="hide" data-convert-both="gtfs">
-        <%= f.input :object_id_prefix %>
-      </div>
-      <div class="hide" data-convert-input="gtfs">
-        <%= f.input :max_distance_for_commercial %>
-        <%= f.input :ignore_last_word %>
-        <%= f.input :ignore_end_chars %>
-        <%= f.input :max_distance_for_connection_link %>
-      </div>
-      <div class="hide" data-convert-output="gtfs">
-        <%= f.input :time_zone, as: :grouped_select, group_method: :last,
-                    collection: grouped_time_zone, selected: Time.zone.name %>
+      <%= f.input :format_convert, as: :radio_buttons, collection: Job.format_converts.map{ |format, _index| [t(format), format] } %>
+      <%= button_tag type: 'button', id: 'cvd-FormBlock-moreOptions-button', class: 'btn' do %>
+        <span class="glyphicon glyphicon-plus"></span>
+        Afficher plus d'options
+      <% end %>
+      <div id="cvd-FormBlock-moreOptions">
+        <div data-convert-both="gtfs">
+          <%= f.input :object_id_prefix %>
+        </div>
+        <div data-convert-input="gtfs">
+          <%= f.input :max_distance_for_commercial, input_html: { min: 0 } %>
+          <%= f.input :ignore_last_word %>
+          <%= f.input :ignore_end_chars, input_html: { min: 0 } %>
+          <%= f.input :max_distance_for_connection_link, input_html: { min: 0 } %>
+        </div>
+        <div data-convert-output="gtfs">
+          <%= f.input :time_zone, as: :grouped_select, group_method: :last,
+                      collection: grouped_time_zone, selected: Time.zone.name %>
+        </div>
       </div>
     </div>
   <% end %>
 
-  <%= f.button :submit, class: 'btn btn-primary' %>
+  <%# TODO: Valider / Convertir %>
+  <%= f.button :submit, (@job.convert_job? ? t('convert') : t('validate') ), class: 'btn btn-primary' %>
 <% end %>

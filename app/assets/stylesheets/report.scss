@@ -6,10 +6,21 @@
     &-results {
       ul {
         margin: 0;
-        padding: 0 0 0 22px;
+        padding: 0 0 0 19px;
       }
       li {
         list-style: none;
+      }
+    }
+    &-errorInfo {
+      font-style: italic;
+      font-size: smaller;
+    }
+    &-errorId {
+      margin: 0 0 0 19px;
+      font-weight: bold;
+      &-detail {
+        margin: 0 0 0 35px;
       }
     }
   }

@@ -2,6 +2,7 @@
 
 <div class="panel-group cvd-AccordionBlock" id="accordion" role="tablist" aria-multiselectable="true">
   <% @elements_to_paginate.each_with_index do |first_element, index| %>
+    <% next unless first_element[:name].present? %>
     <div class="panel panel-default">
       <div class="panel-heading" role="tab" id="heading-<%= index %>">
         <h4 class="panel-title">
@@ -11,8 +12,10 @@
             <% end %>
             <%= first_element[:name] %>
             <% if @default_view == :files %>
-              <%# TODO - Error in each file %>
-              <span class="pull-right"><%= @validation_report.reports.select{ |report| report[:filename] == first_element[:name] }.count %> <%= t('error_count', default: 'errors') %></span>
+              <span class="pull-right badge">
+                <%= @validation_report.count_errors_by_filename[first_element[:name]] %>
+                <%= t('error_count', default: 'errors') %>
+              </span>
             <% end %>
           </a>
         </h4>

@@ -13,6 +13,19 @@
       padding: 10px;
       border-radius: 5px;
     }
+    .job_format {
+      label {
+        display: block;
+      }
+      .radio {
+        display: inline-block;
+        vertical-align: bottom;
+        margin-right: 25px;
+        label {
+          padding-left: 34px;
+        }
+      }
+    }
     .checkbox, .checkbox-material {
       margin-right: 10px;
     }
@@ -21,6 +34,16 @@
     margin: 20px 0;
     input[type=search] {
       width: 400px;
+    }
+  }
+  &-ShowOnHoverBlock {
+    &-element {
+      visibility: hidden;
+    }
+    &:hover {
+      .cvd-ShowOnHoverBlock-element {
+        visibility: visible;
+      }
     }
   }
 }

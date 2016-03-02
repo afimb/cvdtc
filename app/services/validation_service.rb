@@ -1,5 +1,5 @@
 class ValidationService
-  attr_reader :reports, :lines, :filenames, :tests, :search_for
+  attr_reader :reports, :lines, :filenames, :tests, :search_for, :count_errors_by_filename
 
   def initialize(validation_report, search_for = nil)
     @validations = validation_report
@@ -8,6 +8,7 @@ class ValidationService
     @lines = []
     @filenames = []
     @tests = []
+    @count_errors_by_filename = {}
     do_report if @validations
   end
 
@@ -32,6 +33,8 @@ class ValidationService
             report_dup.filename = file_infos['filename']
             report_dup.line_number = file_infos['line_number'] if file_infos.key? 'line_number'
             report_dup.column_number = file_infos['column_number'] if file_infos.key? 'column_number'
+            @count_errors_by_filename[report_dup.filename] ||= 0
+            @count_errors_by_filename[report_dup.filename] += 1
           end
           if error['target']
             error['target'].each_with_index do |target, index|
@@ -48,7 +51,7 @@ class ValidationService
           end
           next unless pass
           @lines << { name: error['source']['label'] }
-          @filenames << { status: report_dup.status, error_count: report_dup.error_count, name: file_infos['filename'] } if file_infos
+          @filenames << { status: report_dup.status, name: file_infos['filename'] } if file_infos
           @tests << test['test_id']
           @reports << report_dup
         end

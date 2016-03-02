@@ -24,7 +24,8 @@ gem 'grape-attack', '~> 0.1.1'
 gem 'grape-swagger-rails', '~> 0.1.0'
 gem 'sidekiq', '~> 4.0.1'
 gem 'sinatra', '~> 1.4.6', require: nil
-gem 'ievkit', github: 'afimb/ievkit', branch: 'master'
+#gem 'ievkit', github: 'afimb/ievkit', branch: 'master'
+gem 'ievkit', '~> 0.1.0'
 gem 'bitly', '~> 0.10.4'
 gem 'kaminari', '~> 0.16.3'
 

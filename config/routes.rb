@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'job/:id', to: 'jobs#show', as: 'job'
   get 'job/:id/progress', to: 'jobs#progress', as: 'progress_job'
   get 'job/:id/short_url', to: 'jobs#short_url', as: 'short_url'
+  get 'job/:id/status', to: 'jobs#status', as: 'status_job'
   get 'job/:id/validation', to: 'jobs#validation', as: 'validation_job'
   get 'job/:id/validation/download', to: 'jobs#download_validation', as: 'download_validation_job'
   get 'job/:id/convert', to: 'jobs#convert', as: 'convert_job'
