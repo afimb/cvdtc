@@ -34,7 +34,7 @@ gem 'rails-i18n', '~> 4.0.7'
 gem 'devise-i18n', '~> 0.12.1'
 gem 'devise-i18n-views', '~> 0.3.7'
 gem 'kaminari-i18n', '~> 0.3.2'
-gem 'cvdtc-i18n', github: 'afimb/cvdtc-i18n', branch: 'master'
+gem 'cvdtc-i18n', git: 'https://github.com/afimb/cvdtc-i18n.git'
 
 group :development, :test do
   gem 'byebug'
@@ -53,7 +53,7 @@ group :development do
   gem 'capistrano-bundler', '~> 1.1.4'
   gem 'capistrano-rails', '~> 1.1.5'
   gem 'capistrano-rails-console', '~> 1.0.2'
-  gem 'capistrano-rvm', '~> 0.1.1'
+  gem 'capistrano-rbenv', '~> 2.0.4'
   gem 'guard-bundler'
   gem 'guard-rails'
   gem 'guard-rspec'
