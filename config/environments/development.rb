@@ -18,7 +18,7 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :letter_opener
 
-  config.action_mailer.default_url_options = { host: 'cvdtc.lvh.me:3000' }
+  config.action_mailer.default_url_options = { host: "#{ENV['DOMAIN_NAME']}:3000" }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

@@ -20,6 +20,8 @@
 ADMIN_NAME: 'First User'
 ADMIN_EMAIL: 'user@example.com'
 ADMIN_PASSWORD: 'changeme'
+DOMAIN_NAME: 'cvdtc.lvh.me'
+SECRET_KEY_BASE: ''
 TIMEOUT: '5000'
 IEV_VERSION: '1.0'
 IEV_HOST: 'http://localhost'
