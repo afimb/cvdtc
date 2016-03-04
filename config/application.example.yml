@@ -28,3 +28,6 @@ IEV_PATH: 'cvdtc_cv'
 IEV_REFERENTIAL: 'anonymous'
 BITLY_TOKEN: '' # used to shorten URL
 NUMBER_RESULTS_PER_PAGE: '100'
+SMTP_HOST: ''
+SMTP_USER: ''
+SMTP_PASSWORD: ''
