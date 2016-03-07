@@ -4,18 +4,22 @@
     <p>
       Nom du fichier/URL en cours de <%= @job.format_convert ? 'conversion' : 'validation' %> : <%= @job.name %> - <%= @job.format %>
     </p>
-    <div id="cvd-ShortUrlBlock">
-      <%= render 'short_url' %>
-    </div>
-    <div id="cvd-WaitingStatusBlock">
-      <%= render 'status' %>
-    </div>
 
-    <% unless @job.scheduled? %>
-      <div>
-        Le traitement de votre fichier est en file d'attente et commencera après téléchargement de votre fichier dans un peu plus de <%= (Sidekiq::Queue.new.latency + ((ENV['TIMEOUT'].to_i / 1000) * 2 )).round %> secondes.
-      </div>
-    <% end %>
+    <ol>
+      <% if @job.url.present? %>
+        <li id="cvd-WaitingStatusBlock">
+          <%= render 'status' %>
+        </li>
+      <% end %>
+      <li id="cvd-ShortUrlBlock">
+        <%= render 'short_url' %>
+      </li>
+      <% unless @job.scheduled? %>
+        <li>
+          Le traitement de votre fichier est en file d'attente et commencera après téléchargement de votre fichier dans un peu plus de <%= (Sidekiq::Queue.new.latency + ((ENV['TIMEOUT'].to_i / 1000) * 2 )).round %> secondes.
+        </li>
+      <% end %>
+    </ol>
 
     <%= render 'progress_bar' %>
 

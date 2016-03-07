@@ -11,7 +11,7 @@ class ParametersService
       name: "Job #{@job.id}",
       organisation_name: 'AFIMB',
       references_type: 'line',
-      referential_name: ENV['IEV_REFERENTIAL'],
+      referential_name: @job.referential,
       object_id_prefix: 'CVDTC'
     }
     if @format_convert

@@ -45,14 +45,14 @@ class ValidationService
           pass = true
           if @search_for.present?
             count = report_dup.to_h.count do |_key, value|
-              @search_for.count { |search_value| value.to_s.downcase =~ /#{search_value}/ } > 0
+              @search_for.count { |search_value| value.to_s.downcase =~ /#{search_value}/i } > 0
             end
             pass = count == @search_for.count ? true : false
           end
           next unless pass
-          @lines << { name: error['source']['label'] }
+          @lines << { name: error['source']['label'] } if error['source']['label'].present?
           @filenames << { status: report_dup.status, name: file_infos['filename'] } if file_infos
-          @tests << test['test_id']
+          @tests << test['test_id'] if test['test_id'].present?
           @reports << report_dup
         end
       else

@@ -1,5 +1,7 @@
 (function($){
   $(document).on('page:change', function () {
+    $('.hide-js').hide();
+    $('.show-js').removeClass('hide');
     $('#cvd-FormBlock-moreOptions').hide();
     $('#cvd-FormBlock-moreOptions > div').addClass('hide');
     $.material.init();

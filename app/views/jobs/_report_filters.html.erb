@@ -1,8 +1,9 @@
-<%= form_tag validation_job_path(@job, default_view: @default_view), method: :get, class: 'form-inline cvd-SearchBlock' do %>
+<%= form_tag validation_job_path(@job), method: :get, class: 'form-inline cvd-SearchBlock' do %>
+  <%= hidden_field_tag(:default_view, @default_view) %>
   <div class="form-group">
     <%= search_field_tag :q, @search_for&.join(','), { class: 'form-control', placeholder: t('search_form.placeholder', default: 'Search for...') } %>
   </div>
-  <%= submit_tag t('search_form.submit', default: 'Submit'), class: 'btn btn-success' %>
+  <%= submit_tag t('search_form.submit', default: 'Submit'), class: 'btn btn-primary' %>
 <% end %>
 
 <% if @search_for.present? %>

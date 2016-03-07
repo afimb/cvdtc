@@ -4,9 +4,13 @@
       width: 20%;
     }
     &-results {
-      ul {
+      > ul {
         margin: 0;
-        padding: 0 0 0 19px;
+        padding: 0;
+        ul {
+          margin: 0;
+          padding: 0 0 0 19px;
+        }
       }
       li {
         list-style: none;
@@ -29,6 +33,10 @@
       > a {
         display: block;
       }
+    }
+    &-details {
+      border: none;
+      background: none;
     }
   }
   &-ColorBlock {

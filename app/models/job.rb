@@ -45,6 +45,10 @@ class Job < ActiveRecord::Base
     super(clean_filename(name)) if name.present?
   end
 
+  def referential
+    user ? user.id : ENV['IEV_REFERENTIAL']
+  end
+
   def object_id_prefix=(name)
     super(name.parameterize) if name.present?
   end
@@ -162,7 +166,7 @@ class Job < ActiveRecord::Base
   protected
 
   def load_ievkit
-    @ievkit = Ievkit::Job.new(ENV['IEV_REFERENTIAL'])
+    @ievkit = Ievkit::Job.new(referential)
     list_links
   end
 

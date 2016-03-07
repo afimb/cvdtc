@@ -6,7 +6,7 @@
   %>
   <% if @job.mine?(current_user) %>
     <%=
-      link_to destroy_job_path(@job), class: 'btn btn-danger', 'data-confirm': t('job.destroy.confirm'), 'data-method': :delete do
+      link_to destroy_job_path(@job), class: 'btn btn-primary', 'data-confirm': t('job.destroy.confirm'), 'data-method': :delete do
         t('report.delete')
       end
     %>

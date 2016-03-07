@@ -15,6 +15,7 @@ class VisitorsController < ApplicationController
     @job.record_file_or_url(file_or_url)
     if @job.save
       @job.launch_jobs(job_url(@job.id))
+      Stat.create(format: @job.format, format_convert: @job.format_convert, user: @job.user, info: @job.name)
       flash[:notice] = I18n.t('job.status.pending')
       redirect_to job_path(@job)
     else

@@ -9,6 +9,9 @@
     <% if reports2.present? %>
       <li>
         <strong>
+          <%= button_tag type: :button, class: 'hide show-js cvd-AccordionBlock-details' do %>
+            <span class="glyphicon glyphicon-plus"></span>
+          <% end %>
           <%= link_to "http://www.chouette.mobi/neptune-validation/v22/fr/#{test_id}.html" do %>
             <%= test_id %>
           <% end %>
@@ -20,7 +23,9 @@
           -
           <%= t("validation_report.details.#{test_id}") %>
         </strong>
-        <%= render 'report_results_tests', { reports: reports2 } %>
+        <div class="hide-js">
+          <%= render 'report_results_tests', { reports: reports2 } %>
+        </div>
       </li>
     <% end %>
   <% end %>
