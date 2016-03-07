@@ -23,7 +23,7 @@ set :rbenv_ruby, '2.3.0'
 
 # set :format, :pretty
 set :log_level, :debug
-# set :pty, true
+set :pty, true
 
 set :linked_files, %w{config/database.yml config/application.yml}
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets tmp/sessions vendor/bundle public/system public/uploads }
