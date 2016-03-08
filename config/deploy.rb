@@ -50,3 +50,44 @@ namespace :deploy do
     end
   end
 end
+
+namespace :rails do
+  desc "Start a rails console, for now just with the primary server"
+  task :console do
+    on roles(:app), primary: true do |role|
+      rails_env = fetch(:rails_env)
+      execute_remote_command "#{bundle_cmd_with_rbenv} #{current_path}/bin/rails console #{rails_env}"
+    end
+  end
+
+  desc "Open the rails dbconsole on primary db server"
+  task :dbconsole do
+    on roles(:db), primary: true do
+      rails_env = fetch(:stage)
+      execute_remote_command "#{bundle_cmd_with_rbenv} #{current_path}/bin/rails dbconsole #{rails_env}"
+    end
+  end
+
+  desc "Tail log file"
+  task :log, :file do |_t, args|
+    on roles(:app), primary: true do
+      rails_env = fetch(:rails_env)
+      execute_remote_command "#{bundle_cmd_with_rbenv} tail -f #{current_path}/log/#{args[:file]}.log #{rails_env}"
+    end
+  end
+
+  def execute_remote_command(command)
+    port = fetch(:port) || 22
+    puts "opening a console on: #{host}...."
+    cmd = "ssh -l #{fetch(:deploy_user)} #{host} -p #{port} -t 'cd #{deploy_to}/current && #{command}'"
+    exec cmd
+  end
+
+  def bundle_cmd_with_rbenv
+    if fetch(:rbenv_ruby)
+      "RBENV_VERSION=#{fetch(:rbenv_ruby)} RBENV_ROOT=#{fetch(:rbenv_path)}  #{File.join(fetch(:rbenv_path), '/bin/rbenv')} exec bundle exec"
+    else
+      "ruby "
+    end
+  end
+end
