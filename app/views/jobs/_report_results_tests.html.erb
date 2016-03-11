@@ -4,7 +4,7 @@
 <ul>
   <% reports.each_with_index do |report, index| %>
     <li>
-      <% if index > 10 %>
+      <% if index > 9 %>
         <p class="cvd-ReportBlock-errorId">...<%= reports.count - 10 %> de plus.</p>
         <% break %>
       <% else %>
@@ -27,12 +27,23 @@
           <% if previous_error_id != report.error_id %>
             <p class="cvd-ReportBlock-errorId"><%= previous_error_id = report.error_id %></p>
           <% end %>
-          <p class="cvd-ReportBlock-errorId-detail"><%= t("validation_report.details.detail_#{report.error_id}", report.to_h) %></p>
+          <p class="cvd-ReportBlock-errorId-detail">
+            <% if report.line_number.to_i > 0 && report.column_number.to_i > 0 %>
+              <%= t('report.file.line') %> <%= report.line_number %>
+              <%= t('report.file.column') %> <%= report.column_number %>
+            <% end %>
+            <%= t("validation_report.details.detail_#{report.error_id}", report.to_h) %>
+          </p>
         <% else %>
           <ul>
             <li>
-              <strong><%= report.error_id %></strong>
-              -
+              <% if report.line_number.to_i > 0 && report.column_number.to_i > 0 %>
+                <strong>
+                  <%= t('report.file.line') %> <%= report.line_number %>
+                  <%= t('report.file.column') %> <%= report.column_number %>
+                </strong>
+                -
+              <% end %>
               <%= t("validation_report.details.detail_#{report.error_id}", report.to_h) %>
             </li>
           </ul>

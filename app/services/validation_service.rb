@@ -1,9 +1,11 @@
 class ValidationService
   attr_reader :reports, :lines, :filenames, :tests, :search_for, :count_errors_by_filename
+  attr_accessor :default_view
 
   def initialize(validation_report, search_for = nil)
     @validations = validation_report
     @search_for = search_for ? search_for.split(',').compact.collect(&:strip).map(&:to_s).map(&:downcase) : nil
+    @default_view = :files
     @reports = []
     @lines = []
     @filenames = []
@@ -33,8 +35,8 @@ class ValidationService
             report_dup.filename = file_infos['filename']
             report_dup.line_number = file_infos['line_number'] if file_infos.key? 'line_number'
             report_dup.column_number = file_infos['column_number'] if file_infos.key? 'column_number'
-            @count_errors_by_filename[report_dup.filename] ||= 0
-            @count_errors_by_filename[report_dup.filename] += 1
+            @count_errors_by_filename[report_dup.filename] ||= { errors: 0, warnings: 0 }
+            @count_errors_by_filename[report_dup.filename][:errors] += 1
           end
           if error['target']
             error['target'].each_with_index do |target, index|
@@ -50,7 +52,7 @@ class ValidationService
             pass = count == @search_for.count ? true : false
           end
           next unless pass
-          @lines << { name: error['source']['label'] } if error['source']['label'].present?
+          @lines << { status: report_dup.severity, name: error['source']['label'] } if error['source']['label'].present?
           @filenames << { status: report_dup.status, name: file_infos['filename'] } if file_infos
           @tests << test['test_id'] if test['test_id'].present?
           @reports << report_dup
@@ -62,7 +64,81 @@ class ValidationService
     clean_datas
   end
 
+  def to_csv
+    CSV.generate(headers: true, col_sep: ';') do |csv|
+      csv << csv_headers
+      send("csv_body_#{default_view.to_s}") { |datas| csv << datas }
+    end
+  end
+
   private
+
+  def csv_headers
+    if @default_view == :files
+      ['Statut', 'Fichier', 'Ligne/Colonne', 'Code', 'Contrôle', 'Détail de l\'erreur']
+    else
+      ['Statut', 'Ligne', 'Fichier', 'Ligne/Colonne', 'Code', 'Contrôle', 'Détail de l\'erreur']
+    end
+  end
+
+  def csv_body_lines
+    @lines.each do |line|
+      reports2 = reports.select{ |r| r.source_label == line[:name] }
+      @filenames.each do |filename|
+        reports3 = reports2.select{ |r| r.filename == filename[:name] }
+        reports3.each_with_index do |report, index|
+          break if index > 10
+          yield [
+              I18n.t("compliance_check_result.severities.#{line[:status].downcase}_txt"),
+              line[:name],
+              filename[:name],
+              get_line_column(report),
+              report.test_id,
+              I18n.t("validation_report.details.#{report.test_id}"),
+              I18n.t("validation_report.details.detail_#{report.error_id}", report.to_h)
+          ]
+        end
+      end
+      (reports-reports2).each_with_index do |report, index|
+        break if index > 10
+        yield [
+            I18n.t("compliance_check_result.severities.#{line[:status].downcase}_txt"),
+            line[:name],
+            '',
+            '',
+            report.test_id,
+            I18n.t("validation_report.details.#{report.test_id}"),
+            I18n.t("validation_report.details.detail_#{report.error_id}", report.to_h)
+        ]
+      end
+    end
+  end
+
+  def csv_body_files
+    @filenames.each do |filename|
+      reports2 = reports.select{ |r| r.filename == filename[:name] }
+      reports2.each_with_index do |report, index|
+        break if index > 10
+        yield [
+            I18n.t("compliance_check_result.severities.#{filename[:status].downcase}_txt"),
+            filename[:name],
+            get_line_column(report),
+            report.test_id,
+            I18n.t("validation_report.details.#{report.test_id}"),
+            I18n.t("validation_report.details.detail_#{report.error_id}", report.to_h)
+        ]
+      end
+    end
+  end
+
+  def get_line_column(report)
+    line_column = []
+    if report.line_number.to_i > 0 && report.column_number.to_i > 0
+      line_column << "#{I18n.t('report.file.line')} #{report.line_number}"
+      line_column << "#{I18n.t('report.file.column')} #{report.column_number}"
+    end
+    line_column.join(' ')
+  end
 
   def clean_datas
     if @filenames.present?

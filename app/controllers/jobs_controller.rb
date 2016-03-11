@@ -50,25 +50,11 @@ class JobsController < ApplicationController
 
   def convert; end
 
-#   def download_validation
-#     attributes = ['Sévérité', 'Fichier', 'Code', 'Contrôle', 'Emplacement', 'Sous-code', 'Détail']
-#
-#     validation_report = ValidationService.new(@job.validation_report)
-#     filenames = @validation_report.filenames
-#
-#     csv = CSV.generate(headers: true, col_sep: ';') do |csv|
-#       csv << attributes
-#       validation_report.each do |k, v|
-#         filenames.each do |filename|
-#         v['tests'].each do |test|
-# #          severity = test['severity'] == 'warning' ? I18n.t('compliance_check_result.severities.warning_txt') : I18n.t('compliance_check_result.severities.error_txt')
-#           csv << [nil, filename]
-#         end
-#       end
-#     end
-#
-#     send_data csv, filename: "#{@job.name.parameterize}-#{Date.today}-#{@job.id}.csv"
-#   end
+  def download_validation
+    validation_report = ValidationService.new(@job.validation_report)
+    validation_report.default_view = params[:default_view]
+    send_data validation_report.to_csv, filename: "#{@job.name.parameterize}-#{@job.id}-#{Time.current.to_i}.csv"
+  end
 
   def download_convert
     file = @job.list_links[:output] ? @job.list_links[:output] : @job.list_links[:data]

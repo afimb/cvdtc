@@ -61,14 +61,22 @@
         var format = $('[name="job[format]"]:checked').val();
         var format_convert = $('[name="job[format_convert]"]:checked').val();
 
-        if (format == 'gtfs') {
-          $('[data-convert-both="gtfs"]').removeClass('hide');
-          $('[data-convert-input="gtfs"]').removeClass('hide');
+        if (format && format_convert) {
+          if (format == format_convert.split('_')[1]) {
+            $('[name="job[format_convert]"]').attr('checked', false);
+            alert('Veuillez choisir un format de conversion différent.');
+          } else {
+            if (format == 'gtfs') {
+              $('[data-convert-both="gtfs"]').removeClass('hide');
+              $('[data-convert-input="gtfs"]').removeClass('hide');
+            }
+            if (format_convert == 'convert_gtfs') {
+              $('[data-convert-both="gtfs"]').removeClass('hide');
+              $('[data-convert-output="gtfs"]').removeClass('hide');
+            }
+          }
         }
-        if (format_convert == 'convert_gtfs') {
-          $('[data-convert-both="gtfs"]').removeClass('hide');
-          $('[data-convert-output="gtfs"]').removeClass('hide');
-        }
+
         if (format == 'gtfs' || format_convert == 'convert_gtfs') {
           $('#cvd-FormBlock-moreOptions-button').show();
         } else {

@@ -58,7 +58,7 @@ class Job < ActiveRecord::Base
   end
 
   def record_file_or_url(file_uploaded)
-    return unless file_uploaded && url
+    return unless file_uploaded.present? && url.present?
 
     self.file = file_uploaded.original_filename if url.blank?
     fullpath_file = path_file
