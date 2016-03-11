@@ -137,8 +137,8 @@ class Job < ActiveRecord::Base
         result: report['action_report']['result'].downcase,
         lines: lines,
         files: report['action_report']['files'],
-        lines_ok: lines.count { |line| line['status'] == 'OK' },
-        lines_nok: lines.count { |line| line['status'] != 'OK' }
+        lines_ok: (lines ? lines.count { |line| line['status'] == 'OK' } : 0),
+        lines_nok: (lines ? lines.count { |line| line['status'] != 'OK' } : 0)
     }
   end
 
