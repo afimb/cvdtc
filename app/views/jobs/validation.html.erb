@@ -3,6 +3,9 @@
     <div class="col-sm-12">
       <h1><%= @job.name %> - <%= @job.format.upcase %></h1>
       <h2><%= t('report.validation_ended_at') %> <%= l(@job.updated_at, format: :long) %></h2>
+      <span class="pull-right">
+        <img src="" alt="<%= @action_report[:result] == 'ok' ? 'Tampon approuvé' : 'Tampon refusé' %>">
+      </span>
     </div>
   </div>
   <div class="row">

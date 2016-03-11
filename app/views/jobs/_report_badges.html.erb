@@ -1,10 +1,10 @@
 <ul class="list-group cvd-BadgesBlock">
   <li class="list-group-item">
-    <span class="badge"><%= @lines_ok %></span>
+    <span class="badge"><%= @action_report[:lines_ok] %></span>
     <%= t('report.conform_lines') %>
   </li>
   <li class="list-group-item">
-    <span class="badge"><%= @lines_nok %></span>
+    <span class="badge"><%= @action_report[:lines_nok] %></span>
     <%= t('report.nonconforming_lines') %>
   </li>
 </ul>

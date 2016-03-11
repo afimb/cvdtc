@@ -1,5 +1,5 @@
 <p>
-  <%= t("report.total_results.#{@default_view}") %>
+  <%= t("report.total_results_#{@default_view}") %>
   <%= @total_elements %>
 </p>
 
@@ -10,17 +10,17 @@
       <div class="panel-heading" role="tab" id="heading-<%= index %>">
         <h4 class="panel-title">
           <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-<%= index %>" aria-expanded="false" aria-controls="collapse-<%= index %>">
-            <span class="cvd-ColorBlock-<%= first_element[:status] %> glyphicon glyphicon-<%= first_element[:status] %>"></span>
+            <% icon = get_icon(first_element[:status]) %>
+            <span class="cvd-ColorBlock-<%= icon %> glyphicon glyphicon-<%= icon %>"></span>
             <%= first_element[:name] %>
-            <% if @default_view == :files %>
-              <span class="pull-right badge">
-                <%= @validation_report.count_errors_by_filename[first_element[:name]][:warnings] %>
-                <%= t('warning_count', default: 'warnings') %>
-                /
-                <%= @validation_report.count_errors_by_filename[first_element[:name]][:errors] %>
-                <%= t('error_count', default: 'errors') %>
-              </span>
-            <% end %>
+            <span class="pull-right badge">
+              <%= @validation_report.count_errors[@default_view.to_sym][first_element[:name]][:error] %>
+              <%= t('error_count', default: 'errors') %>
+            </span>
+            <span class="pull-right badge" style="margin-right:4px;">
+              <%= @validation_report.count_errors[@default_view.to_sym][first_element[:name]][:warning] %>
+              <%= t('warning_count', default: 'warnings') %>
+            </span>
           </a>
         </h4>
       </div>

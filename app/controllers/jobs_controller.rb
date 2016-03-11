@@ -33,7 +33,8 @@ class JobsController < ApplicationController
 
   def validation
     @default_view = params[:default_view] ? params[:default_view].to_sym : :files
-    @validation_report = ValidationService.new(@job.validation_report, params[:q])
+    @action_report = @job.action_report
+    @validation_report = ValidationService.new(@job.validation_report, @action_report, params[:q])
     if @default_view == :files
       @elements_to_paginate = @filenames = Kaminari.paginate_array(@validation_report.filenames).page(params[:page]).per(ENV['NUMBER_RESULTS_PER_PAGE'])
       @lines = @validation_report.lines
@@ -44,14 +45,13 @@ class JobsController < ApplicationController
       @total_elements = @validation_report.lines.count
     end
     @tests = @validation_report.tests
-    @report, @lines_ok, @lines_nok = @job.action_report
     @search_for = @validation_report.search_for
   end
 
   def convert; end
 
   def download_validation
-    validation_report = ValidationService.new(@job.validation_report)
+    validation_report = ValidationService.new(@job.validation_report, @job.action_report_status)
     validation_report.default_view = params[:default_view]
     send_data validation_report.to_csv, filename: "#{@job.name.parameterize}-#{@job.id}-#{Time.current.to_i}.csv"
   end

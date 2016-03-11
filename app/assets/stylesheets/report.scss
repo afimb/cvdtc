@@ -24,7 +24,7 @@
       margin: 0 0 0 19px;
       font-weight: bold;
       &-detail {
-        margin: 0 0 0 35px;
+        margin: 0 0 0 19px;
       }
     }
   }
@@ -40,6 +40,12 @@
     }
   }
   &-ColorBlock {
+    &-ok {
+      color: green;
+    }
+    &-ignored {
+      color: #000;
+    }
     &-check {
       color: white;
     }

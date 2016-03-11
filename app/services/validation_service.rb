@@ -1,27 +1,28 @@
 class ValidationService
-  attr_reader :reports, :lines, :filenames, :tests, :search_for, :count_errors_by_filename
+  attr_reader :reports, :lines, :filenames, :tests, :search_for, :count_errors
   attr_accessor :default_view
 
-  def initialize(validation_report, search_for = nil)
+  def initialize(validation_report, action_report, search_for = nil)
     @validations = validation_report
+    @action_report = action_report
     @search_for = search_for ? search_for.split(',').compact.collect(&:strip).map(&:to_s).map(&:downcase) : nil
     @default_view = :files
     @reports = []
     @lines = []
     @filenames = []
     @tests = []
-    @count_errors_by_filename = {}
+    @count_errors = { files: {}, lines: {} }
     do_report if @validations
   end
 
   def do_report
+    # TODO - Refactoring needed
     @validations['validation_report']['tests'].each do |test|
       report = OpenStruct.new
       report.test_id = test['test_id']
       report.error_count = test['error_count']
       report.severity = test['severity']
       report.result = test['result']
-      report.status = class_name(report)
       if test['errors']
         test['errors'].each do |error|
           report_dup = report.dup
@@ -35,8 +36,8 @@ class ValidationService
             report_dup.filename = file_infos['filename']
             report_dup.line_number = file_infos['line_number'] if file_infos.key? 'line_number'
             report_dup.column_number = file_infos['column_number'] if file_infos.key? 'column_number'
-            @count_errors_by_filename[report_dup.filename] ||= { errors: 0, warnings: 0 }
-            @count_errors_by_filename[report_dup.filename][:errors] += 1
+            @count_errors[:files][report_dup.filename] ||= { error: 0, warning: 0 }
+            @count_errors[:files][report_dup.filename][get_status(report_dup)] += 1
           end
           if error['target']
             error['target'].each_with_index do |target, index|
@@ -52,8 +53,17 @@ class ValidationService
             pass = count == @search_for.count ? true : false
           end
           next unless pass
-          @lines << { status: report_dup.severity, name: error['source']['label'] } if error['source']['label'].present?
-          @filenames << { status: report_dup.status, name: file_infos['filename'] } if file_infos
+          if error['source']['label'].present?
+            status = get_status(report_dup)
+            @lines << { name: error['source']['label'], status: status }
+            @count_errors[:lines][error['source']['label']] ||= { error: 0, warning: 0 }
+            @count_errors[:lines][error['source']['label']][status] += 1
+          end
+          if file_infos
+            status = @action_report[:files].select{ |datas| datas['name'] == file_infos['filename'] }
+            status = status.any? ? status.first['status'] : nil
+            @filenames << { name: file_infos['filename'], status: status }
+          end
           @tests << test['test_id'] if test['test_id'].present?
           @reports << report_dup
         end
@@ -146,6 +156,10 @@ class ValidationService
       @filenames.uniq! { |f| f[:name] }
       @filenames.sort_by! { |a| a[:name] }
     end
+    @action_report[:lines].each do |line|
+      @lines << { name: line['name'], status: line['status'] }
+      @count_errors[:lines][line['name']] ||= { error: 0, warning: 0 }
+    end
     if @lines.present?
       @lines.compact.reject! { |f| f[:name].blank? }
       @lines.uniq! { |f| f[:name] }
@@ -154,10 +168,10 @@ class ValidationService
     @tests = @tests.compact.reject(&:blank?).uniq.sort if @tests.present?
   end
 
-  def class_name(report)
+  def get_status(report)
     severity = report.severity.downcase.to_sym
     result = report.result.downcase.to_sym
-    return 'check' if result == :ok
-    severity == :warning ? 'alert' : 'remove'
+    return if result == :ok
+    severity
   end
 end

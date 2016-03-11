@@ -130,12 +130,16 @@ class Job < ActiveRecord::Base
 
   def action_report
     report = @ievkit.get_job(@all_links[:action_report])
-    lines_ok = lines_nok = 0
-    if report && report['action_report'] && report['action_report']['lines']
-      lines_ok = report['action_report']['lines'].count { |line| line['status'] = 'OK' }
-      lines_nok = report['action_report']['lines'].count { |line| line['status'] != 'OK' }
-    end
-    [report, lines_ok, lines_nok]
+    return unless report
+    lines = report['action_report']['lines']
+    {
+        report: report,
+        result: report['action_report']['result'].downcase,
+        lines: lines,
+        files: report['action_report']['files'],
+        lines_ok: lines.count { |line| line['status'] == 'OK' },
+        lines_nok: lines.count { |line| line['status'] != 'OK' }
+    }
   end
 
   def validation_report
