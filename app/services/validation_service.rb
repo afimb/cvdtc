@@ -130,7 +130,7 @@ class ValidationService
       reports2.each_with_index do |report, index|
         break if index > 10
         yield [
-            I18n.t("compliance_check_result.severities.#{filename[:status].downcase}_txt"),
+            (filename[:status] ? I18n.t("compliance_check_result.severities.#{filename[:status].downcase}_txt") : ''),
             filename[:name],
             get_line_column(report),
             report.test_id,
