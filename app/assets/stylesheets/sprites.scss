@@ -1,0 +1,38 @@
+.cvd-SpritesBlock {
+  background-image: url(image_path('sprites.png'));
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: -9999px -9999px;
+  > span {
+    display: none;
+  }
+  &-stamp {
+    width: 158px;
+    height: 152px;
+    display: block;
+    &-gtfs {
+      &-ok {
+        background-position: -3px -3px;
+      }
+      &-nok {
+        background-position: -163px -3px;
+      }
+    }
+    &-neptune {
+      &-ok {
+        background-position: -3px -157px;
+      }
+      &-nok {
+        background-position: -163px -157px;
+      }
+    }
+    &-netex {
+      &-ok {
+        background-position: -3px -311px;
+      }
+      &-nok {
+        background-position: -163px -311px;
+      }
+    }
+  }
+}

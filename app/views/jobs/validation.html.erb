@@ -1,10 +1,10 @@
 <div class="cvd-ReportBlock">
   <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-12 cvd-ReportBlock-header">
       <h1><%= @job.name %> - <%= @job.format.upcase %></h1>
       <h2><%= t('report.validation_ended_at') %> <%= l(@job.updated_at, format: :long) %></h2>
       <span class="pull-right">
-        <img src="" alt="<%= @action_report[:result] == 'ok' ? 'Tampon approuvé' : 'Tampon refusé' %>">
+        <span class="cvd-SpritesBlock cvd-SpritesBlock-stamp cvd-SpritesBlock-stamp-<%= @job.format.downcase %>-<%= @action_report[:result] == 'ok' ? 'ok' : 'nok' %>"><span><%= @action_report[:result] == 'ok' ? 'Approuvé' : 'Refusé' %></span></span>
       </span>
     </div>
   </div>

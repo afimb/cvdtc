@@ -1,7 +1,15 @@
 .cvd {
+  &-SpritesBlock-stamp {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
   &-ReportBlock {
     &-lines {
       width: 20%;
+    }
+    &-header {
+      min-height: 165px;
     }
     &-results {
       > ul {
