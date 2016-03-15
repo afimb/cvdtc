@@ -1,11 +1,12 @@
 class ValidationService
-  attr_reader :reports, :lines, :filenames, :tests, :search_for, :count_errors
+  attr_reader :reports, :lines, :filenames, :tests, :search, :filter, :count_errors
   attr_accessor :default_view
 
-  def initialize(validation_report, action_report, search_for = nil)
+  def initialize(validation_report, action_report, q = nil)
     @validations = validation_report
     @action_report = action_report
-    @search_for = search_for ? search_for.split(',').compact.collect(&:strip).map(&:to_s).map(&:downcase) : nil
+    @search = q && q['search'] ? q['search'].split(',').compact.collect(&:strip).map(&:to_s).map(&:downcase) : nil
+    @filter = q && q['filter'] ? q['filter'] : nil
     @default_view = :files
     @reports = []
     @lines = []
@@ -46,11 +47,22 @@ class ValidationService
             end
           end
           pass = true
-          if @search_for.present?
+          if @search.present?
             count = report_dup.to_h.count do |_key, value|
-              @search_for.count { |search_value| value.to_s.downcase =~ /#{search_value}/i } > 0
+              @search.count { |search_value| value.to_s.downcase =~ /#{search_value}/i } > 0
             end
-            pass = count == @search_for.count ? true : false
+            pass = count == @search.count
+          end
+          if @filter.present?
+            next unless error['source']['label'].present?
+            next if @filter != 'conform_line'
+            # count = @action_report[:lines].count{ |line| line['name'] == error['source']['label'] && line['status'] == 'OK' }
+            # abort count.inspect
+            # pass = if @filter == 'conform_line'
+            #          count > 0
+            #        else
+            #          count == 0
+            #        end
           end
           next unless pass
           if error['source']['label'].present?
@@ -156,9 +168,11 @@ class ValidationService
       @filenames.uniq! { |f| f[:name] }
       @filenames.sort_by! { |a| a[:name] }
     end
-    @action_report[:lines].each do |line|
-      @lines << { name: line['name'], status: line['status'] }
-      @count_errors[:lines][line['name']] ||= { error: 0, warning: 0 }
+    if @filter == 'conform_line'
+      @action_report[:lines].each do |line|
+        @lines << { name: line['name'], status: line['status'] }
+        @count_errors[:lines][line['name']] ||= { error: 0, warning: 0 }
+      end
     end
     if @lines.present?
       @lines.compact.reject! { |f| f[:name].blank? }

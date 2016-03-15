@@ -48,7 +48,7 @@
     }
   }
   &-ColorBlock {
-    &-ok {
+    &-ok, &-ok-sign {
       color: green;
     }
     &-ignored {
@@ -60,8 +60,11 @@
     &-alert {
       color: orange;
     }
-    &-remove {
+    &-remove, &-minus-sign {
       color: red;
+    }
+    &-ban-circle {
+      color: #eee;
     }
   }
 }

@@ -15,9 +15,11 @@
               <%= link_to "http://www.chouette.mobi/neptune-validation/v22/fr/#{report.test_id}.html" do %>
                 <%= report.test_id %>
               <% end %>
-              <span class="cvd-ReportBlock-errorInfo">
-                (<%= report.error_count %> <%= t('error_count', default: 'errors') %>)
-              </span>
+              <% if false %>
+                <span class="cvd-ReportBlock-errorInfo">
+                  (<%= report.error_count %> <%= t('error_count', default: 'errors') %>)
+                </span>
+              <% end %>
               -
               <%= t("validation_report.details.#{report.test_id}") %>
             </strong>

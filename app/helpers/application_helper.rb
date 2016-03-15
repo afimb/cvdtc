@@ -7,13 +7,13 @@ module ApplicationHelper
     return unless name.present?
     case name.to_sym.downcase
     when :error
-      'remove'
+      'minus-sign'
     when :warning
       'alert'
     when :ignored
-      ''
+      'ban-circle'
     else
-      'ok'
+      'ok-sign'
     end
   end
 end

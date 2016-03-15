@@ -11,8 +11,7 @@ class VisitorsController < ApplicationController
   def create
     @job = Job.new(job_params)
     @job.user = current_user
-    file_or_url = params[:job][:file] ? params[:job][:file] : params[:job][:url]
-    @job.record_file_or_url(file_or_url)
+    @job.record_file_or_url(params[:job])
     if @job.save
       @job.launch_jobs(job_url(@job.id))
       Stat.create(format: @job.format, format_convert: @job.format_convert, user: @job.user, info: @job.name)

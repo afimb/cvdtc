@@ -45,7 +45,7 @@ class JobsController < ApplicationController
       @total_elements = @validation_report.lines.count
     end
     @tests = @validation_report.tests
-    @search_for = @validation_report.search_for
+    @search = @validation_report.search
   end
 
   def convert; end

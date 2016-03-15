@@ -57,15 +57,15 @@ class Job < ActiveRecord::Base
     @all_links = {}.tap { |hash| links(true).map { |link| hash[link.name.to_sym] = link.url } }
   end
 
-  def record_file_or_url(file_uploaded)
-    return unless file_uploaded.present? && url.present?
+  def record_file_or_url(file_uploaded_or_url)
+    return if file_uploaded_or_url[:file].blank? && file_uploaded_or_url[:url].blank?
 
-    self.file = file_uploaded.original_filename if url.blank?
+    self.file = file_uploaded_or_url[:file].original_filename if file_uploaded_or_url[:url].blank?
     fullpath_file = path_file
 
     if url.blank?
       begin
-        File.open(fullpath_file, 'wb') { |f| f.write(file_uploaded.read) }
+        File.open(fullpath_file, 'wb') { |f| f.write(file_uploaded_or_url[:file].read) }
       rescue => e
         errors[:url] = I18n.t('job.unable_to_proceed', message: e.message)
       end

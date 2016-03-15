@@ -1,12 +1,25 @@
 <%= form_tag validation_job_path(@job), method: :get, class: 'form-inline cvd-SearchBlock' do %>
   <%= hidden_field_tag(:default_view, @default_view) %>
+  <div class="form-group cvd-SearchBlock-search">
+    <%= label_tag t('search_form.label.search') %>
+    <%= search_field_tag 'q[search]', @search&.join(','), { class: 'form-control' } %>
+  </div>
   <div class="form-group">
-    <%= search_field_tag :q, @search_for&.join(','), { class: 'form-control', placeholder: t('search_form.placeholder', default: 'Search for...') } %>
+    <%= label_tag t('search_form.label.state') %>
+    <% if @default_view == :files %>
+      <%= select_tag 'q[filter]', options_for_select([
+                                                         [t('compliance_check_result.severities.error_txt'), 'error'],
+                                                         [t('compliance_check_result.severities.warning_txt'), 'warning'],
+                                                         [t('compliance_check_result.severities.ok_txt'), 'ok'],
+                                                     ], @validation_report.filter), include_blank: true, class: 'form-control' %>
+    <% else %>
+      <%= select_tag 'q[filter]', options_for_select([[t('report.conform_lines'), 'conform_line'], [t('report.nonconforming_lines'), 'nonconform_line']], @validation_report.filter), include_blank: true, class: 'form-control' %>
+    <% end %>
   </div>
   <%= submit_tag t('search_form.submit', default: 'Submit'), class: 'btn btn-primary' %>
 <% end %>
 
-<% if @search_for.present? %>
+<% if @search.present? %>
   <script>
     $(document).on('page:change', function() {
       <% @search_for.each do |q| %>

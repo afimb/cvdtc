@@ -16,9 +16,11 @@
             <%= test_id %>
           <% end %>
           <% if @default_view == :files && reports[0] %>
-            <span class="cvd-ReportBlock-errorInfo">
-              (<%= reports2.first.error_count %> <%= t('error_count', default: 'errors') %>)
-            </span>
+            <% if false %>
+              <span class="cvd-ReportBlock-errorInfo">
+                (<%= reports2.first.error_count %> <%= t('error_count', default: 'errors') %>)
+              </span>
+            <% end %>
           <% end %>
           -
           <%= t("validation_report.details.#{test_id}") %>

@@ -32,6 +32,12 @@
   }
   &-SearchBlock {
     margin: 20px 0;
+    background-color: #eee;
+    padding: 8px 16px;
+    box-shadow: 0 0 5px #aaa inset;
+    &-search {
+      margin-right: 20px;
+    }
     input[type=search] {
       width: 400px;
     }
