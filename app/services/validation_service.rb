@@ -6,7 +6,7 @@ class ValidationService
     @validations = validation_report
     @action_report = action_report
     @search = q && q['search'] ? q['search'].split(',').compact.collect(&:strip).map(&:to_s).map(&:downcase) : nil
-    @filter = q && q['filter'] ? q['filter'] : nil
+    @filter = q && q['filter'] ? q['filter'] : { 'lines': nil, 'status': nil }
     @default_view = :files
     @reports = []
     @lines = []
@@ -53,16 +53,16 @@ class ValidationService
             end
             pass = count == @search.count
           end
-          if @filter.present?
+          if @filter['lines'].present?
             next unless error['source']['label'].present?
-            next if @filter != 'conform_line'
-            # count = @action_report[:lines].count{ |line| line['name'] == error['source']['label'] && line['status'] == 'OK' }
-            # abort count.inspect
-            # pass = if @filter == 'conform_line'
-            #          count > 0
-            #        else
-            #          count == 0
-            #        end
+            next if @filter['lines'] != 'conform_line'
+          end
+          if @filter['status'].present? && file_infos
+            count = @action_report[:files].count{ |datas|
+              datas['name'] == file_infos['filename'] &&
+              datas['status']&.downcase == @filter['status'].downcase
+            }
+            next if count == 0
           end
           next unless pass
           if error['source']['label'].present?
@@ -89,7 +89,7 @@ class ValidationService
   def to_csv
     CSV.generate(headers: true, col_sep: ';') do |csv|
       csv << csv_headers
-      send("csv_body_#{default_view.to_s}") { |datas| csv << datas }
+      send("csv_body_#{default_view}") { |datas| csv << datas }
     end
   end
 

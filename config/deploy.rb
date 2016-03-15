@@ -54,7 +54,7 @@ end
 namespace :rails do
   desc "Start a rails console, for now just with the primary server"
   task :console do
-    on roles(:app), primary: true do |role|
+    on roles(:app), primary: true do
       rails_env = fetch(:rails_env)
       execute_remote_command "#{bundle_cmd_with_rbenv} #{current_path}/bin/rails console #{rails_env}"
     end

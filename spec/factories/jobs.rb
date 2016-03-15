@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :job do
     user
     name 'Metz GTFS'
-    file 'gtfs_current.zip'
+    file Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'files', 'gtfs_current.zip'))
     file_md5 'bae9ad8e3a61808d8b2c4b758c10fa79'
     status :pending
   end

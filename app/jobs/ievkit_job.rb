@@ -23,12 +23,6 @@ class IevkitJob < ActiveJob::Base
       end
       @job.scheduled!
       @job.links.create(name: 'forwarding_url', url: forwarding_url)
-      # links = ievkit.get_job(forwarding_url)
-      # if links.is_a? Hash
-      #   links.each do |link|
-      #     @job.links.build(name: link[0], url: link[1])
-      #   end
-      # end
       @job.short_url = args[:job_url]
       @job.save
     else

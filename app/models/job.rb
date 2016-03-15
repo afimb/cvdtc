@@ -41,8 +41,18 @@ class Job < ActiveRecord::Base
     super(File.basename(name, File.extname(name)).humanize)
   end
 
-  def file=(name)
-    super(clean_filename(name)) if name.present?
+  def file=(file)
+    if file.present?
+      super(clean_filename(file.original_filename))
+      File.open(path_file, 'wb') { |f| f.write(file.read) }
+    end
+  rescue => e
+    errors[:file] = I18n.t('job.unable_to_proceed', message: e.message)
+  end
+
+  def url=(url)
+    self.name = clean_filename(url) if url.present?
+    super
   end
 
   def referential
@@ -57,33 +67,20 @@ class Job < ActiveRecord::Base
     @all_links = {}.tap { |hash| links(true).map { |link| hash[link.name.to_sym] = link.url } }
   end
 
-  def record_file_or_url(file_uploaded_or_url)
-    return if file_uploaded_or_url[:file].blank? && file_uploaded_or_url[:url].blank?
-
-    self.file = file_uploaded_or_url[:file].original_filename if file_uploaded_or_url[:url].blank?
-    fullpath_file = path_file
-
-    if url.blank?
-      begin
-        File.open(fullpath_file, 'wb') { |f| f.write(file_uploaded_or_url[:file].read) }
-      rescue => e
-        errors[:url] = I18n.t('job.unable_to_proceed', message: e.message)
-      end
-    end
-  end
-
-  def params_file
-    args = { id: id }
-    if gtfs? && format_convert.present?
-      args[:object_id_prefix] = object_id_prefix
-      args[:max_distance_for_commercial] = max_distance_for_commercial
-      args[:ignore_last_word] = ignore_last_word
-      args[:ignore_end_chars] = ignore_end_chars
-      args[:max_distance_for_connection_link] = max_distance_for_connection_link
-      args[:time_zone] = time_zone
-    end
-    ParametersService.new(format, args, format_convert)
-  end
+  # def record_file_or_url(file_uploaded_or_url)
+  #   return if file_uploaded_or_url[:file].blank? && file_uploaded_or_url[:url].blank?
+  #
+  #   self.file = file_uploaded_or_url[:file].original_filename if file_uploaded_or_url[:url].blank?
+  #   fullpath_file = path_file
+  #
+  #   if url.blank?
+  #     begin
+  #       File.open(fullpath_file, 'wb') { |f| f.write(file_uploaded_or_url[:file].read) }
+  #     rescue => e
+  #       errors[:url] = I18n.t('job.unable_to_proceed', message: e.message)
+  #     end
+  #   end
+  # end
 
   def path_file
     filename = (url.present? ? clean_filename(url) : file)

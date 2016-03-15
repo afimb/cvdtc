@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/afimb/cvdtc-i18n.git
-  revision: 694f8e2f718bb5a8d8723bf9edbd604cd9023e3c
+  revision: ac84bcaf08060121955378701f07b4bb433c57aa
   specs:
     cvdtc-i18n (0.1.0)
       i18n
@@ -501,7 +501,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   cvdtc-i18n!
   database_cleaner
-  devise (~> 3.5.2)
+  devise (~> 3.5.6)
   devise-i18n (~> 0.12.1)
   devise-i18n-views (~> 0.3.7)
   factory_girl_rails
@@ -531,7 +531,7 @@ DEPENDENCIES
   pry-rescue
   puma (~> 2.15.3)
   quiet_assets
-  rails (~> 4.2.5)
+  rails (~> 4.2.6)
   rails-assets-bootstrap (~> 3.3.6)!
   rails-assets-bootstrap-material-design (~> 0.3.0)!
   rails-assets-clipboard (~> 1.5.5)!
