@@ -2,35 +2,37 @@
 
 <% all_reports_2 = [] %>
 
-<ul>
-  <% @tests.each do |test_id| %>
-    <% reports2 = reports.select{ |r| r.test_id == test_id } %>
-    <% all_reports_2.concat(reports2) %>
-    <% if reports2.present? %>
-      <li>
-        <strong>
-          <%= button_tag type: :button, class: 'hide show-js cvd-AccordionBlock-details' do %>
-            <span class="glyphicon glyphicon-plus"></span>
-          <% end %>
-          <%= link_to "http://www.chouette.mobi/neptune-validation/v22/fr/#{test_id}.html" do %>
-            <%= test_id %>
-          <% end %>
-          <% if @default_view == :files && reports[0] %>
-            <% if false %>
-              <span class="cvd-ReportBlock-errorInfo">
-                (<%= reports2.first.error_count %> <%= t('error_count', default: 'errors') %>)
-              </span>
+<% if @tests.present? %>
+  <ul>
+    <% @tests.each do |test_id| %>
+      <% reports2 = reports.select{ |r| r.test_id == test_id } %>
+      <% all_reports_2.concat(reports2) %>
+      <% if reports2.present? %>
+        <li>
+          <strong>
+            <%= button_tag type: :button, class: 'hide show-js cvd-AccordionBlock-details' do %>
+              <span class="glyphicon glyphicon-plus"></span>
             <% end %>
-          <% end %>
-          -
-          <%= t("validation_report.details.#{test_id}") %>
-        </strong>
-        <div class="hide-js">
-          <%= render 'report_results_tests', { reports: reports2 } %>
-        </div>
-      </li>
+            <%= link_to "http://www.chouette.mobi/neptune-validation/v22/fr/#{test_id}.html" do %>
+              <%= test_id %>
+            <% end %>
+            <% if @default_view == :files && reports[0] %>
+              <% if false %>
+                <span class="cvd-ReportBlock-errorInfo">
+                  (<%= reports2.first.error_count %> <%= t('error_count', default: 'errors') %>)
+                </span>
+              <% end %>
+            <% end %>
+            -
+            <%= t("compliance_check_result.details.#{test_id}") %>
+          </strong>
+          <div class="hide-js">
+            <%= render 'report_results_tests', { reports: reports2 } %>
+          </div>
+        </li>
+      <% end %>
     <% end %>
-  <% end %>
-</ul>
+  </ul>
+<% end %>
 
 <%= render 'report_results_tests', { reports: (reports - all_reports_2) } %>

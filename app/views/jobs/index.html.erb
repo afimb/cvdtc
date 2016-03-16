@@ -6,10 +6,9 @@
         <table class="table table-condensed table-hover">
           <thead>
             <tr>
-              <th>Type</th>
               <th>Date</th>
               <th>Format</th>
-              <th>Format de conversion</th>
+              <th>Opération</th>
               <th>Nom</th>
               <th>Lien</th>
               <th></th>
@@ -18,15 +17,15 @@
           <tbody>
             <% @jobs.each do |job| %>
               <tr class="cvd-ShowOnHoverBlock">
-                <td>
-                  <% title = job.convert_job? ? t('converted', default: 'Converted') : t('validated', default: 'Validated') %>
-                  <span data-toggle="tooltip"  title="<%= title %>" class="glyphicon glyphicon-<%= job.convert_job? ? 'random' : 'list-alt' %>">
-                    <span class="hide"><%= title %></span>
-                  </span>
-                </td>
                 <td><%= l(job.created_at, format: :short) %></td>
                 <td><%= job.format.upcase %></td>
-                <td><%= job.format_convert&.gsub('convert_', '')&.upcase %></td>
+                <td>
+                  <%= job.convert_job? ? t('converted', default: 'Converted') : t('validated', default: 'Validated') %>
+                  <% if job.convert_job? %>
+                    <%= t('to') %>
+                    <%= job.format_convert&.gsub('convert_', '')&.upcase %>
+                  <% end %>
+                </td>
                 <td>
                   <% if job.scheduled? %><span class="glyphicon glyphicon-refresh"></span><% end %>
                   <% url = job.terminated? ? validation_job_path(job) : job_path(job) %>

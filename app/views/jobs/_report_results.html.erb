@@ -6,29 +6,35 @@
 <div class="panel-group cvd-AccordionBlock" id="accordion" role="tablist" aria-multiselectable="true">
   <% @elements_to_paginate.each_with_index do |first_element, index| %>
     <% next unless first_element[:name].present? %>
+    <% count_error = @validation_report.count_errors[@default_view.to_sym][first_element[:name]][:error] %>
+    <% count_warning = @validation_report.count_errors[@default_view.to_sym][first_element[:name]][:warning] %>
     <div class="panel panel-default">
       <div class="panel-heading" role="tab" id="heading-<%= index %>">
         <h4 class="panel-title">
-          <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-<%= index %>" aria-expanded="false" aria-controls="collapse-<%= index %>">
-            <% icon = get_icon(first_element[:status]) %>
+          <% if count_error > 0 || count_warning > 0 %>
+            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-<%= index %>" aria-expanded="false" aria-controls="collapse-<%= index %>">
+          <% end %>
+            <% icon = get_icon(first_element[:status], count_error) %>
             <span class="cvd-ColorBlock-<%= icon %> glyphicon glyphicon-<%= icon %>"></span>
             <%= first_element[:name] %>
             <span class="pull-right badge">
-              <%= @validation_report.count_errors[@default_view.to_sym][first_element[:name]][:error] %>
+              <%= count_error %>
               <%= t('error_count', default: 'errors') %>
             </span>
             <span class="pull-right badge" style="margin-right:4px;">
-              <%= @validation_report.count_errors[@default_view.to_sym][first_element[:name]][:warning] %>
+              <%= count_warning %>
               <%= t('warning_count', default: 'warnings') %>
             </span>
-          </a>
+          <% if count_error > 0 || count_warning > 0 %></a><% end %>
         </h4>
       </div>
-      <div id="collapse-<%= index %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-<%= index %>">
-        <div class="panel-body cvd-ReportBlock-results">
-          <%= render "report_results_#{@default_view}", { name: first_element[:name] } %>
+      <% if count_error > 0 || count_warning > 0 %>
+        <div id="collapse-<%= index %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-<%= index %>">
+          <div class="panel-body cvd-ReportBlock-results">
+            <%= render "report_results_#{@default_view}", { name: first_element[:name] } %>
+          </div>
         </div>
-      </div>
+      <% end %>
     </div>
   <% end %>
 

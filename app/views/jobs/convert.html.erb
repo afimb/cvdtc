@@ -4,7 +4,7 @@
       <h1>
         <%= @job.name %> -
         <%= t('job.convert_from') %> <%= @job.format.upcase %>
-        <%= t('job.convert_to') %> <%= @job.format_convert.split('_')[1].upcase %>
+        <%= t('to') %> <%= @job.format_convert.split('_')[1].upcase %>
       </h1>
       <h2><%= t('report.convert_ended_at') %> <small>(<%= l(@job.updated_at, format: :long) %>)</small></h2>
     </div>

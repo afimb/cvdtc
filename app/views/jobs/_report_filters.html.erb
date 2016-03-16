@@ -22,7 +22,7 @@
 <% if @search.present? %>
   <script>
     $(document).on('page:change', function() {
-      <% @search_for.each do |q| %>
+      <% @search.each do |q| %>
         $('#accordion').highlightRegex(/<%= q %>/ig);
       <% end %>
     });
