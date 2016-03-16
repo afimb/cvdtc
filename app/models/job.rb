@@ -23,8 +23,8 @@ class Job < ActiveRecord::Base
   validates_with JobFormatValidator
 
   enum iev_action: %w(validate_job convert_job)
-  enum format: %w(gtfs neptune netex)
-  enum format_convert: %w(convert_gtfs convert_neptune convert_netex) # TODO: Upgrade to Rails5 and add suffix http://edgeapi.rubyonrails.org/classes/ActiveRecord/Enum.html
+  enum format: %w(gtfs neptune) # netex)
+  enum format_convert: %w(convert_gtfs convert_neptune) # convert_netex) # TODO: Upgrade to Rails5 and add suffix http://edgeapi.rubyonrails.org/classes/ActiveRecord/Enum.html
   enum status: %w(waiting pending scheduled terminated canceled)
 
   after_destroy :delete_file
