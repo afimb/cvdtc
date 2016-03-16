@@ -26,7 +26,7 @@ class VisitorsController < ApplicationController
   private
 
   def job
-    @job = Job.new
+    @job = Job.new(object_id_prefix: 'cvd')
     yield if block_given?
   end
 

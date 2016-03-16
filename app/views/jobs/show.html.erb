@@ -19,6 +19,15 @@
           Le traitement de votre fichier est en file d'attente et commencera après téléchargement de votre fichier dans un peu plus de <%= (Sidekiq::Queue.new.latency + ((ENV['TIMEOUT'].to_i / 1000) * 2 )).round %> secondes.
         </li>
       <% end %>
+      <li>
+        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+        <% if @job.convert_job? %>
+          Conversion
+        <% else %>
+          Validation
+        <% end %>
+        en cours, merci de patienter...
+      </li>
     </ol>
 
     <%= render 'progress_bar' %>

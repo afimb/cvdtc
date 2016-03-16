@@ -192,7 +192,7 @@ class ValidationService
   end
 
   def clean_datas
-    if @filter['status'].blank? || @filter['status'] == 'success'
+    if (@filter['status'].blank? || @filter['status'] == 'success') && @action_report[:files]
       @action_report[:files].each do |file|
         @filenames << { name: file['name'], status: file['status'] }
         @count_errors[:files][file['name']] ||= { error: 0, warning: 0 }
@@ -203,7 +203,7 @@ class ValidationService
       @filenames.uniq! { |f| f[:name] }
       @filenames.sort_by! { |a| a[:name] }
     end
-    if @filter['lines'].blank? || @filter['lines'] == 'conform_line'
+    if (@filter['lines'].blank? || @filter['lines'] == 'conform_line') && @action_report[:lines]
       @action_report[:lines].each do |line|
         @lines << { name: line['name'], status: line['status'] }
         @count_errors[:lines][line['name']] ||= { error: 0, warning: 0 }
