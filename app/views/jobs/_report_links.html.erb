@@ -1,9 +1,16 @@
 <div class="btn-group pull-right" role="group">
-  <%=
-    link_to download_validation_job_path(id: @job.id, default_view: @default_view), class: 'btn btn-primary', 'data-no-turbolink': true do
-      t('report.download')
-    end
-  %>
+  <% if @elements_to_paginate.any? %>
+    <%=
+      link_to download_validation_job_path(id: @job.id, default_view: @default_view),
+              class: 'btn btn-primary',
+              'data-toggle': 'tooltip',
+              'data-placement': 'top',
+              'title': "Télécharger les résultats de validation par #{@default_view == :files ? 'fichier' : 'ligne' }",
+              'data-no-turbolink': true do
+        t('report.download')
+      end
+    %>
+  <% end %>
   <% if @job.mine?(current_user) %>
     <%=
       link_to destroy_job_path(@job), class: 'btn btn-primary', 'data-confirm': t('job.destroy.confirm'), 'data-method': :delete do

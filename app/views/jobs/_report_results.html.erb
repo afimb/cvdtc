@@ -15,7 +15,8 @@
             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-<%= index %>" aria-expanded="false" aria-controls="collapse-<%= index %>">
           <% end %>
             <% icon = get_icon(first_element[:status], count_error) %>
-            <span class="cvd-ColorBlock-<%= icon %> glyphicon glyphicon-<%= icon %>"></span>
+            <span class="cvd-ColorBlock-<%= icon %> glyphicon glyphicon-<%= icon %>"
+                  data-toggle="tooltip" data-placement="top" title="<%= t("report_results.icons.title.#{first_element[:status]}_txt", default: first_element[:status]) if first_element[:status] %>"></span>
             <%= first_element[:name] %>
             <span class="pull-right badge">
               <%= count_error %>

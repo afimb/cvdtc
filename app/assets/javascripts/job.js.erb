@@ -20,10 +20,14 @@
         url: url
       })
       .done(function( datas ) {
-        if(datas.redirect) {
+        if (datas.redirect) {
           setProgressBar(100, 100);
           window.location.href = datas.redirect;
-        }else{
+        } else if (datas.error_code) {
+          $('.cvd-JobListActionsBlock').after('<p>Erreur impossible de traiter votre demande : ' + datas.error_code + '</p>');
+          $('.cvd-JobListActionsBlock').remove();
+          $('.progress').remove();
+        } else {
           setProgressBar(datas.steps_percent, datas.current_step_percent);
         }
       });
@@ -59,21 +63,22 @@
         $('[data-convert-output="gtfs"]').addClass('hide');
 
         var format = $('[name="job[format]"]:checked').val();
-        var format_convert = $('[name="job[format_convert]"]:checked').val();
+        var format_convert = $('[name="job[format_convert]"]');
 
-        if (format && format_convert) {
-          if (format == format_convert.split('_')[1]) {
-            $('[name="job[format_convert]"]').attr('checked', false);
-            alert('Veuillez choisir un format de conversion différent.');
+        if (format && format_convert.length > 0) {
+          if(format == 'gtfs') {
+            $('label[for="job_format_convert_convert_neptune"]').click();
           } else {
-            if (format == 'gtfs') {
-              $('[data-convert-both="gtfs"]').removeClass('hide');
-              $('[data-convert-input="gtfs"]').removeClass('hide');
-            }
-            if (format_convert == 'convert_gtfs') {
-              $('[data-convert-both="gtfs"]').removeClass('hide');
-              $('[data-convert-output="gtfs"]').removeClass('hide');
-            }
+            $('label[for="job_format_convert_convert_gtfs"]').click();
+          }
+          var format_convert = $('[name="job[format_convert]"]:checked').val();
+          if (format == 'gtfs') {
+            $('[data-convert-both="gtfs"]').removeClass('hide');
+            $('[data-convert-input="gtfs"]').removeClass('hide');
+          }
+          if (format_convert == 'convert_gtfs') {
+            $('[data-convert-both="gtfs"]').removeClass('hide');
+            $('[data-convert-output="gtfs"]').removeClass('hide');
           }
         }
 
@@ -92,9 +97,6 @@
     shortUrl();
     format_switch();
     $('[name="job[format]"]').change( function() {
-      format_switch();
-    });
-    $('[name="job[format_convert]"]').change( function() {
       format_switch();
     });
     $('.cvd-AccordionBlock-details').click( function() {

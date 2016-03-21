@@ -3,7 +3,7 @@
     <div class="col-sm-12 cvd-ReportBlock-header">
       <h1><%= @job.name %> - <%= @job.format.upcase %></h1>
       <h2><%= t('report.validation_ended_at') %> <%= l(@job.updated_at, format: :long) %></h2>
-      <% if @action_report %>
+      <% if @action_report && @elements_to_paginate.any? %>
         <span class="pull-right">
           <span class="cvd-SpritesBlock cvd-SpritesBlock-stamp cvd-SpritesBlock-stamp-<%= @job.format.downcase %>-<%= @action_report[:result] == 'ok' ? 'ok' : 'nok' %>"><span><%= @action_report[:result] == 'ok' ? 'Approuvé' : 'Refusé' %></span></span>
         </span>
@@ -15,18 +15,20 @@
       <%= render 'report_links' %>
     </div>
   </div>
-  <% if @default_view == :lines %>
+  <% if @default_view == :lines && @elements_to_paginate.any? %>
     <div class="row">
       <div class="col-sm-3">
         <%= render 'report_badges' %>
       </div>
     </div>
   <% end %>
-  <div class="row">
-    <div class="col-sm-12">
-      <%= render 'report_filters' %>
+  <% if @elements_to_paginate.any? %>
+    <div class="row">
+      <div class="col-sm-12">
+        <%= render 'report_filters' %>
+      </div>
     </div>
-  </div>
+  <% end %>
   <div class="row">
     <div class="col-sm-12">
       <%= render 'report_results' %>

@@ -32,7 +32,7 @@ class Job < ActiveRecord::Base
   scope :find_my_job, ->(user) { where(user: user).order(created_at: :desc) }
   scope :find_waiting, ->(id) { where(id: id, status: Job.statuses[:waiting]).limit(1) }
   scope :find_pending, ->(id) { where(id: id, status: Job.statuses[:pending]).limit(1) }
-  scope :find_with_id_and_user, ->(id, user_id) { where('id = ? AND (user_id IS NULL OR user_id = ?)', id, user_id).destroy_all }
+  scope :find_with_id_and_user, ->(id, user_id) { where('id = ? AND (user_id IS NULL OR user_id = ?)', id, user_id) }
 
   attr_reader :all_links
   after_initialize :load_ievkit
@@ -106,6 +106,7 @@ class Job < ActiveRecord::Base
 
   def progress_steps
     datas = {}
+    return { error_code: I18n.t("iev.errors.#{error_code.downcase}", default: error_code.downcase.humanize) } if error_code.present?
     return datas if @all_links.blank?
     if @all_links[:action_report].blank?
       update_links
@@ -193,10 +194,12 @@ class Job < ActiveRecord::Base
       job_link.save
     end
     result = @ievkit.get_job(url)
-    result.each do |link|
-      job_link = Link.find_or_initialize_by(job_id: id, name: link[0])
-      job_link.url = link[1]
-      job_link.save
+    if result
+      result.each do |link|
+        job_link = Link.find_or_initialize_by(job_id: id, name: link[0])
+        job_link.url = link[1]
+        job_link.save
+      end
     end
     list_links
   end

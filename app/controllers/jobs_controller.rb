@@ -62,9 +62,10 @@ class JobsController < ApplicationController
   end
 
   def cancel
-    job = Job.find_with_id_and_user(params[:id], (user_signed_in? ? current_user.id : nil))
+    job = Job.find_with_id_and_user(params[:id], (user_signed_in? ? current_user.id : nil)).first
     job.ievkit_cancel_or_delete(:cancel)
     job.destroy
+    flash[:notice] = 'Annulation effectuée avec succès'
     redirect_to root_path
   end
 
@@ -72,13 +73,17 @@ class JobsController < ApplicationController
     job = Job.find_by(id: params[:id], user: current_user)
     job.ievkit_cancel_or_delete(:delete)
     job.destroy
-    redirect_to root_path
+    flash[:notice] = 'Suppression effectuée avec succès'
+    redirect_to :back
   end
 
   private
 
   def job
     @job = Job.find(params[:id])
+  rescue => e
+    flash[:notice] = 'Ce rapport de validation n\'existe plus'
+    redirect_to root_path
   end
 
   def progress_steps

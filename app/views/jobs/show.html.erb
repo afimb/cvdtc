@@ -5,7 +5,7 @@
       Nom du fichier/URL en cours de <%= @job.format_convert ? 'conversion' : 'validation' %> : <%= @job.name %> - <%= @job.format %>
     </p>
 
-    <ol>
+    <ol class="cvd-JobListActionsBlock">
       <% if @job.url.present? %>
         <li id="cvd-WaitingStatusBlock">
           <%= render 'status' %>

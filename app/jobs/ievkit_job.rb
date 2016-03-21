@@ -4,7 +4,12 @@ class IevkitJob < ActiveJob::Base
   def perform(*args)
     args = args.reduce
     @job = Job.find_pending(args[:id]).first
-    if @job && File.file?(@job.path_file)
+    if @job
+      unless File.file?(@job.path_file)
+        @job.error_code = 'FILE_NOT_FOUND'
+        @job.save
+        return
+      end
       ievkit = Ievkit::Job.new(@job.referential)
       parameters = ParametersService.new(@job)
       job_tmp_file = Rails.root.join('tmp', "parameters-#{@job.id}.json")
@@ -17,8 +22,14 @@ class IevkitJob < ActiveJob::Base
                          ievkit.post_job(:validator, @job.format, iev_file: @job.path_file.to_s, iev_params: job_tmp_file.to_s)
                        end
 
-      if forwarding_url.blank? || forwarding_url['error_code']
-        retry_job(wait: 30.seconds)
+      if forwarding_url['error_code'].present?
+        @job.error_code = forwarding_url['error_code']
+        @job.save
+        return
+      end
+
+      if forwarding_url.blank?
+        retry_job(wait: 10.seconds)
         return
       end
       @job.scheduled!
@@ -26,7 +37,7 @@ class IevkitJob < ActiveJob::Base
       @job.short_url = args[:job_url]
       @job.save
     else
-      retry_job(wait: 30.seconds)
+      retry_job(wait: 10.seconds)
     end
   end
 end

@@ -56,9 +56,9 @@ class ValidationService
 
           # TODO - Wait for IEV update
           # if line_infos
-          #   status = @action_report[:lines].select{ |datas| datas['name'] == line_infos['    '] }
+          #   status = @action_report[:lines].select{ |datas| datas['name'] == line_infos['label'] }
           #   status = status.any? ? status.first['status'] : nil
-          #   @lines << { name: file_infos['      '], status: status }
+          #   @lines << { name: line_infos['label'], status: status }
           # end
 
           @tests << test['test_id'] if test['test_id'].present?
@@ -134,34 +134,34 @@ class ValidationService
   def csv_body_lines
     # TODO - Wait for IEV update
     # @lines.each do |line|
-      # reports2 = reports.select{ |r| r.source_label == line[:name] }
-      # @filenames.each do |filename|
-      #   reports3 = reports2.select{ |r| r.filename == filename[:name] }
-      #   reports3.each_with_index do |report, index|
-      #     break if index > 10
-      #     yield [
-      #         I18n.t("compliance_check_result.severities.#{line[:status].downcase}_txt"),
-      #         line[:name],
-      #         filename[:name],
-      #         get_line_column(report),
-      #         report.test_id,
-      #         I18n.t("validation_report.details.#{report.test_id}"),
-      #         I18n.t("validation_report.details.detail_#{report.error_id}", report.to_h)
-      #     ]
-      #   end
-      # end
-      # (reports-reports2).each_with_index do |report, index|
-      #   break if index > 10
-      #   yield [
-      #       I18n.t("compliance_check_result.severities.#{line[:status].downcase}_txt"),
-      #       line[:name],
-      #       '',
-      #       '',
-      #       report.test_id,
-      #       I18n.t("validation_report.details.#{report.test_id}"),
-      #       I18n.t("validation_report.details.detail_#{report.error_id}", report.to_h)
-      #   ]
-      # end
+    #   reports2 = reports.select{ |r| r.source_label == line[:name] }
+    #   @filenames.each do |filename|
+    #     reports3 = reports2.select{ |r| r.filename == filename[:name] }
+    #     reports3.each_with_index do |report, index|
+    #       break if index > 10
+    #       yield [
+    #           I18n.t("compliance_check_result.severities.#{line[:status].downcase}_txt"),
+    #           line[:name],
+    #           filename[:name],
+    #           get_line_column(report),
+    #           report.test_id,
+    #           I18n.t("validation_report.details.#{report.test_id}"),
+    #           I18n.t("validation_report.details.detail_#{report.error_id}", report.to_h)
+    #       ]
+    #     end
+    #   end
+    #   (reports-reports2).each_with_index do |report, index|
+    #     break if index > 10
+    #     yield [
+    #         I18n.t("compliance_check_result.severities.#{line[:status].downcase}_txt"),
+    #         line[:name],
+    #         '',
+    #         '',
+    #         report.test_id,
+    #         I18n.t("validation_report.details.#{report.test_id}"),
+    #         I18n.t("validation_report.details.detail_#{report.error_id}", report.to_h)
+    #     ]
+    #   end
     # end
   end
 

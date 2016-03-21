@@ -1,4 +1,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <%= link_to 'http://www.chouette.mobi', class: 'cvd-LogoChouette pull-left' do %>
+    <%= image_tag 'logo_chouette.png', title: 'Un site de l\'équipe projet CHOUETTE' %>
+  <% end %>
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-inverse-collapse">
@@ -12,9 +15,11 @@
       <ul class="nav navbar-nav">
         <li<%= active(:visitors, :index) %>><%= link_to t('validate'), root_path %></li>
         <li<%= active(:visitors, :convert) %>><%= link_to t('convert'), convert_path %></li>
-        <% if user_signed_in? && current_user.admin? %>
-          <li><%# link_to t('admin'), rails_admin_path %></li>
-          <li><%= link_to t('sidekiq'), sidekiq_path %></li>
+        <% if user_signed_in? %>
+          <li><%= link_to t('api'), grape_swagger_rails_path %></li>
+          <% if current_user.admin? %>
+            <li><%= link_to t('sidekiq'), sidekiq_path %></li>
+          <% end %>
         <% end %>
       </ul>
       <ul class="nav navbar-nav navbar-right">

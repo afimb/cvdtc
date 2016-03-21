@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   get 'job/:id/convert', to: 'jobs#convert', as: 'convert_job'
   get 'job/:id/convert/download', to: 'jobs#download_convert', as: 'download_convert_job'
   delete 'job/:id', to: 'jobs#destroy', as: 'destroy_job'
-  delete 'job/:id', to: 'jobs#cancel', as: 'cancel_job'
+  delete 'job/:id/cancel', to: 'jobs#cancel', as: 'cancel_job'
 
   authenticate :user do
     get 'jobs', to: 'jobs#index'

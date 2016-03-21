@@ -1,11 +1,9 @@
-<p>
-  Voici le lien pour obtenir le résultat de la validation/conversion ou son état d'avancement :
-  <% if @job.short_url %>
-    <strong><%= @job.short_url %></strong>
-    <button class="btn-clipboard" data-clipboard-text="<%= @job.short_url %>">
-      <span class="glyphicon glyphicon-copy"></span>
-    </button>
-  <% else %>
-    <span data-shorturl="<%= short_url_path(@job, format: :js) %>">Lien disponible dans quelques instants, merci de patienter...</span>
-  <% end %>
-</p>
+Voici le lien pour obtenir le résultat de la validation/conversion ou son état d'avancement :
+<% if @job.short_url %>
+  <strong><%= @job.short_url %></strong>
+  <button class="btn-clipboard" data-clipboard-text="<%= @job.short_url %>">
+    <span class="glyphicon glyphicon-copy"></span>
+  </button>
+<% else %>
+  <span data-shorturl="<%= short_url_path(@job, format: :js) %>">Lien disponible dans quelques instants, merci de patienter...</span>
+<% end %>

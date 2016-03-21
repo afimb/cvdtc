@@ -1,13 +1,11 @@
 <% if @job.url.present? %>
   <% if @job.waiting? %>
-    <p data-statusurl="<%= status_job_path(@job, format: :js) %>">
+    <span data-statusurl="<%= status_job_path(@job, format: :js) %>">
       <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
       Le téléchargement du fichier à partir de l'url <%= @job.url %> est en cours merci de patienter...
-    </p>
+    </span>
   <% else %>
-    <p>
-      <span class="glyphicon glyphicon-check"></span>
-      Téléchargement terminé.
-    </p>
+    <span class="glyphicon glyphicon-check"></span>
+    Téléchargement terminé.
   <% end %>
 <% end %>
