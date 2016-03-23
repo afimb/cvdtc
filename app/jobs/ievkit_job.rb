@@ -22,16 +22,17 @@ class IevkitJob < ActiveJob::Base
                          ievkit.post_job(:validator, @job.format, iev_file: @job.path_file.to_s, iev_params: job_tmp_file.to_s)
                        end
 
+      if forwarding_url.blank?
+        retry_job(wait: 10.seconds)
+        return
+      end
+
       if forwarding_url['error_code'].present?
         @job.error_code = forwarding_url['error_code']
         @job.save
         return
       end
 
-      if forwarding_url.blank?
-        retry_job(wait: 10.seconds)
-        return
-      end
       @job.scheduled!
       @job.links.create(name: 'forwarding_url', url: forwarding_url)
       @job.short_url = args[:job_url]

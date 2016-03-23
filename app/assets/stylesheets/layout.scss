@@ -60,3 +60,26 @@ body > .container {
   text-align: center;
   margin: 10px 10px 20px 10px;
 }
+
+.navbar .navbar-nav > .active > a,
+.navbar .navbar-nav > .active > a:hover,
+.navbar .navbar-nav > .active > a:focus {
+  color: inherit;
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.navbar {
+  a {
+    &:focus, &:hover, &:active {
+      background-color: rgba(255, 255, 255, 0.3) !important;
+    }
+  }
+}
+.btn:not([class*="btn-"]):hover,
+.btn-default:hover,
+.btn-flat:not(.btn-link):hover,
+.btn:not([class*="btn-"]).active,
+.btn-default.active,
+.btn-flat:not(.btn-link).active {
+  background-color: #e6e6e6 !important;
+}

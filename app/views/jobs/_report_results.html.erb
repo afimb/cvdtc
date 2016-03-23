@@ -20,12 +20,10 @@
                   data-toggle="tooltip" data-placement="top" title="<%= t("report_results.icons.title.#{first_element[:status]}_txt", default: first_element[:status]) if first_element[:status] %>"></span>
             <%= first_element[:name] %>
             <span class="pull-right badge<%= ' cvd-BgColorBlock-remove' if count_error > 0 %>">
-              <%= count_error %>
-              <%= t('error_count', default: 'errors') %>
+              <%= t(:count_errors, count: count_error) %>
             </span>
             <span class="pull-right badge<%= '  cvd-BgColorBlock-alert' if count_warning > 0 %>" style="margin-right:4px;">
-              <%= count_warning %>
-              <%= t('warning_count', default: 'warnings') %>
+              <%= t(:count_warnings, count: count_warning) %>
             </span>
           <% if error_or_warning %></a><% end %>
         </h4>
