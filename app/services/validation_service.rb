@@ -46,7 +46,7 @@ class ValidationService
           parse_lines(line_infos)
 
           next unless parse_search?
-          next unless parse_filter?(file_infos)
+          next unless parse_filter?(file_infos, error)
 
           if file_infos
             status = @action_report[:files].select{ |datas| datas['name'] == file_infos['filename'] }
@@ -90,7 +90,7 @@ class ValidationService
     true
   end
 
-  def parse_filter?(file_infos)
+  def parse_filter?(file_infos, error)
     if @filter['lines'].present?
       return false unless error['source']['label'].present?
       return false if @filter['lines'] != 'conform_line'
