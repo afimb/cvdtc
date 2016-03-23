@@ -3,7 +3,7 @@
     <div class="col-sm-12 cvd-ReportBlock-header">
       <h1><%= @job.name %> - <%= @job.format.upcase %></h1>
       <h2><%= t('report.validation_ended_at') %> <%= l(@job.updated_at, format: :long) %></h2>
-      <p>Durée de traitement : ~<%= ((@job.updated_at - @job.created_at) / 60).round %>min</p>
+      <p>Durée de traitement : <%= job_time(@job) %></p>
       <% if @action_report && @elements_to_paginate.any? %>
         <span class="pull-right">
           <span class="cvd-SpritesBlock cvd-SpritesBlock-stamp cvd-SpritesBlock-stamp-<%= @job.format.downcase %>-<%= @action_report[:result] == 'ok' ? 'ok' : 'nok' %>"><span><%= @action_report[:result] == 'ok' ? 'Approuvé' : 'Refusé' %></span></span>

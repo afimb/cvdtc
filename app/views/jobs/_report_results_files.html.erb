@@ -13,8 +13,9 @@
             <%= button_tag type: :button, class: 'hide show-js cvd-AccordionBlock-details' do %>
               <span class="glyphicon glyphicon-plus"></span>
             <% end %>
-            <%= link_to "http://www.chouette.mobi/neptune-validation/v22/fr/#{test_id}.html" do %>
-              <%= test_id %>
+            <%= test_id %>
+            <%= link_to "http://www.chouette.mobi/neptune-validation/v22/fr/#{test_id}.html", target: '_blank' do %>
+              <span class="glyphicon glyphicon-link"></span>
             <% end %>
             <% if @default_view == :files && reports[0] %>
               <% if false %>

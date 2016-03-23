@@ -10,4 +10,9 @@ module JobHelper
       end
     end.sort
   end
+
+  def job_time(job)
+    time = ((job.updated_at - job.created_at) / 60).round
+    time == 0 ? 'moins de 1 minute' : "~#{time}min"
+  end
 end
