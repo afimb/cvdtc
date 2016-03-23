@@ -8,28 +8,29 @@
     <% next unless first_element[:name].present? %>
     <% count_error = @validation_report.count_errors[@default_view.to_sym][first_element[:name]][:error] %>
     <% count_warning = @validation_report.count_errors[@default_view.to_sym][first_element[:name]][:warning] %>
+    <% error_or_warning = (count_error + count_warning) > 0 %>
     <div class="panel panel-default">
       <div class="panel-heading" role="tab" id="heading-<%= index %>">
         <h4 class="panel-title">
-          <% if count_error > 0 || count_warning > 0 %>
+          <% if error_or_warning %>
             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-<%= index %>" aria-expanded="false" aria-controls="collapse-<%= index %>">
           <% end %>
             <% icon = get_icon(first_element[:status], count_error) %>
             <span class="cvd-ColorBlock-<%= icon %> glyphicon glyphicon-<%= icon %>"
                   data-toggle="tooltip" data-placement="top" title="<%= t("report_results.icons.title.#{first_element[:status]}_txt", default: first_element[:status]) if first_element[:status] %>"></span>
             <%= first_element[:name] %>
-            <span class="pull-right badge">
+            <span class="pull-right badge<%= ' cvd-BgColorBlock-remove' if count_error > 0 %>">
               <%= count_error %>
               <%= t('error_count', default: 'errors') %>
             </span>
-            <span class="pull-right badge" style="margin-right:4px;">
+            <span class="pull-right badge<%= '  cvd-BgColorBlock-alert' if count_warning > 0 %>" style="margin-right:4px;">
               <%= count_warning %>
               <%= t('warning_count', default: 'warnings') %>
             </span>
-          <% if count_error > 0 || count_warning > 0 %></a><% end %>
+          <% if error_or_warning %></a><% end %>
         </h4>
       </div>
-      <% if count_error > 0 || count_warning > 0 %>
+      <% if error_or_warning %>
         <div id="collapse-<%= index %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-<%= index %>">
           <div class="panel-body cvd-ReportBlock-results">
             <%= render "report_results_#{@default_view}", { name: first_element[:name] } %>

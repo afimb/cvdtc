@@ -61,4 +61,18 @@
       color: red;
     }
   }
+  &-BgColorBlock {
+    &-ok, &-ok-sign {
+      background-color: green !important;
+    }
+    &-ignored {
+      background-color: #000 !important;
+    }
+    &-alert {
+      background-color: orange !important;
+    }
+    &-remove, &-minus-sign {
+      background-color: red !important;
+    }
+  }
 }
