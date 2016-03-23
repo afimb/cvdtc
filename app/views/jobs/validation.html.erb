@@ -16,7 +16,7 @@
       <%= render 'report_links' %>
     </div>
   </div>
-  <% if @default_view == :lines && @elements_to_paginate.any? %>
+  <% if @elements_to_paginate.any? %>
     <div class="row">
       <div class="col-sm-3">
         <%= render 'report_badges' %>

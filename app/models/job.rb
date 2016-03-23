@@ -129,14 +129,17 @@ class Job < ActiveRecord::Base
   def action_report
     report = @ievkit.get_job(@all_links[:action_report])
     return unless report
+    files = report['action_report']['files']
     lines = report['action_report']['lines']
     {
         report: report,
         result: report['action_report']['result'].downcase,
         lines: lines,
-        files: report['action_report']['files'],
         lines_ok: (lines ? lines.count { |line| line['status'] == 'OK' } : 0),
-        lines_nok: (lines ? lines.count { |line| line['status'] != 'OK' } : 0)
+        lines_nok: (lines ? lines.count { |line| line['status'] != 'OK' } : 0),
+        files: files,
+        files_ok: (files ? files.count { |file| file['status'] == 'OK' } : 0),
+        files_nok: (files ? files.count { |file| file['status'] != 'OK' } : 0)
     }
   end
 
