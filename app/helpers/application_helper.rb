@@ -1,6 +1,10 @@
 module ApplicationHelper
-  def active(controller, action = nil)
-    ' class="active"'.html_safe if controller.to_sym == controller_name.to_sym && (!action || action.to_sym == action_name.to_sym)
+  def active(current_menu, menu)
+    ' class="active"'.html_safe if current_menu == menu
+  end
+
+  def active_controller(controller)
+    ' class="active"'.html_safe if controller.to_sym == controller_name.to_sym
   end
 
   def get_icon(name, count_error=nil)

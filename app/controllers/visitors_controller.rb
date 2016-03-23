@@ -1,9 +1,11 @@
 class VisitorsController < ApplicationController
   def index
+    @current_menu = :validate
     job { @job.iev_action = :validate_job }
   end
 
   def convert
+    @current_menu = :convert
     job { @job.iev_action = :convert_job }
     render 'index'
   end

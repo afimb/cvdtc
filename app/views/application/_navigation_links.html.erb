@@ -13,8 +13,8 @@
     </div>
     <div class="navbar-collapse collapse navbar-inverse-collapse">
       <ul class="nav navbar-nav">
-        <li<%= active(:visitors, :index) %>><%= link_to t('validate'), root_path %></li>
-        <li<%= active(:visitors, :convert) %>><%= link_to t('convert'), convert_path %></li>
+        <li<%= active(@current_menu, :validate) %>><%= link_to t('validate'), root_path %></li>
+        <li<%= active(@current_menu, :convert) %>><%= link_to t('convert'), convert_path %></li>
         <% if user_signed_in? %>
           <li><%= link_to t('api'), grape_swagger_rails_path %></li>
           <% if current_user.admin? %>
@@ -52,13 +52,13 @@
             </ul>
           </li>
         <% else %>
-          <li<%= active(:sessions) %>>
+          <li<%= active_controller(:sessions) %>>
             <%= link_to new_user_session_path do %>
               <span class="glyphicon glyphicon-log-in"></span>
               <%= t('devise.shared.links.sign_in') %>
             <% end %>
           </li>
-          <li<%= active(:registrations) %>>
+          <li<%= active_controller(:registrations) %>>
             <%= link_to new_user_registration_path do %>
               <span class="glyphicon glyphicon-new-window"></span>
               <%= t('devise.shared.links.sign_up') %>
