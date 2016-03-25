@@ -11,31 +11,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160321154602) do
+ActiveRecord::Schema.define(version: 20160325135559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "jobs", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "name",                                             null: false
-    t.integer  "iev_action",                       default: 0,     null: false
-    t.integer  "format",                                           null: false
+    t.string   "name",                                                                     null: false
+    t.integer  "iev_action",                                               default: 0,     null: false
+    t.integer  "format",                                                                   null: false
     t.string   "file"
     t.string   "url"
     t.integer  "format_convert"
     t.string   "file_md5"
-    t.integer  "status",                           default: 0,     null: false
+    t.integer  "status",                                                   default: 0,     null: false
     t.string   "object_id_prefix"
     t.string   "time_zone"
-    t.integer  "max_distance_for_commercial",      default: 0,     null: false
-    t.boolean  "ignore_last_word",                 default: false, null: false
-    t.integer  "ignore_end_chars",                 default: 0,     null: false
-    t.integer  "max_distance_for_connection_link", default: 0,     null: false
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
+    t.integer  "max_distance_for_commercial",                              default: 0,     null: false
+    t.boolean  "ignore_last_word",                                         default: false, null: false
+    t.integer  "ignore_end_chars",                                         default: 0,     null: false
+    t.integer  "max_distance_for_connection_link",                         default: 0,     null: false
+    t.datetime "created_at",                                                               null: false
+    t.datetime "updated_at",                                                               null: false
     t.string   "short_url"
     t.string   "error_code"
+    t.decimal  "file_size",                        precision: 5, scale: 2
   end
 
   add_index "jobs", ["user_id"], name: "index_jobs_on_user_id", using: :btree
@@ -55,8 +56,9 @@ ActiveRecord::Schema.define(version: 20160321154602) do
     t.string   "format_convert"
     t.string   "info"
     t.integer  "user_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.decimal  "file_size",      precision: 5, scale: 2
   end
 
   add_index "stats", ["user_id"], name: "index_stats_on_user_id", using: :btree

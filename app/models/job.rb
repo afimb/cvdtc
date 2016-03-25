@@ -36,6 +36,7 @@ class Job < ActiveRecord::Base
 
   attr_reader :all_links
   after_initialize :load_ievkit
+  before_save :set_file_size
 
   def name=(name)
     super(File.basename(name, File.extname(name)).humanize)
@@ -167,6 +168,13 @@ class Job < ActiveRecord::Base
     UrlJob.perform_later(id) if url.present?
     pending! unless url.present?
     IevkitJob.perform_later(id: id, job_url: job_url)
+  end
+
+  def set_file_size
+    if File.file?(path_file)
+      size = File.size(path_file).to_f / 1024 / 1024
+      self.file_size = size.round(2)
+    end
   end
 
   protected
