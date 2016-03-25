@@ -13,18 +13,21 @@
       <div class="panel-heading" role="tab" id="heading-<%= index %>">
         <h4 class="panel-title">
           <% if error_or_warning %>
-            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-<%= index %>" aria-expanded="false" aria-controls="collapse-<%= index %>">
+            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-<%= index %>"
+               aria-expanded="false" aria-controls="collapse-<%= index %>">
           <% end %>
-            <% icon = get_icon(first_element[:status], count_error) %>
-            <span class="cvd-ColorBlock-<%= icon %> glyphicon glyphicon-<%= icon %>"
-                  data-toggle="tooltip" data-placement="top" title="<%= t("report_results.icons.title.#{first_element[:status]}_txt", default: first_element[:status]) if first_element[:status] %>"></span>
-            <%= first_element[:name] %>
-            <span class="pull-right badge<%= ' cvd-BgColorBlock-remove' if count_error > 0 %>">
-              <%= t(:count_errors, count: count_error) %>
-            </span>
-            <span class="pull-right badge<%= '  cvd-BgColorBlock-alert' if count_warning > 0 %>" style="margin-right:4px;">
-              <%= t(:count_warnings, count: count_warning) %>
-            </span>
+          <% icon = get_icon(first_element[:status], count_error) %>
+          <% fs_status = first_element[:status].present? ? first_element[:status] : 'none' %>
+          <span class="cvd-ColorBlock-<%= icon %> glyphicon glyphicon-<%= icon %>"
+                data-toggle="tooltip" data-placement="top"
+                title="<%= t("report_results.icons.title.#{fs_status}_txt", default: fs_status) %>"></span>
+          <%= first_element[:name] %>
+          <span class="pull-right badge<%= ' cvd-BgColorBlock-remove' if count_error > 0 %>">
+            <%= t(:count_errors, count: count_error) %>
+          </span>
+          <span class="pull-right badge<%= '  cvd-BgColorBlock-alert' if count_warning > 0 %>" style="margin-right:4px;">
+            <%= t(:count_warnings, count: count_warning) %>
+          </span>
           <% if error_or_warning %></a><% end %>
         </h4>
       </div>
