@@ -159,6 +159,7 @@ class Job < ActiveRecord::Base
   end
 
   def mine?(user)
+    return false unless user && self.user
     self.user == user
   end
 

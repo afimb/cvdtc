@@ -7,13 +7,16 @@
   <div class="form-group">
     <%= label_tag t('search_form.label.state') %>
     <% if @default_view == :files %>
-      <%= select_tag 'q[filter][status]', options_for_select([
-                                                         [t('compliance_check_result.severities.error_txt'), 'error'],
-                                                         [t('compliance_check_result.severities.ignored_txt'), 'ignored'],
-                                                         [t('compliance_check_result.severities.success_txt'), 'ok'],
-                                                     ], @validation_report.filter['status']), include_blank: true, class: 'form-control' %>
+      <%= select_tag 'q[filter][status]', options_for_select([[t('compliance_check_result.severities.error_txt'), 'error'],
+                                                              [t('compliance_check_result.severities.ignored_txt'), 'ignored'],
+                                                              [t('compliance_check_result.severities.success_txt'), 'ok'],
+                                                             ], @validation_report.filter['status']),
+                     class: 'form-control', prompt: 'Tous' %>
     <% else %>
-      <%= select_tag 'q[filter][lines]', options_for_select([[t('report.conform_lines'), 'conform_line'], [t('report.nonconforming_lines'), 'nonconform_line']], @validation_report.filter['lines']), include_blank: true, class: 'form-control' %>
+      <%= select_tag 'q[filter][lines]', options_for_select([[t('report.conform_lines'), 'conform_line'],
+                                                              [t('report.nonconforming_lines'), 'nonconform_line']],
+                                                            @validation_report.filter['lines']),
+                     class: 'form-control', prompt: 'Tous' %>
     <% end %>
   </div>
   <%= submit_tag t('search_form.submit', default: 'Submit'), class: 'btn btn-primary' %>
