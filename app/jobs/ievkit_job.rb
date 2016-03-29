@@ -11,13 +11,10 @@ class IevkitJob < ActiveJob::Base
         return
       end
       ievkit = Ievkit::Job.new(@job.referential)
-      job_tmp_file = ''
-      if ENV['CHECK_GTE3'].present?
-        parameters = ParametersService.new(@job)
-        job_tmp_file = Rails.root.join('tmp', "parameters-#{@job.id}.json")
-        File.open(job_tmp_file, 'wb') do |f|
-          f.write parameters.to_json
-        end
+      parameters = ParametersService.new(@job)
+      job_tmp_file = Rails.root.join('tmp', "parameters-#{@job.id}.json")
+      File.open(job_tmp_file, 'wb') do |f|
+        f.write parameters.to_json
       end
       forwarding_url = if @job.format_convert
                          ievkit.post_job(:converter, nil, iev_file: @job.path_file.to_s, iev_params: job_tmp_file.to_s)

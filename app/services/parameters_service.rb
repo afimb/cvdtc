@@ -54,6 +54,7 @@ class ParametersService
   end
 
   def validate_params
+    return {} unless ENV['CHECK_GTE3'].present?
     {
       validation: {
         stop_areas_area: [[-5.2, 42.25], [-5.2, 51.1], [8.23, 51.1], [8.23, 42.25], [-5.2, 42.25]],
