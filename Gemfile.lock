@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/afimb/cvdtc-i18n.git
-  revision: 54779bfc447669f1a3ed8eb435b7385091df304b
+  revision: 0e29006c2139862e96b341dc7dec9b730f18c3ac
   specs:
     cvdtc-i18n (0.1.0)
       i18n
@@ -361,7 +361,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rainbow (2.1.0)
-    rake (11.1.1)
+    rake (11.1.2)
     rb-fchange (0.0.6)
       ffi
     rb-fsevent (0.9.7)
