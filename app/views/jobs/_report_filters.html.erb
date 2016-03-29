@@ -7,9 +7,9 @@
   <div class="form-group">
     <%= label_tag t('search_form.label.state') %>
     <% if @default_view == :files %>
-      <%= select_tag 'q[filter][status]', options_for_select([[t('compliance_check_result.severities.error_txt'), 'error'],
-                                                              [t('compliance_check_result.severities.ignored_txt'), 'ignored'],
-                                                              [t('compliance_check_result.severities.success_txt'), 'ok'],
+      <%= select_tag 'q[filter][status]', options_for_select([[t('compliance_check_results.severities.error_txt'), 'error'],
+                                                              [t('compliance_check_results.severities.ignored_txt'), 'ignored'],
+                                                              [t('compliance_check_results.severities.success_txt'), 'ok'],
                                                              ], @validation_report.filter['status']),
                      class: 'form-control', prompt: 'Tous' %>
     <% else %>

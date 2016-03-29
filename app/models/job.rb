@@ -39,20 +39,24 @@ class Job < ActiveRecord::Base
   before_save :set_file_size
 
   def name=(name)
-    super(File.basename(name, File.extname(name)).humanize)
+    cleaned_name = clean_filename(name, false)
+    super(File.basename(cleaned_name, File.extname(cleaned_name)).humanize)
   end
 
-  def file=(file)
-    if file.present?
-      super(clean_filename(file.original_filename))
-      File.open(path_file, 'wb') { |f| f.write(file.read) }
-    end
+  def filename=(name)
+    super(clean_filename(name))
+  end
+
+  def file=(file_uploaded)
+    self.name = self.filename = file_uploaded.original_filename
+    File.open(path_file, 'wb') { |f| f.write(file_uploaded.read) }
+    super(self.filename)
   rescue => e
     errors[:file] = I18n.t('job.unable_to_proceed', message: e.message)
   end
 
   def url=(url)
-    self.name = clean_filename(url) if url.present?
+    self.name = self.filename = url
     super
   end
 
@@ -68,25 +72,8 @@ class Job < ActiveRecord::Base
     @all_links = {}.tap { |hash| links(true).map { |link| hash[link.name.to_sym] = link.url } }
   end
 
-  # def record_file_or_url(file_uploaded_or_url)
-  #   return if file_uploaded_or_url[:file].blank? && file_uploaded_or_url[:url].blank?
-  #
-  #   self.file = file_uploaded_or_url[:file].original_filename if file_uploaded_or_url[:url].blank?
-  #   fullpath_file = path_file
-  #
-  #   if url.blank?
-  #     begin
-  #       File.open(fullpath_file, 'wb') { |f| f.write(file_uploaded_or_url[:file].read) }
-  #     rescue => e
-  #       errors[:url] = I18n.t('job.unable_to_proceed', message: e.message)
-  #     end
-  #   end
-  # end
-
   def path_file
-    filename = (url.present? ? clean_filename(url) : file)
-    self.name ||= filename
-    Rails.root.join('public', 'uploads', filename)
+    Rails.root.join('public', 'uploads', self.filename)
   end
 
   def ievkit_cancel_or_delete(action)
@@ -112,9 +99,9 @@ class Job < ActiveRecord::Base
     if @all_links[:action_report].blank?
       update_links
     else
-      report, _lines_ok, _lines_nok = action_report
-      if report && report['action_report'] && report['action_report']['progression']
-        report = report['action_report']['progression']
+      report = action_report
+      if report && report[:report] && report[:report]['action_report'] && report[:report]['action_report']['progression']
+        report = report[:report]['action_report']['progression']
         index_current_step = report['current_step'].to_i - 1
         datas[:current_step] = report['current_step'].to_i
         datas[:steps_count] = report['steps_count'].to_i
@@ -165,8 +152,11 @@ class Job < ActiveRecord::Base
   end
 
   def launch_jobs(job_url)
-    UrlJob.perform_later(id) if url.present?
-    pending! unless url.present?
+    if url.present?
+      UrlJob.perform_later(id)
+    else
+      pending!
+    end
     IevkitJob.perform_later(id: id, job_url: job_url)
   end
 
@@ -184,11 +174,12 @@ class Job < ActiveRecord::Base
     list_links
   end
 
-  def clean_filename(name)
+  def clean_filename(name, slug = true)
     base = File.basename(name, File.extname(name))
     extname = File.extname(name)
-    extname = '.zip' if extname.blank?
-    [base.parameterize,'_', id, extname].join
+    extname = '.zip' if extname.blank? || !extname.end_with?('.zip')
+    slug = slug ? "_#{SecureRandom.hex(5)}" : ''
+    [base.parameterize, slug, extname].join
   end
 
   def delete_file

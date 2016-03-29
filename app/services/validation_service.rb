@@ -140,7 +140,7 @@ class ValidationService
     #     reports3.each_with_index do |report, index|
     #       break if index > 10
     #       yield [
-    #           I18n.t("compliance_check_result.severities.#{line[:status].downcase}_txt"),
+    #           I18n.t("compliance_check_results.severities.#{line[:status].downcase}_txt"),
     #           line[:name],
     #           filename[:name],
     #           get_line_column(report),
@@ -153,7 +153,7 @@ class ValidationService
     #   (reports-reports2).each_with_index do |report, index|
     #     break if index > 10
     #     yield [
-    #         I18n.t("compliance_check_result.severities.#{line[:status].downcase}_txt"),
+    #         I18n.t("compliance_check_results.severities.#{line[:status].downcase}_txt"),
     #         line[:name],
     #         '',
     #         '',
@@ -171,7 +171,7 @@ class ValidationService
       reports2.each_with_index do |report, index|
         break if index > 10
         yield [
-            (filename[:status] ? I18n.t("compliance_check_result.severities.#{filename[:status].downcase}_txt") : ''),
+            (filename[:status] ? I18n.t("compliance_check_results.severities.#{filename[:status].downcase}_txt") : ''),
             filename[:name],
             get_line_column(report),
             report.test_id,

@@ -11,10 +11,13 @@ class IevkitJob < ActiveJob::Base
         return
       end
       ievkit = Ievkit::Job.new(@job.referential)
-      parameters = ParametersService.new(@job)
-      job_tmp_file = Rails.root.join('tmp', "parameters-#{@job.id}.json")
-      File.open(job_tmp_file, 'wb') do |f|
-        f.write parameters.to_json
+      job_tmp_file = ''
+      if ENV['CHECK_GTE3'].present?
+        parameters = ParametersService.new(@job)
+        job_tmp_file = Rails.root.join('tmp', "parameters-#{@job.id}.json")
+        File.open(job_tmp_file, 'wb') do |f|
+          f.write parameters.to_json
+        end
       end
       forwarding_url = if @job.format_convert
                          ievkit.post_job(:converter, nil, iev_file: @job.path_file.to_s, iev_params: job_tmp_file.to_s)
@@ -37,6 +40,7 @@ class IevkitJob < ActiveJob::Base
       @job.links.create(name: 'forwarding_url', url: forwarding_url)
       @job.short_url = args[:job_url]
       @job.save
+      Stat.create(format: @job.format, format_convert: @job.format_convert, user: @job.user, info: @job.name, file_size: @job.file_size)
     else
       retry_job(wait: 10.seconds)
     end

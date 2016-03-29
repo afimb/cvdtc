@@ -20,7 +20,7 @@
           <% fs_status = first_element[:status].present? ? first_element[:status] : 'none' %>
           <span class="cvd-ColorBlock-<%= icon %> glyphicon glyphicon-<%= icon %>"
                 data-toggle="tooltip" data-placement="top"
-                title="<%= t("report_results.icons.title.#{fs_status}_txt", default: fs_status) %>"></span>
+                title="<%= t("report_results.icons.title.#{fs_status.downcase}_txt", default: fs_status.humanize) %>"></span>
           <%= first_element[:name] %>
           <span class="pull-right badge<%= ' cvd-BgColorBlock-remove' if count_error > 0 %>">
             <%= t(:count_errors, count: count_error) %>

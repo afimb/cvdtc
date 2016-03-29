@@ -13,8 +13,8 @@ class VisitorsController < ApplicationController
   def create
     @job = Job.new(job_params)
     @job.user = current_user
-    @job.file = params[:job][:file] if params[:job][:file]
-    @job.url = params[:job][:url] if params[:job][:url]
+    @job.file = params[:job][:file] if params[:job][:file].present?
+    @job.url = params[:job][:url] if params[:job][:url].present?
     if @job.save
       @job.launch_jobs(job_url(@job.id))
       flash[:notice] = I18n.t('job.status.pending')
@@ -34,7 +34,6 @@ class VisitorsController < ApplicationController
   def job_params
     params.require(:job).permit(:iev_action,
                                 :format,
-                                :url,
                                 :format_convert,
                                 :object_id_prefix,
                                 :time_zone,
