@@ -45,6 +45,9 @@ class ValidationService
           line_infos = error['source']['line']
           parse_lines(line_infos)
 
+          @report_dup.error_subtitle = I18n.t("compliance_check_results.details.#{@report_dup.test_id}")
+          @report_dup.error_description = I18n.t("compliance_check_results.details.detail_#{@report_dup.error_id}", @report_dup.to_h)
+
           next unless parse_search?
           next unless parse_filter?(file_infos, error)
 
@@ -191,23 +194,35 @@ class ValidationService
     line_column.join(' ')
   end
 
-  def clean_datas
+  def add_others
     if (@filter['status'].blank? || @filter['status'] == 'success') && @action_report[:files]
       @action_report[:files].each do |file|
+        next if @count_errors[:files][file['name']]
+        if @search.present?
+          next if @search.count { |search_value| file['name'].to_s.downcase =~ /#{search_value}/i } == 0
+        end
         @filenames << { name: file['name'], status: file['status'] }
         @count_errors[:files][file['name']] ||= { error: 0, warning: 0 }
       end
     end
+    if (@filter['lines'].blank? || @filter['lines'] == 'conform_line') && @action_report[:lines]
+      @action_report[:lines].each do |line|
+        next if @count_errors[:lines][line['name']]
+        if @search.present?
+          next if @search.count { |search_value| line['name'].to_s.downcase =~ /#{search_value}/i } == 0
+        end
+        @lines << { name: line['name'], status: line['status'] }
+        @count_errors[:lines][line['name']] ||= { error: 0, warning: 0 }
+      end
+    end
+  end
+
+  def clean_datas
+    add_others
     if @filenames.present?
       @filenames.compact.reject! { |f| f[:name].blank? }
       @filenames.uniq! { |f| f[:name] }
       @filenames.sort_by! { |a| a[:name] }
-    end
-    if (@filter['lines'].blank? || @filter['lines'] == 'conform_line') && @action_report[:lines]
-      @action_report[:lines].each do |line|
-        @lines << { name: line['name'], status: line['status'] }
-        @count_errors[:lines][line['name']] ||= { error: 0, warning: 0 }
-      end
     end
     if @lines.present?
       @lines.compact.reject! { |f| f[:name].blank? }

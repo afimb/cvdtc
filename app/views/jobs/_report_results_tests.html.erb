@@ -21,7 +21,7 @@
                 </span>
               <% end %>
               -
-              <%= t("compliance_check_results.details.#{report.test_id}") %>
+              <%= report.error_title %>
             </strong>
 
             <% previous_test_id = report.test_id %>
@@ -34,7 +34,7 @@
               <%= t('report.file.line') %> <%= report.line_number %>
               <%= t('report.file.column') %> <%= report.column_number %>
             <% end %>
-            <%= t("compliance_check_results.details.detail_#{report.error_id}", report.to_h) %>
+            <%= report.error_description %>
           </p>
         <% else %>
           <ul>
@@ -46,7 +46,7 @@
                 </strong>
                 -
               <% end %>
-              <%= t("compliance_check_results.details.detail_#{report.error_id}", report.to_h) %>
+              <%= report.error_description %>
             </li>
           </ul>
         <% end %>
