@@ -15,7 +15,6 @@ gem 'high_voltage', '~> 2.4.0'
 gem 'pg', '~> 0.18.4'
 gem 'simple_form', '~> 3.2.0'
 gem 'nprogress-rails', '~> 0.1.6.7'
-gem 'puma', '~> 2.15.3'
 gem 'rails_admin', '~> 0.7.0'
 gem 'grape', '~> 0.13.0'
 gem 'grape_logging', '~> 1.1.2'
@@ -53,6 +52,7 @@ group :development, :test do
   gem 'pry-rescue'
 end
 group :development do
+  gem 'puma', '~> 3.1'
   gem 'web-console', '~> 2.0'
   gem 'better_errors'
   gem 'capistrano', '~> 3.4.0'
