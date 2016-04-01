@@ -50,15 +50,19 @@ class JobsController < ApplicationController
 
   def convert; end
 
+  def download
+    datas, args = @job.download_result(params[:default_view])
+    send_data datas, args
+  end
+
   def download_validation
-    validation_report = ValidationService.new(@job.validation_report, @job.action_report)
-    validation_report.default_view = params[:default_view]
-    send_data validation_report.to_csv, filename: "#{@job.name.parameterize}-#{@job.id}-#{Time.current.to_i}.csv"
+    datas, args = @job.download_validation_report(params[:default_view])
+    send_data datas, args
   end
 
   def download_convert
-    file = @job.list_links[:output] ? @job.list_links[:output] : @job.list_links[:data]
-    send_data @job.convert_report, filename: File.basename(file), type: 'application/zip'
+    datas, args = @job.download_conversion
+    send_data datas, args
   end
 
   def cancel
