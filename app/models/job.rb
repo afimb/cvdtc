@@ -177,7 +177,7 @@ class Job < ActiveRecord::Base
   def clean_filename(name, slug = true)
     base = File.basename(name, File.extname(name))
     extname = File.extname(name)
-    extname = '.zip' if extname.blank? || !extname.end_with?('.zip')
+    extname = '.zip' if extname.blank?
     slug = slug ? "_#{SecureRandom.hex(5)}" : ''
     [base.parameterize, slug, extname].join
   end
