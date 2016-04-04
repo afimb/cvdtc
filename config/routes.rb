@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  default_url_options host: Rails.application.secrets.domain_name
+
   # Application
   root to: 'visitors#index'
   get 'convert', to: 'visitors#convert', as: 'convert'
