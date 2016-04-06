@@ -49,7 +49,7 @@
   <%= f.button :submit, (@job.convert_job? ? t('convert') : t('validate') ), class: 'btn btn-primary' %>
 <% end %>
 
-<% if @job.errors.messages.any? && @job.errors.messages[:url].present? %>
+<% if @job.url.present? %>
   <script>
     $(document).on('page:change', function() {
       $('a[href="#url"]').click();
