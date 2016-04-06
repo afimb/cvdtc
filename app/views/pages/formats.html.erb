@@ -12,26 +12,26 @@
           (quel que soit leur format initial (tests 3-xxx et 4-xxx).<br>
           Ces tests sont décrits
           <span class="glyphicon glyphicon-link"></span>
-          <%= link_to 'dans un tableau XL', 'http://www.chouette.mobi/wp-content/uploads/NT-A130306-Definition_des_tests_de_conformite-V2.2-2015-09-21.xls' %>
+          <%= link_to 'dans un tableau XL', 'http://www.chouette.mobi/wp-content/uploads/NT-A130306-Definition_des_tests_de_conformite-V2.2-2015-09-21.xls', target: '_blank', rel: 'noreferrer' %>
           et
           <span class="glyphicon glyphicon-link"></span>
-          <%= link_to 'au format HTML', 'http://www.chouette.mobi/neptune-validation/v22/fr/' %>
+          <%= link_to 'au format HTML', "#{ENV['spec_validation_url']}/#{I18n.locale}", target: '_blank', rel: 'noreferrer' %>
           .
         </li>
         <li>
           Test de conformité Neptune 1 &amp; 2
           <span class="glyphicon glyphicon-link"></span>
-          <%= link_to 'http://www.chouette.mobi/neptune-validation/v22/fr/', 'http://www.chouette.mobi/neptune-validation/v22/fr/' %>
+          <%= link_to "#{ENV['spec_validation_url']}/#{I18n.locale}/index_neptune.html", "#{ENV['spec_validation_url']}/#{I18n.locale}/index_neptune.html", target: '_blank', rel: 'noreferrer' %>
         </li>
         <li>
-          Test de conformité GTFS
+          Test de conformité GTFS 1 &amp; 2
           <span class="glyphicon glyphicon-link"></span>
-          <%= link_to 'http://www.chouette.mobi/wp-content/uploads/NT-A130306-Definition_des_tests_de_conformite-V2.2-2015-09-21.xls', 'http://www.chouette.mobi/wp-content/uploads/NT-A130306-Definition_des_tests_de_conformite-V2.2-2015-09-21.xls' %>
+          <%= link_to "#{ENV['spec_validation_url']}/#{I18n.locale}/index_gtfs.html", "#{ENV['spec_validation_url']}/#{I18n.locale}/index_gtfs.html", target: '_blank', rel: 'noreferrer' %>
         </li>
         <li>
           Pour plus de détails
           <span class="glyphicon glyphicon-link"></span>
-          <%= link_to 'http://www.chouette.mobi/developpeurs/formats-supportes/', 'http://www.chouette.mobi/developpeurs/formats-supportes/' %>
+          <%= link_to 'http://www.chouette.mobi/developpeurs/formats-supportes/', 'http://www.chouette.mobi/developpeurs/formats-supportes/', target: '_blank', rel: 'noreferrer' %>
         </li>
       </ul>
     </li>
@@ -40,7 +40,7 @@
       <p>
         Pour en savoir plus, visitez le portail des normes pour les données d'offre du transport collectif
         <span class="glyphicon glyphicon-link"></span>
-        <%= link_to 'http://www.normes-donnees-tc.org', 'http://www.normes-donnees-tc.org' %>
+        <%= link_to 'http://www.normes-donnees-tc.org', 'http://www.normes-donnees-tc.org', target: '_blank', rel: 'noreferrer' %>
       </p>
     </li>
   </ul>
