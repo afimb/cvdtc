@@ -12,5 +12,16 @@
       $(this).find('.glyphicon').toggleClass('glyphicon-plus glyphicon-minus')
       $('#cvd-FormBlock-moreOptions').slideToggle();
     });
+
+    $('[name="token"]').click( function() {
+      $(this).select();
+      try {
+        document.execCommand('copy');
+        $('.cvd-TokenCopied').text('Token copié dans le presse papier');
+        setTimeout("$('.cvd-TokenCopied').text('')", 4000);
+      } catch (err) {
+        console.log('Oops, unable to copy token');
+      }
+    });
   });
 })(jQuery);

@@ -22,6 +22,9 @@ Rails.application.routes.draw do
 
   # Devise
   devise_for :users
+  devise_scope :user do
+    get 'renew_token', to: 'users/registrations#renew_token', as: 'user_renew_token'
+  end
 
   # Grape
   mount API::Root => '/'

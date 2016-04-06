@@ -52,7 +52,7 @@ group :development, :test do
   gem 'pry-rescue'
 end
 group :development do
-  gem 'puma', '~> 3.1'
+  gem 'puma', '~> 3.3'
   gem 'web-console', '~> 2.0'
   gem 'better_errors'
   gem 'capistrano', '~> 3.4.0'
