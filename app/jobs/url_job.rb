@@ -21,5 +21,8 @@ class UrlJob < ActiveJob::Base
     else
       retry_job(wait: 10.seconds)
     end
+  rescue
+    job.error_code = 'INVALID_REQUEST'
+    job.save
   end
 end
