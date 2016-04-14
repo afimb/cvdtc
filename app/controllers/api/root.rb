@@ -30,7 +30,7 @@ module API
         if warden.authenticated? || route.route_path.start_with?('/api/:version/authentication/login', '/api/:version/authentication/password')
           return true
         end
-        @user = User.find_by(authentication_token: params[:token]) if params[:token]
+        @user = User.find_by(authentication_token: request.headers['X-Auth-Token']) if request.headers['X-Auth-Token']
       end
 
       def current_user

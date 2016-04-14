@@ -7,7 +7,10 @@ module API
       resource :authentication do
         desc 'Return user informations'
         get :account do
-          current_user
+          {
+            email: current_user.email,
+            name: current_user.name
+          }
         end
       end
     end
