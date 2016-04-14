@@ -12,7 +12,7 @@
           <% if previous_test_id != report.test_id %>
             <strong>
               <span class="cvd-ColorBlock-<%= report.status %> glyphicon glyphicon-<%= report.status %>"></span>
-              <%= link_to "http://www.chouette.mobi/neptune-validation/v22/fr/#{report.test_id}.html" do %>
+              <%= link_to "#{ENV['spec_validation_url']}/#{I18n.locale}/#{report.test_id}.html", target: '_blank', rel: 'noreferrer' do %>
                 <%= report.test_id %>
               <% end %>
               <% if false %>

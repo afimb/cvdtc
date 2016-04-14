@@ -36,5 +36,7 @@ module Cvdtc
 
     # ActiveJob queue
     config.active_job.queue_adapter = :sidekiq
+
+    config.action_mailer.asset_host = "http://#{Rails.application.secrets.domain_name}"
   end
 end

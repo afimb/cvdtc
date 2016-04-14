@@ -219,10 +219,16 @@ class ValidationService
 
   def clean_datas
     add_others
+    filenames_sorted = { error: [], warning: [], ok: [], ignored: [], '': [] }
     if @filenames.present?
       @filenames.compact.reject! { |f| f[:name].blank? }
       @filenames.uniq! { |f| f[:name] }
-      @filenames.sort_by! { |a| a[:name] }
+      @filenames.each do |f|
+        filenames_sorted[f[:status].to_s.downcase.to_sym] << f
+      end
+      @filenames = []
+      filenames_sorted.map{ |key, value| @filenames << value }
+      @filenames.flatten!
     end
     if @lines.present?
       @lines.compact.reject! { |f| f[:name].blank? }

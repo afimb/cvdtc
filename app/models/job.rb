@@ -114,6 +114,12 @@ class Job < ActiveRecord::Base
     datas
   end
 
+  def result_action_report
+    report = @ievkit.get_job(@all_links[:action_report])
+    return 'error' unless report
+    report['action_report']['result'].downcase
+  end
+
   def action_report
     report = @ievkit.get_job(@all_links[:action_report])
     return unless report
@@ -133,6 +139,22 @@ class Job < ActiveRecord::Base
 
   def validation_report
     @ievkit.get_job(@all_links[:validation_report])
+  end
+
+  def download_result(default_view)
+    default_view = default_view.present? ? default_view : 'files'
+    self.convert_job? ? download_conversion : download_validation_report(default_view)
+  end
+
+  def download_validation_report(default_view)
+    validation_report_service = ValidationService.new(validation_report, action_report)
+    validation_report_service.default_view = default_view
+    [validation_report_service.to_csv, filename: "#{name.parameterize}-#{id}-#{Time.current.to_i}.csv"]
+  end
+
+  def download_conversion
+    file = list_links[:output] ? list_links[:output] : list_links[:data]
+    [convert_report, { filename: File.basename(file), type: 'application/zip' }]
   end
 
   def convert_report
@@ -167,6 +189,15 @@ class Job < ActiveRecord::Base
     end
   end
 
+  def format_for_api
+    attrs = [
+      :id, :name, :format, :format_convert, :status, :object_id_prefix, :time_zone, :max_distance_for_commercial,
+      :ignore_last_word, :ignore_end_chars, :max_distance_for_connection_link, :created_at, :updated_at, :short_url,
+      :error_code, :file_size, :filename
+    ]
+    {}.tap{ |hash| attrs.map{ |attr| hash[attr] = send(attr) } }
+  end
+
   protected
 
   def load_ievkit
@@ -177,7 +208,7 @@ class Job < ActiveRecord::Base
   def clean_filename(name, slug = true)
     base = File.basename(name, File.extname(name))
     extname = File.extname(name)
-    extname = '.zip' if extname.blank? || !extname.end_with?('.zip')
+    extname = '.zip' if extname.blank?
     slug = slug ? "_#{SecureRandom.hex(5)}" : ''
     [base.parameterize, slug, extname].join
   end

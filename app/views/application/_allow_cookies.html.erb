@@ -1,0 +1,22 @@
+<div class="row hide cvd-CookiesBlock">
+  <p>
+    Ce site utilise des cookies pour vous offrir le meilleur service. En
+    poursuivant votre navigation, vous acceptez l'utilisation des cookies.
+  </p>
+  <button class="btn">OK</button>
+</div>
+
+<script>
+  $(document).on('page:change', function () {
+    var cookies_status = localStorage.getItem("cookies_status");
+    if(!cookies_status) {
+      $('body').css('margin-bottom', '40px');
+      $(".cvd-CookiesBlock").removeClass("hide");
+      $(".cvd-CookiesBlock button").click(function() {
+        localStorage.setItem("cookies_status","OK");
+        $(".cvd-CookiesBlock").remove();
+        $('body').css('margin-bottom', '');
+      });
+    }
+  });
+</script>

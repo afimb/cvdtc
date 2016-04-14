@@ -2,7 +2,7 @@
   <div class="col-md-6 col-md-offset-3">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h4><%= t('.title', :resource => resource_class.model_name.human , :default => "Edit #{resource_name.to_s.humanize}") %></h4>
+        <h4><%= t('devise.registrations.edit_title') %></h4>
       </div>
       <div class="panel-body">
         <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
@@ -36,14 +36,33 @@
 
           <div><%= f.submit t('.update', :default => "Update"), class: "btn btn-primary" %></div>
         <% end %>
-
-        <h3><%= t('.cancel_my_account', :default => 'Cancel my account') %></h3>
-
-        <p><%= t('want_to_cancel_your_account', default: 'You want to cancel your account?') %> <%= link_to t('.cancel_my_account', :default => "Cancel my account"), registration_path(resource_name), :data => { :confirm => t('.are_you_sure', :default => "Are you sure?") }, :method => :delete %>.</p>
-
-        <%= link_to t('devise.shared.links.back', :default => "Back"), :back %>
       </div>
     </div>
+
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4><%= t('.token.title') %></h4>
+      </div>
+      <div class="panel-body">
+        <p>
+          <%= text_field_tag 'token', resource.authentication_token, readonly: true, size: 30 %>
+          <span class="cvd-TokenCopied"></span>
+          <%= link_to t('.token.renew'), user_renew_token_path, class: 'btn btn-primary' %>
+        </p>
+      </div>
+    </div>
+
+    <%= link_to t('devise.shared.links.back', :default => "Back"), :back, class: 'btn btn-primary' %>
+
+    <hr>
+
+    <p>
+      <%= link_to t('.cancel_my_account', :default => "Cancel my account"), registration_path(resource_name),
+                  data: { confirm: t('.are_you_sure', default: "Are you sure?") },
+                  method: :delete, class: 'btn btn-danger' %>
+    </p>
+
   </div>
 </div>
 

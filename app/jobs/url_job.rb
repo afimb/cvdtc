@@ -4,18 +4,25 @@ class UrlJob < ActiveJob::Base
   def perform(job_id)
     job = Job.find_waiting(job_id.to_i).first
     if job
-      require 'open-uri'
-      data = URI.parse(job.url).read
+      uri = URI(job.url)
+      response = nil
+      Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https', verify_mode: OpenSSL::SSL::VERIFY_NONE) do |http|
+        request = Net::HTTP::Get.new uri
+        response = http.request request
+      end
 
-      if data.meta['content-disposition'].present?
-        filename = data.meta['content-disposition'].match(/filename=(\"?)(.+)\1/)[2]
+      if response['content-disposition'].present?
+        filename = response['content-disposition'].match(/filename=(\"?)(.+)\1/)[2]
         job.name = job.filename = filename
         job.save
       end
-      File.open(job.path_file, 'wb') { |f| f.write(data) }
+      File.open(job.path_file, 'wb') { |f| f.write(response.body) }
       job.pending!
     else
       retry_job(wait: 10.seconds)
     end
+  rescue
+    job.error_code = 'INVALID_REQUEST'
+    job.save
   end
 end

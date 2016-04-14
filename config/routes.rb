@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  default_url_options host: Rails.application.secrets.domain_name
+
   # Application
   root to: 'visitors#index'
   get 'convert', to: 'visitors#convert', as: 'convert'
@@ -20,6 +22,9 @@ Rails.application.routes.draw do
 
   # Devise
   devise_for :users
+  devise_scope :user do
+    get 'renew_token', to: 'users/registrations#renew_token', as: 'user_renew_token'
+  end
 
   # Grape
   mount API::Root => '/'

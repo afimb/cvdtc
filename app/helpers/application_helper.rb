@@ -20,4 +20,13 @@ module ApplicationHelper
       'ok-sign'
     end
   end
+
+  def get_icon_title(name, count_error=nil)
+    fs_status = if name.to_sym.downcase == :error
+      (count_error > 0 ? 'error' : 'warning')
+    else
+      name
+    end
+    I18n.t("report_results.icons.title.#{fs_status.downcase}_txt", default: fs_status.humanize)
+  end
 end
