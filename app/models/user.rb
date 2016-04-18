@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
   enum role: [:user, :admin]
+  has_many :jobs, dependent: :destroy
+
+  before_destroy :fix_stats_table_user
   after_initialize :set_default_role, if: :new_record?
 
   before_save :ensure_authentication_token
@@ -23,6 +26,10 @@ class User < ActiveRecord::Base
   end
 
   private
+
+  def fix_stats_table_user
+    Stat.where(user_id: self.id).update_all(user_id: nil)
+  end
 
   def generate_authentication_token
     loop do
