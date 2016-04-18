@@ -75,6 +75,16 @@ body > .container {
     }
   }
 }
+
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+  color: #009688;
+  font-weight: bold;
+  background-color: rgba(221, 221, 221, 0.5);
+  border-bottom-right-radius: 0;
+}
+
 .btn:not([class*="btn-"]):hover,
 .btn-default:hover,
 .btn-flat:not(.btn-link):hover,
@@ -82,6 +92,14 @@ body > .container {
 .btn-default.active,
 .btn-flat:not(.btn-link).active {
   background-color: #aaa !important;
+}
+
+.bootstrap-filestyle {
+  margin: 10px 0;
+  label {
+    border: 1px solid #009688;
+    margin-right: 20px !important;
+  }
 }
 
 .cvd-CookiesBlock {

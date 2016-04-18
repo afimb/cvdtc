@@ -23,5 +23,6 @@
         console.log('Oops, unable to copy token');
       }
     });
+    $(":file").filestyle({buttonBefore: true, buttonText: 'Choisir un fichier'});
   });
 })(jQuery);

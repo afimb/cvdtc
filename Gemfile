@@ -90,4 +90,5 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap-material-design', '~> 0.3.0'
   gem 'rails-assets-clipboard', '~> 1.5.5'
   gem 'rails-assets-jquery-highlightRegex', '~> 0.1.2'
+  gem 'rails-assets-bootstrap-filestyle', '~> 1.2.1'
 end

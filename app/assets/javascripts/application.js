@@ -9,4 +9,5 @@
 //= require nprogress-turbolinks
 //= require clipboard
 //= require jquery-highlightRegex
+//= require bootstrap-filestyle
 //= require_tree .
