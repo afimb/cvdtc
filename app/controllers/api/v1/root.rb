@@ -5,10 +5,7 @@ module API
       mount API::V1::Job
 
       add_swagger_documentation(
-        api_version: 'v1',
-        hide_documentation_path: true,
-        hide_format: true,
-        base_path: 'api'
+        base_path: '/api/v1'
       )
     end
   end
