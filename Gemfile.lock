@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/afimb/cvdtc-i18n.git
-  revision: 6f70351b4e414b6a0915a8c297552b746f2658b9
+  revision: 94ea0ddcf981d280043d4cdb33695d61a4db1f5d
   specs:
     cvdtc-i18n (0.1.0)
       i18n
