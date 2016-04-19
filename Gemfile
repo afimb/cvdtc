@@ -19,6 +19,7 @@ gem 'rails_admin', '~> 0.7.0'
 gem 'grape', '~> 0.13.0'
 gem 'grape_logging', '~> 1.1.2'
 gem 'grape-attack', '~> 0.1.1'
+gem 'grape-swagger', '~> 0.20.1'
 gem 'grape-swagger-rails', '~> 0.2.0'
 gem 'sidekiq', '~> 4.0.1'
 gem 'sinatra', '~> 1.4.6', require: nil
