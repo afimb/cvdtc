@@ -1,18 +1,18 @@
 swagger: "2.0"
 info:
   version: 1.0.0
-  title: CVDTC
-  description: A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
+  title: 'Conversion and Validation of Collective Transport data (Formats: GTFS et Neptune)'
+  description: CVDTC - API swagger-2.0 specification
   termsOfService: http://swagger.io/terms/
   contact:
-    name: Swagger API Team
-    email: foo@example.com
-    url: http://madskristensen.net
+    name: Chouette.mobi
+    email: contact@chouette.mobi
+    url: http://www.chouette.mobi/club-utilisateurs/contact-support/
   license:
-    name: MIT
-    url: http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
-host: petstore.swagger.io
-basePath: /api
+    name: CeCILL-B
+    url: https://github.com/afimb/cvdtc/blob/master/LICENCE.md
+host: preview.conversion-validation-donnees-tc.org
+basePath: /api/v1
 schemes:
   - http
 consumes:
@@ -20,112 +20,338 @@ consumes:
 produces:
   - application/json
 paths:
-  /pets:
+  /jobs:
     get:
-      description: |
-        Returns all pets from the system that the user has access to
-        Nam sed condimentum est. Maecenas tempor sagittis sapien, nec rhoncus sem sagittis sit amet. Aenean at gravida augue, ac iaculis sem. Curabitur odio lorem, ornare eget elementum nec, cursus id lectus. Duis mi turpis, pulvinar ac eros ac, tincidunt varius justo. In hac habitasse platea dictumst. Integer at adipiscing ante, a sagittis ligula. Aenean pharetra tempor ante molestie imperdiet. Vivamus id aliquam diam. Cras quis velit non tortor eleifend sagittis. Praesent at enim pharetra urna volutpat venenatis eget eget mauris. In eleifend fermentum facilisis. Praesent enim enim, gravida ac sodales sed, placerat id erat. Suspendisse lacus dolor, consectetur non augue vel, vehicula interdum libero. Morbi euismod sagittis libero sed lacinia.
-        Sed tempus felis lobortis leo pulvinar rutrum. Nam mattis velit nisl, eu condimentum ligula luctus nec. Phasellus semper velit eget aliquet faucibus. In a mattis elit. Phasellus vel urna viverra, condimentum lorem id, rhoncus nibh. Ut pellentesque posuere elementum. Sed a varius odio. Morbi rhoncus ligula libero, vel eleifend nunc tristique vitae. Fusce et sem dui. Aenean nec scelerisque tortor. Fusce malesuada accumsan magna vel tempus. Quisque mollis felis eu dolor tristique, sit amet auctor felis gravida. Sed libero lorem, molestie sed nisl in, accumsan tempor nisi. Fusce sollicitudin massa ut lacinia mattis. Sed vel eleifend lorem. Pellentesque vitae felis pretium, pulvinar elit eu, euismod sapien.
-      operationId: findPets
-      parameters:
-        - name: tags
-          in: query
-          description: tags to filter by
-          required: false
-          type: array
-          collectionFormat: csv
-          items:
-            type: string
-        - name: limit
-          in: query
-          description: maximum number of results to return
-          required: false
-          type: integer
-          format: int32
+      description: Jobs histories
+      operationId: findJobs
       responses:
         200:
-          description: pet response
+          description: jobs response
           schema:
             type: array
             items:
-              $ref: '#/definitions/Pet'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
+              $ref: '#/definitions/Job'
+  /jobs/url:
     post:
-      description: Creates a new pet in the store.  Duplicates are allowed
-      operationId: addPet
+      description: Create new job with URL
+      operationId: addJobUrl
       parameters:
-        - name: pet
+        - name: job
           in: body
-          description: Pet to add to the store
+          description: Job to add
           required: true
           schema:
-            $ref: '#/definitions/NewPet'
+            $ref: '#/definitions/NewJobUrl'
       responses:
         200:
-          description: pet response
+          description: job response
           schema:
-            $ref: '#/definitions/Pet'
-        default:
-          description: unexpected error
+            $ref: '#/definitions/Job'
+  /jobs/file:
+    post:
+      description: Create new job with FILE
+      operationId: addJobFile
+      parameters:
+        - name: job
+          in: body
+          description: Job to add
+          required: true
           schema:
-            $ref: '#/definitions/Error'
-  /pets/{id}:
+            $ref: '#/definitions/NewJobFile'
+      responses:
+        200:
+          description: job response
+          schema:
+            $ref: '#/definitions/Job'
+  /jobs/{id}:
     get:
-      description: Returns a user based on a single ID, if the user does not have access to the pet
-      operationId: find pet by id
+      description: Return job based on ID
+      operationId: getJob
       parameters:
         - name: id
           in: path
-          description: ID of pet to fetch
+          description: ID of job to fetch
           required: true
           type: integer
-          format: int64
       responses:
         200:
-          description: pet response
+          description: job response
           schema:
-            $ref: '#/definitions/Pet'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/Job'
+        404:
+          description: job not found
     delete:
-      description: deletes a single pet based on the ID supplied
-      operationId: deletePet
+      description: deletes a single job based on the ID supplied
+      operationId: deleteJob
       parameters:
         - name: id
           in: path
-          description: ID of pet to delete
+          description: ID of job to delete
           required: true
           type: integer
-          format: int64
       responses:
         204:
-          description: pet deleted
-        default:
-          description: unexpected error
+          description: job deleted
+        404:
+          description: job not found
+  /jobs/{id}/progress:
+    get:
+      description: Return progress steps of processing job
+      operationId: progressJob
+      parameters:
+        - name: id
+          in: path
+          description: ID of job
+          required: true
+          type: integer
+      responses:
+        200:
+          description: progress response
           schema:
-            $ref: '#/definitions/Error'
+            properties:
+              current_step:
+                type: integer
+              steps_count:
+                type: integer
+              current_step_realized:
+                type: integer
+              current_step_total:
+                type: integer
+              steps_percent:
+                type: number
+                minimum: 0
+                format: float
+              current_step_percent:
+                type: number
+                minimum: 0
+                format: float
+        404:
+          description: job not found
+  /jobs/{id}/status:
+    get:
+      description: Get status of a job
+      operationId: statusJob
+      parameters:
+        - name: id
+          in: path
+          description: ID of job
+          required: true
+          type: integer
+      responses:
+        200:
+          description: job status
+          schema:
+            type: string
+            enum:
+              - waiting
+              - pending
+              - scheduled
+              - terminated
+              - canceled
+        404:
+          description: job not found
+  /jobs/{id}/result_report:
+    get:
+      description: Get result of a validation job
+      operationId: resultValidationJob
+      parameters:
+        - name: id
+          in: path
+          description: ID of job
+          required: true
+          type: integer
+      responses:
+        200:
+          description: job result validation
+          schema:
+            type: string
+            enum:
+              - ok
+              - error
+        404:
+          description: job not found
+  /jobs/{id}/action_report:
+    get:
+      description: Get action report of a job
+      operationId: actionReportJob
+      parameters:
+        - name: id
+          in: path
+          description: ID of job
+          required: true
+          type: integer
+      responses:
+        200:
+          description: job action report
+          schema:
+            $ref: '#/definitions/ActionReport'
+        404:
+          description: job not found
+  /jobs/{id}/validation_report:
+    get:
+      description: Get validation report of a job
+      operationId: validationReportJob
+      parameters:
+        - name: id
+          in: path
+          description: ID of job
+          required: true
+          type: integer
+      responses:
+        200:
+          description: job validation report
+          schema:
+            $ref: '#/definitions/ValidationReport'
+        404:
+          description: job not found
+  /jobs/{id}/cancel:
+    get:
+      description: Cancel a running job
+      operationId: cancelJob
+      parameters:
+        - name: id
+          in: path
+          description: ID of job to cancel
+          required: true
+          type: integer
+      responses:
+        204:
+          description: job canceled
+        404:
+          description: job not found
+  /jobs/{id}/download:
+    get:
+      description: Download result of a job. CSV file on validation or Converted zip on conversion
+      operationId: downloadJob
+      parameters:
+        - name: id
+          in: path
+          description: ID of job to fetch
+          required: true
+          type: integer
+      responses:
+        200:
+          description: File (CSV or ZIP)
+          schema:
+            type: file
+        404:
+          description: job not found
 definitions:
-  Pet:
+  Job:
+    required:
+      - id
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      format:
+        type: string
+      format_convert:
+        type: string
+      status:
+        type: string
+      object_id_prefix:
+        type: string
+      time_zone:
+        type: string
+      max_distance_for_commercial:
+        type: integer
+      ignore_last_word:
+        type: boolean
+      ignore_end_chars:
+        type: integer
+      max_distance_for_connection_link:
+        type: integer
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+      short_url:
+        type: string
+      error_code:
+        type: string
+      file_size:
+        type: number
+        minimum: 0
+        format: float
+      filename:
+        type: string
+  NewJobUrl:
     allOf:
-      - $ref: '#/definitions/NewPet'
+      - $ref: '#/definitions/NewJob'
       - required:
-        - id
+        - url
         properties:
-          id:
-            type: integer
-            format: int64
-  NewPet:
+          url:
+            type: string
+  NewJobFile:
+    allOf:
+      - $ref: '#/definitions/NewJob'
+      - required:
+        - file
+        properties:
+          file:
+            type: string
+  NewJob:
     required:
       - name
+      - format
     properties:
       name:
         type: string
-      tag:
+      status:
+        type: integer
+        minimum: 0
+        maximum: 4
+      format:
+        type: integer
+        enum:
+          - 0
+          - 1
+      format_convert:
+        type: integer
+        enum:
+          - 0
+          - 1
+      object_id_prefix:
+        type: string
+      time_zone:
+        type: string
+      max_distance_for_commercial:
+        type: integer
+        minimum: 0
+      ignore_last_word:
+        type: boolean
+      ignore_end_chars:
+        type: integer
+        minimum: 0
+      max_distance_for_connection_link:
+        type: integer
+        minimum: 0
+  ActionReport:
+    properties:
+      report:
+        type: string
+      result:
+        type: string
+      lines:
+        type: string
+      lines_ok:
+        type: integer
+      lines_nok:
+        type: integer
+      files:
+        type: string
+      files_ok:
+        type: integer
+      files_nok:
+        type: integer
+  ValidationReport:
+    properties:
+      validation_report:
         type: string
   Error:
     required:
@@ -134,6 +360,5 @@ definitions:
     properties:
       code:
         type: integer
-        format: int32
       message:
         type: string
