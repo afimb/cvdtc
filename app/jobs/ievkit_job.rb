@@ -39,7 +39,7 @@ class IevkitJob < ActiveJob::Base
       @job.save
       Stat.create(format: @job.format, format_convert: @job.format_convert, user: @job.user, info: @job.name, file_size: @job.file_size)
     else
-      retry_job(wait: 10.seconds)
+      retry_job(wait: 10.seconds) if Job.where(id: args[:id]).any?
     end
   end
 end

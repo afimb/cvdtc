@@ -19,7 +19,7 @@ class UrlJob < ActiveJob::Base
       File.open(job.path_file, 'wb') { |f| f.write(response.body) }
       job.pending!
     else
-      retry_job(wait: 10.seconds)
+      retry_job(wait: 10.seconds) if Job.where(id: job_id.to_i).any?
     end
   rescue
     job.error_code = 'INVALID_REQUEST'
