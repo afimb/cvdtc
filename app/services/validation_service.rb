@@ -227,7 +227,7 @@ class ValidationService
         filenames_sorted[f[:status].to_s.downcase.to_sym] << f
       end
       @filenames = []
-      filenames_sorted.map{ |key, value| @filenames << value }
+      filenames_sorted.map{ |_key, value| @filenames << value }
       @filenames.flatten!
     end
     if @lines.present?

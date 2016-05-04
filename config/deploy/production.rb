@@ -1,11 +1,5 @@
 set :stage, :production
-set :branch do
-  default_tag = `git tag`.split("\n").last
-
-  tag = Capistrano::CLI.ui.ask "Tag to deploy (make sure to push the tag first): [#{default_tag}] "
-  tag = default_tag if tag.empty?
-  tag
-end
+set :branch, ENV['TAG']
 
 set :full_app_name, "#{fetch(:application)}_#{fetch(:stage)}"
 
@@ -24,7 +18,7 @@ set :full_app_name, "#{fetch(:application)}_#{fetch(:stage)}"
 # definition into the server list. The second argument
 # something that quacks like a hash can be used to set
 # extended properties on the server.
-server 'transit-validator-marseille.aix.cityway.fr', user: 'deploy', roles: %w(app web db), primary: true
+server Figaro.env.URL_DEPLOY_PRODUCTION, user: Figaro.env.USER_DEPLOY, roles: %w(app web db), primary: true
 
 set :deploy_to, "/home/#{fetch(:deploy_user)}/apps/#{fetch(:full_app_name)}"
 set :rails_env, :production

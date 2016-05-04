@@ -18,7 +18,7 @@ set :full_app_name, "#{fetch(:application)}_#{fetch(:stage)}"
 # definition into the server list. The second argument
 # something that quacks like a hash can be used to set
 # extended properties on the server.
-server 'transit-validator-int.aix.cityway.fr', user: 'deploy', roles: %w(app web db), primary: true
+server ENV['URL_DEPLOY_STAGING'], user: ENV['USER_DEPLOY'], roles: %w(app web db), primary: true
 
 set :deploy_to, "/home/#{fetch(:deploy_user)}/apps/#{fetch(:full_app_name)}"
 set :rails_env, :staging
