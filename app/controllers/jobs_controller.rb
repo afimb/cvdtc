@@ -86,7 +86,7 @@ class JobsController < ApplicationController
   def job
     @job = Job.find(params[:id])
     @current_menu = @job.convert_job? ? :convert : :validate
-  rescue => e
+  rescue => _e
     flash[:notice] = 'Ce rapport de validation n\'existe plus'
     redirect_to root_path
   end
