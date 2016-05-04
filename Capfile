@@ -1,3 +1,7 @@
+require 'figaro'
+Figaro.application = Figaro::Application.new(path: 'config/application.yml')
+Figaro.load
+
 # Load DSL and Setup Up Stages
 require 'capistrano/setup'
 
