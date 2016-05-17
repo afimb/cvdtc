@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/afimb/chouette-projects-i18n.git
+  revision: 9c8e882b3dcafff702ff1e8a03b6e821c9c489be
+  specs:
+    chouette-projects-i18n (0.1.0)
+      i18n
+      railties
+
+GIT
   remote: https://github.com/afimb/cvdtc-i18n.git
   revision: 94ea0ddcf981d280043d4cdb33695d61a4db1f5d
   specs:
@@ -500,6 +508,7 @@ DEPENDENCIES
   capistrano-rbenv (~> 2.0.4)
   capistrano-sidekiq (~> 0.5.4)
   capybara
+  chouette-projects-i18n!
   coffee-rails (~> 4.1.0)
   cvdtc-i18n!
   database_cleaner
@@ -564,5 +573,8 @@ DEPENDENCIES
   uglifier (~> 2.7.2)
   web-console (~> 2.0)
 
+RUBY VERSION
+   ruby 2.3.1p112
+
 BUNDLED WITH
-   1.11.2
+   1.12.1
