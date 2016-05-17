@@ -127,7 +127,7 @@ class ValidationService
   end
 
   def csv_headers
-    if @default_view == :files
+    if @default_view.to_sym == :files
       ['Statut', 'Fichier', 'Ligne/Colonne', 'Code', 'Contrôle', 'Détail de l\'erreur']
     else
       ['Statut', 'Ligne', 'Fichier', 'Ligne/Colonne', 'Code', 'Contrôle', 'Détail de l\'erreur']
@@ -148,8 +148,8 @@ class ValidationService
     #           filename[:name],
     #           get_line_column(report),
     #           report.test_id,
-    #           I18n.t("validation_report.details.#{report.test_id}"),
-    #           I18n.t("validation_report.details.detail_#{report.error_id}", report.to_h)
+    #           I18n.t("compliance_check_results.details.#{report.test_id}"),
+    #           I18n.t("compliance_check_results.details.detail_#{report.error_id}", report.to_h)
     #       ]
     #     end
     #   end
@@ -161,8 +161,8 @@ class ValidationService
     #         '',
     #         '',
     #         report.test_id,
-    #         I18n.t("validation_report.details.#{report.test_id}"),
-    #         I18n.t("validation_report.details.detail_#{report.error_id}", report.to_h)
+    #         I18n.t("compliance_check_results.details.#{report.test_id}"),
+    #         I18n.t("compliance_check_results.details.detail_#{report.error_id}", report.to_h)
     #     ]
     #   end
     # end
@@ -171,16 +171,24 @@ class ValidationService
   def csv_body_files
     @filenames.each do |filename|
       reports2 = reports.select{ |r| r.filename == filename[:name] }
-      reports2.each_with_index do |report, index|
-        break if index > 10
-        yield [
-            (filename[:status] ? I18n.t("compliance_check_results.severities.#{filename[:status].downcase}_txt") : ''),
-            filename[:name],
-            get_line_column(report),
-            report.test_id,
-            I18n.t("validation_report.details.#{report.test_id}"),
-            I18n.t("validation_report.details.detail_#{report.error_id}", report.to_h)
-        ]
+      if reports2.present?
+        reports2.each_with_index do |report, index|
+          status = I18n.t("compliance_check_results.severities.#{filename[:status] ? filename[:status].downcase : 'none'}_txt")
+          if index > 9
+            yield ["...#{reports2.count - 10} de plus", filename[:name]]
+            break
+          end
+          yield [
+              status,
+              filename[:name],
+              get_line_column(report),
+              report.test_id,
+              I18n.t("compliance_check_results.details.#{report.test_id}"),
+              I18n.t("compliance_check_results.details.detail_#{report.error_id}", report.to_h)
+          ]
+        end
+      else
+        yield [I18n.t('compliance_check_results.severities.ok_txt'), filename[:name]]
       end
     end
   end
