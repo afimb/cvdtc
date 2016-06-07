@@ -35,9 +35,7 @@ gem 'devise-i18n', '~> 0.12.1'
 gem 'devise-i18n-views', '~> 0.3.7'
 gem 'kaminari-i18n', '~> 0.3.2'
 gem 'cvdtc-i18n', git: 'https://github.com/afimb/cvdtc-i18n.git'
-# gem 'cvdtc-i18n', path: '../cvdtc-i18n', branch: :master
 gem 'chouette-projects-i18n', git: 'https://github.com/afimb/chouette-projects-i18n.git'
-# gem 'chouette-projects-i18n', path: '../chouette-projects-i18n', branch: :master
 
 group :production, :staging do
   gem 'newrelic_rpm'
