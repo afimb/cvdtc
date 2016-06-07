@@ -174,10 +174,6 @@ class ValidationService
       if reports2.present?
         reports2.each_with_index do |report, index|
           status = I18n.t("compliance_check_results.severities.#{filename[:status] ? filename[:status].downcase : 'none'}_txt")
-          if index > 9
-            yield ["...#{reports2.count - 10} de plus", filename[:name]]
-            break
-          end
           yield [
               status,
               filename[:name],
