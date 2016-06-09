@@ -198,6 +198,10 @@ class Job < ActiveRecord::Base
     {}.tap{ |hash| attrs.map{ |attr| hash[attr] = send(attr) } }
   end
 
+  def parameters
+    self[:parameters].is_a?(Hash) ? self[:parameters].symbolize_keys! : {}
+  end
+
   protected
 
   def load_ievkit

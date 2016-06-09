@@ -74,7 +74,6 @@ group :development do
   gem 'spring-commands-rspec'
   gem 'letter_opener'
   gem 'bundler-audit'
-  gem 'localeapp'
 end
 group :test do
   gem 'capybara'
