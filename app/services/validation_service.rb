@@ -88,7 +88,7 @@ class ValidationService
       count = @report_dup.to_h.count do |_key, value|
         @search.count { |search_value| value.to_s.downcase =~ /#{search_value}/i } > 0
       end
-      return count == @search.count
+      return count > 0 ? true : false
     end
     true
   end
