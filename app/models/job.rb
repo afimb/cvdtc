@@ -34,7 +34,9 @@ class Job < ActiveRecord::Base
   scope :find_pending, ->(id) { where(id: id, status: Job.statuses[:pending]).limit(1) }
   scope :find_with_id_and_user, ->(id, user_id) { where('id = ? AND (user_id IS NULL OR user_id = ?)', id, user_id) }
 
-  attr_reader :all_links
+  attr_reader :all_links, :result
+  attr_accessor :search
+
   after_initialize :load_ievkit
   before_save :set_file_size
 
@@ -92,6 +94,10 @@ class Job < ActiveRecord::Base
     end
   end
 
+  def result
+    IevkitViews::ActionReport.new(referential, @all_links[:action_report], 'action_report').result
+  end
+
   def progress_steps
     datas = {}
     return { error_code: I18n.t("iev.errors.#{error_code.downcase}", default: error_code.downcase.humanize) } if error_code.present?
@@ -99,19 +105,52 @@ class Job < ActiveRecord::Base
     if @all_links[:action_report].blank?
       update_links
     else
-      report = action_report
-      if report && report[:report] && report[:report]['action_report'] && report[:report]['action_report']['progression']
-        report = report[:report]['action_report']['progression']
-        index_current_step = report['current_step'].to_i - 1
-        datas[:current_step] = report['current_step'].to_i
-        datas[:steps_count] = report['steps_count'].to_i
-        datas[:current_step_realized] = report['steps'][index_current_step]['realized'].to_i
-        datas[:current_step_total] = report['steps'][index_current_step]['total'].to_i
-        datas[:steps_percent] = datas[:current_step].percent_of(datas[:steps_count]).round(2)
-        datas[:current_step_percent] = datas[:current_step_realized].percent_of(datas[:current_step_total]).round(2)
-      end
+      ievkit_views = IevkitViews::ActionReport.new(referential, @all_links[:action_report], 'action_report')
+      ievkit_views.progression
+      datas = ievkit_views.datas
     end
     datas
+  end
+
+  def files_views(_type = nil)
+    report = IevkitViews::ActionReport.new(referential, @all_links[:action_report], 'action_report', @all_links[:validation_report], search)
+    [
+      report.result,
+      report.search_for(report.files),
+      report.sum_report(report.files),
+      report.errors
+    ]
+  end
+
+  def transport_datas_views(type = nil)
+    report = IevkitViews::ActionReport.new(referential, @all_links[:action_report], 'action_report', @all_links[:validation_report], search)
+    if type
+      datas = []
+      datas << report.collections('line') if type == 'line'
+      datas << report.objects(type) if type != 'line'
+    else
+      datas = [
+        report.collections('line'),
+        report.objects
+      ]
+    end
+    files = report.sort_datas(datas)
+    [
+      report.result,
+      report.search_for(files),
+      report.sum_report(files),
+      report.errors
+    ]
+  end
+
+  def tests_views(_type = nil)
+    report = IevkitViews::ValidationReport.new(referential, @all_links[:validation_report], 'validation_report', @all_links[:validation_report], search)
+    [
+      report.result,
+      report.search_for(report.check_points),
+      report.sum_report(report.check_points),
+      report.errors
+    ]
   end
 
   def result_action_report
@@ -120,22 +159,22 @@ class Job < ActiveRecord::Base
     report['action_report']['result'].downcase
   end
 
-  def action_report
-    report = @ievkit.get_job(@all_links[:action_report])
-    return unless report
-    files = report['action_report']['files']
-    lines = report['action_report']['lines']
-    {
-        report: report,
-        result: report['action_report']['result'].downcase,
-        lines: lines,
-        lines_ok: (lines ? lines.count { |line| line['status'] == 'OK' } : 0),
-        lines_nok: (lines ? lines.count { |line| line['status'] != 'OK' } : 0),
-        files: files,
-        files_ok: (files ? files.count { |file| file['status'] == 'OK' } : 0),
-        files_nok: (files ? files.count { |file| file['status'] != 'OK' } : 0)
-    }
-  end
+  # def action_report
+  #   report = @ievkit.get_job(@all_links[:action_report])
+  #   return unless report
+  #   files = report['action_report']['files']
+  #   lines = report['action_report']['lines']
+  #   {
+  #       report: report,
+  #       result: report['action_report']['result']&.downcase,
+  #       lines: lines,
+  #       lines_ok: (lines ? lines.count { |line| line['status'] == 'OK' } : 0),
+  #       lines_nok: (lines ? lines.count { |line| line['status'] != 'OK' } : 0),
+  #       files: files,
+  #       files_ok: (files ? files.count { |file| file['status'] == 'OK' } : 0),
+  #       files_nok: (files ? files.count { |file| file['status'] != 'OK' } : 0)
+  #   }
+  # end
 
   def validation_report
     @ievkit.get_job(@all_links[:validation_report])
@@ -147,9 +186,31 @@ class Job < ActiveRecord::Base
   end
 
   def download_validation_report(default_view)
-    validation_report_service = ValidationService.new(validation_report, action_report)
-    validation_report_service.default_view = default_view
-    [validation_report_service.to_csv, filename: "#{name.parameterize}-#{id}-#{Time.current.to_i}.csv"]
+    result, datas, errors = send("#{default_view}_views")
+    csv = []
+    datas.each do |el|
+      t = [el[:name], I18n.t("compliance_check_results.severities.#{el[:status]}"), el[:count_error], el[:count_warning]]
+      csv << t.join(';')
+      next unless el[:check_point_errors]
+      el[:check_point_errors].each do |index|
+        error = errors[index]
+        next unless error
+        t = ['']
+        if error[:source][:file] && error[:source][:file][:filename]
+          filename = [error[:source][:file][:filename]]
+          if error[:source][:file][:line_number].to_i > 0
+            filename << "#{I18n.t('report.file.line')} #{error[:source][:file][:line_number]}"
+          end
+          if error[:source][:file][:column_number].to_i > 0
+            filename << "#{I18n.t('report.file.column')} #{error[:source][:file][:column_number]}"
+          end
+          t << filename.join(' ')
+        end
+        t << error[:error_name]
+        csv << t.join(';')
+      end
+    end
+    [csv.join("\n"), filename: "#{name.parameterize}-#{id}-#{Time.current.to_i}.csv"]
   end
 
   def download_conversion

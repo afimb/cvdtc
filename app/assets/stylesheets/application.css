@@ -3,6 +3,7 @@
  *= require bootstrap-material-design
  *= require nprogress
  *= require nprogress-bootstrap
+ *= require ievkit_views/application
  *= require sprites
  *= require layout
  *= require job

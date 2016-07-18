@@ -4,17 +4,22 @@
   http://appli.chouette.mobi/chouette2/help/parametersets
   http://www.chouette.mobi/validation/V2_3/fr/index_t3.html
   http://www.chouette.mobi/validation/V2_3/fr/index_t4.html
+
+
+  inter_stop_area_distance_min: 20,
+  parent_stop_area_distance_max: 350,
+  inter_access_point_distance_min: 20,
+  inter_connection_link_distance_max: 800,
+  walk_default_speed_max: 5,
+  walk_occasional_traveller_speed_max: 4,
+  walk_frequent_traveller_speed_max: 6,
+  walk_mobility_restricted_traveller_speed_max: 2,
+  inter_access_link_distance_max: 300,
+  facility_stop_area_distance_max: 300,
 -->
 
-<h1>Paramètres de validation</h1>
+<h1>Paramètres des tests de contrôle qualité</h1>
 
-<h2>Jeux de paramètres de validation</h2>
-
-<h3>Définition</h3>
-<p><span class="caps">CVDTC</span> intègre un outil de validation de la base de données qui permet de détecter les erreurs les plus grossières qui auraient pu être laissée dans la base de données. Un ensemble de tests est disponible mais il n’est pas obligatoire de les passer tous. L’utilisateur peut créer son propre jeu de tests au travers d’un <em>“jeu de paramètres”</em> dans le menu validation.</p>
-<p>Les paramètres de tests peuvent donc être choisis afin d’adapter les tests à la réalité du terrain.</p>
-<p>Afin de rejouer facilement les tests dans différent contextes, il est possible de définir plusieurs jeux qui sont conservés indépendamment des validations.</p>
-<p>Un jeu de paramètre est proposé par défaut à la création du référentiel; celui-ci peut être modifié ou détruit; il n’est alors pas possible de le recréer.</p>
 <h3>Paramètres généraux</h3>
 <ul>
   <li>
@@ -47,8 +52,8 @@
 </ul>
 <p><strong>Distance minimum entre :</strong> (en mètres)</p>
 <ul>
-  <li>2 arrêts n’ayant pas le même parent := distance en deçà de laquelle 2 arrêts devraient être regroupés dans la même zone</li>
-  <li>2 accès de noms différents pour un même arrêt := distance en deçà de laquelle 2 accès d’un même arrêt devraient en être qu’un</li>
+  <li>2 arrêts n’ayant pas le même parent : distance en deçà de laquelle 2 arrêts devraient être regroupés dans la même zone</li>
+  <li>2 accès de noms différents pour un même arrêt : distance en deçà de laquelle 2 accès d’un même arrêt devraient en être qu’un</li>
 </ul>
 <p><strong>Distance maximum entre :</strong> (en mètres)</p>
 <ul>
@@ -57,8 +62,10 @@
   <li>liaison accès – arrêt : distance au delà de laquelle l’accès à un arrêt ne devrait pas être possible</li>
   <li>un arrêt et un équipement : distance au delà de laquelle un équipement ne devrait pas être rattaché à un arrêt</li>
 </ul>
-<p><strong>Vitesse de marche maximum d’un voyageur :</strong> (en kilomètres/heure)<br>
-  vitesse maximale admise dans les correspondances et les liaisons arrêt – accès pour :</p>
+<p>
+  <strong>Vitesse de marche maximum d’un voyageur :</strong> (en kilomètres/heure)<br>
+  vitesse maximale admise dans les correspondances et les liaisons arrêt – accès pour :
+</p>
 <ul>
   <li>un voyageur ordinaire : voyageur qui a un connaissance théorique du réseau</li>
   <li>un voyageur occasionnel : voyageur qui ne connaît pas le réseau</li>
