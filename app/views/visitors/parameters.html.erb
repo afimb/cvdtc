@@ -1,0 +1,86 @@
+<% content_for :title do %>Liste des paramètres de validation<% end %>
+
+<!--
+  http://appli.chouette.mobi/chouette2/help/parametersets
+  http://www.chouette.mobi/validation/V2_3/fr/index_t3.html
+  http://www.chouette.mobi/validation/V2_3/fr/index_t4.html
+
+
+  inter_stop_area_distance_min: 20,
+  parent_stop_area_distance_max: 350,
+  inter_access_point_distance_min: 20,
+  inter_connection_link_distance_max: 800,
+  walk_default_speed_max: 5,
+  walk_occasional_traveller_speed_max: 4,
+  walk_frequent_traveller_speed_max: 6,
+  walk_mobility_restricted_traveller_speed_max: 2,
+  inter_access_link_distance_max: 300,
+  facility_stop_area_distance_max: 300,
+-->
+
+<h1>Paramètres des tests de contrôle qualité</h1>
+
+<h3>Paramètres généraux</h3>
+<ul>
+  <li>
+    Nom : Nom du jeu de données (nom utilisé pour sa sélection dans les imports et validations)
+  </li>
+  <li>
+    Délimitation géographique des arrêts : Emprise géographique du réseau (tous les arrêts testés devront être inclus dans cette zone). Le format de ce champs est un ensemble de points formant une polyligne fermée:[[longitude1,latitude1],[longitude2,latitude2],,,[longitudeN,latitudeN],[longitude1,latitude1]], Les longitudes et latitudes sont exprimées en degré, décimaux positifs à l’est et au nord. Il s’agit du format WGS84 normé également utilisé dans googlemaps ou open street map.
+    <ul>
+      <li>
+        <b>stop_areas_area : </b>
+        <ul>
+          <li><a href="">3-StopArea-4</a>	Géolocalisation des arrêts dans un polygone de contrôle</li>
+          <li>Valeur par défaut : <%= ParametersService.param_value(:stop_areas_area) %></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    Durée maximum de stationnement à un arrêt (en secondes) := écart de temps maximal autorisé entre l’heure d’arrivée et l’heure de départ à un arrêt
+    <ul>
+      <li>
+        <b>inter_stop_duration_max : </b>
+        <ul>
+          <li><a href="">3-VehicleJourney-1</a>	La durée d’attente à un arrêt ne doit pas être trop grande</li>
+          <li>Valeur par défaut : <%= ParametersService.param_value(:inter_stop_duration_max) %></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<p><strong>Distance minimum entre :</strong> (en mètres)</p>
+<ul>
+  <li>2 arrêts n’ayant pas le même parent : distance en deçà de laquelle 2 arrêts devraient être regroupés dans la même zone</li>
+  <li>2 accès de noms différents pour un même arrêt : distance en deçà de laquelle 2 accès d’un même arrêt devraient en être qu’un</li>
+</ul>
+<p><strong>Distance maximum entre :</strong> (en mètres)</p>
+<ul>
+  <li>un arrêt et son parent : distance au delà de laquelle un arrêt ne devrait pas être rattaché à une zone</li>
+  <li>les arrêts en correspondance : distance au delà de laquelle la correspondance entre 2 arrêts ne devraient pas être possible</li>
+  <li>liaison accès – arrêt : distance au delà de laquelle l’accès à un arrêt ne devrait pas être possible</li>
+  <li>un arrêt et un équipement : distance au delà de laquelle un équipement ne devrait pas être rattaché à un arrêt</li>
+</ul>
+<p>
+  <strong>Vitesse de marche maximum d’un voyageur :</strong> (en kilomètres/heure)<br>
+  vitesse maximale admise dans les correspondances et les liaisons arrêt – accès pour :
+</p>
+<ul>
+  <li>un voyageur ordinaire : voyageur qui a un connaissance théorique du réseau</li>
+  <li>un voyageur occasionnel : voyageur qui ne connaît pas le réseau</li>
+  <li>un voyageur habituel : voyageur qui connaît bien le réseau</li>
+  <li>un voyageur à mobilité réduite : voyageur qui a des difficultés de déplacement</li>
+</ul>
+<h3>Paramètres par mode de transport.</h3>
+<p>les paramètres suivants sont à définir pour chaque mode de transport disponible dans le réseau à tester.</p>
+<ul>
+  <li>Distance minimum entre 2 arrêts (en mètres) : distance minimale de parcours d’un véhicule entre 2 arrêts.</li>
+  <li>Distance maximum entre 2 arrêts (en mètres) : distance maximale de parcours d’un véhicule entre 2 arrêts.</li>
+  <li>Vitesse minimum (en kilomètres/heure) : vitesse minimale attendue entre 2 arrêts d’une course</li>
+  <li>Vitesse maximum (en kilomètres/heure) : vitesse maximale attendue entre 2 arrêts d’une course</li>
+  <li>Écart maximum de durée de trajet entre 2 arrêts successifs pour les différentes courses (en secondes) : la différence de temps de trajet entre 2 arrêts successifs de 2 courses d’une même mission ne doit pas dépasser ce seuil =:</li>
+</ul>
+<h3>Remarques</h3>
+<p>Les distances sont calculées <em>à vol d’oiseau</em> et les vitesses sont déterminées par rapport à ces distances.<br>
+  Les résultats des tests utilisant ces valeurs sont donc à prendre avec les réserves adéquates.</p>

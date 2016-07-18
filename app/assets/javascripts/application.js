@@ -7,6 +7,7 @@
 //= require bootstrap-material-design
 //= require nprogress
 //= require nprogress-turbolinks
+//= require ievkit_views/application
 //= require clipboard
 //= require jquery-highlightRegex
 //= require bootstrap-filestyle

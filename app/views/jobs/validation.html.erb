@@ -2,35 +2,26 @@
   <div class="row">
     <div class="col-sm-12 cvd-ReportBlock-header">
       <h1><%= @job.name %> - <%= @job.format.upcase %></h1>
-      <h2><%= t('report.validation_ended_at') %> <%= l(@job.updated_at, format: :long) %></h2>
-      <p>Durée de traitement : <%= job_time(@job) %> - Taille du fichier <%= @job.file_size %>Mo</p>
-      <% if @action_report && @elements_to_paginate.any? %>
-        <span class="pull-right">
-          <span class="cvd-SpritesBlock cvd-SpritesBlock-stamp cvd-SpritesBlock-stamp-<%= @job.format.downcase %>-<%= @action_report[:result] == 'ok' ? 'ok' : 'nok' %>"><span><%= @action_report[:result] == 'ok' ? 'Approuvé' : 'Refusé' %></span></span>
-        </span>
-      <% end %>
+      <h2><%= t('report.validation_ended_at') %></h2>
+      <p>
+        Traitement terminé le : <%= l(@job.updated_at, format: :long) %> -
+        Durée de traitement : <%= job_time(@job) %> -
+        Taille du fichier : <%= @job.file_size %>Mo
+      </p>
     </div>
   </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <%= render 'report_links' %>
-    </div>
-  </div>
-  <% if @elements_to_paginate.any? %>
+  <%= render 'ievkit_views/report', { current_page: validation_job_path(@job) } %>
+  <% if @job.mine?(current_user) %>
     <div class="row">
-      <div class="col-sm-3">
-        <%= render 'report_badges' %>
+      <div class="col-sm-12">
+        <div class="btn-group pull-right" role="group">
+          <%=
+            link_to destroy_job_path(@job), class: 'btn btn-primary', 'data-confirm': t('job.destroy.confirm'), 'data-method': :delete do
+              t('report.delete')
+            end
+          %>
+        </div>
       </div>
     </div>
   <% end %>
-  <div class="row">
-    <div class="col-sm-12">
-      <%= render 'report_filters' %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <%= render 'report_results' %>
-    </div>
-  </div>
 </div>

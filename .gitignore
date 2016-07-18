@@ -86,9 +86,6 @@ pickle-email-*.html
 # Ignore application configuration
 /config/application.yml
 
-.localeapp
-/config/initializers/localeapp.rb
-
 /public/uploads/*
 
 !.keep
