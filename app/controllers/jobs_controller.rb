@@ -1,4 +1,6 @@
 class JobsController < ApplicationController
+  helper IevkitViews::Engine.helpers
+
   before_action :authenticate_user!, only: [:index, :destroy]
   before_action :job, only: [:show, :progress, :short_url, :status, :validation, :convert, :download_validation, :download_convert]
 
@@ -32,28 +34,21 @@ class JobsController < ApplicationController
   end
 
   def validation
+    # TODO - Faire une classe services pour toutes les vars
+    @transport_datas_selected = params[:type]
     @default_view = params[:default_view] ? params[:default_view].to_sym : :files
-    @action_report = @job.action_report
-    @validation_report = ValidationService.new(@job.validation_report, @action_report, params[:q])
-    if @default_view == :files
-      @elements_to_paginate = @filenames = Kaminari.paginate_array(@validation_report.filenames).page(params[:page]).per(ENV['NUMBER_RESULTS_PER_PAGE'])
-      @lines = @validation_report.lines
-      @total_elements = @validation_report.filenames.count
-    else
-      @elements_to_paginate = @lines = Kaminari.paginate_array(@validation_report.lines).page(params[:page]).per(ENV['NUMBER_RESULTS_PER_PAGE'])
-      @filenames = @validation_report.filenames
-      @total_elements = @validation_report.lines.count
-    end
-    @tests = @validation_report.tests
-    @search = @validation_report.search
+    @result, @datas, @sum_report, @errors = @job.send("#{@default_view}_views", @transport_datas_selected)
+    @elements_to_paginate = Kaminari.paginate_array(@datas)
+                                    .page(params[:page])
+                                    .per(ENV['NUMBER_RESULTS_PER_PAGE'])
   end
 
   def convert; end
 
-  def download
-    datas, args = @job.download_result(params[:default_view])
-    send_data datas, args
-  end
+  # def download
+  #   datas, args = @job.download_result(params[:default_view])
+  #   send_data datas, args
+  # end
 
   def download_validation
     datas, args = @job.download_validation_report(params[:default_view])
@@ -85,6 +80,7 @@ class JobsController < ApplicationController
 
   def job
     @job = Job.find(params[:id])
+    @job.search = params[:q][:search] if params[:q]
     @current_menu = @job.convert_job? ? :convert : :validate
   rescue => _e
     flash[:notice] = 'Ce rapport de validation n\'existe plus'

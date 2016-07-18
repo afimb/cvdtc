@@ -23,19 +23,19 @@ gem 'grape-swagger', '~> 0.20.1'
 gem 'grape-swagger-rails', '~> 0.2.0'
 gem 'sidekiq', '~> 4.0.1'
 gem 'sinatra', '~> 1.4.6', require: nil
-#gem 'ievkit', github: 'afimb/ievkit', branch: 'master'
-gem 'ievkit', '~> 0.1.1'
+gem 'ievkit', github: 'afimb/ievkit', branch: 'master'
 gem 'bitly', '~> 0.10.4'
 gem 'kaminari', '~> 0.16.3'
 gem 'therubyracer', '~> 0.12.2'
+gem 'ievkit_views', github: 'afimb/ievkit', branch: 'master'
 
 # I18n
 gem 'rails-i18n', '~> 4.0.7'
 gem 'devise-i18n', '~> 0.12.1'
 gem 'devise-i18n-views', '~> 0.3.7'
 gem 'kaminari-i18n', '~> 0.3.2'
-gem 'cvdtc-i18n', git: 'https://github.com/afimb/cvdtc-i18n.git'
-gem 'chouette-projects-i18n', git: 'https://github.com/afimb/chouette-projects-i18n.git'
+gem 'cvdtc-i18n', git: 'https://github.com/afimb/cvdtc-i18n.git', branch: :master
+gem 'chouette-projects-i18n', git: 'https://github.com/afimb/chouette-projects-i18n.git', branch: :master
 
 group :production, :staging do
   gem 'newrelic_rpm'
@@ -55,17 +55,17 @@ group :development, :test do
 end
 group :development do
   gem 'puma', '~> 3.3'
-  gem 'web-console', '~> 2.0'
-  gem 'better_errors'
+  # gem 'web-console', '~> 2.0'
+  # gem 'better_errors'
   gem 'capistrano', '~> 3.4.0'
   gem 'capistrano-bundler', '~> 1.1.4'
   gem 'capistrano-rails', '~> 1.1.5'
   gem 'capistrano-rails-console', '~> 1.0.2'
   gem 'capistrano-rbenv', '~> 2.0.4'
   gem 'capistrano-sidekiq', '~> 0.5.4'
-  gem 'guard-bundler'
-  gem 'guard-rails'
-  gem 'guard-rspec'
+  # gem 'guard-bundler'
+  # gem 'guard-rails'
+  # gem 'guard-rspec'
   gem 'quiet_assets'
   gem 'rails_layout'
   gem 'rb-fchange', require: false
@@ -74,7 +74,6 @@ group :development do
   gem 'spring-commands-rspec'
   gem 'letter_opener'
   gem 'bundler-audit'
-  gem 'localeapp'
 end
 group :test do
   gem 'capybara'

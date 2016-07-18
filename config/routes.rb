@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root to: 'visitors#index'
   get 'convert', to: 'visitors#convert', as: 'convert'
   post 'jobs', to: 'visitors#create', as: 'jobs'
+  get 'parameters', to: 'visitors#parameters', as: 'parameters'
   get 'job/:id', to: 'jobs#show', as: 'job'
   get 'job/:id/progress', to: 'jobs#progress', as: 'progress_job'
   get 'job/:id/short_url', to: 'jobs#short_url', as: 'short_url'

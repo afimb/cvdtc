@@ -22,6 +22,19 @@ module API
           end
         end
 
+        desc 'Get job parameters'
+        params do
+          requires :id, type: Integer, desc: 'Job id.'
+        end
+        route_param :id do
+          get '/parameters' do
+            job = ::Job.find_by(id: params[:id], user: current_user)
+            error! :not_found, 404 unless job
+            ps = ParametersService.new(job)
+            ps.validate_params
+          end
+        end
+
         desc 'Get progress steps job'
         params do
           requires :id, type: Integer, desc: 'Job id.'
@@ -139,6 +152,7 @@ module API
           optional :ignore_end_chars, type: Integer, desc: 'Ignore the last n characters'
           optional :max_distance_for_commercial, type: Integer, desc: 'Max distance to produce zones ( in meters )'
           optional :max_distance_for_connection_link, type: Integer, desc: 'Max distance to create connections'
+          optional :parameters, type: String, desc: 'JSON for parameters'
         end
         post '/url' do
           job = ::Job.new
@@ -153,6 +167,7 @@ module API
           job.max_distance_for_commercial = params[:max_distance_for_commercial].to_i
           job.max_distance_for_connection_link = params[:max_distance_for_connection_link].to_i
           job.url = params[:url]
+          job.parameters = JSON.parse(params[:parameters]) if params[:parameters].present?
           if job.save
             url = Rails.application.routes.url_helpers.job_url(job.id)
             job.launch_jobs(url)

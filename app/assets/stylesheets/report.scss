@@ -1,8 +1,8 @@
 .cvd {
   &-SpritesBlock-stamp {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 30px;
+    right: 30px;
   }
   &-ReportBlock {
     &-lines {
@@ -23,56 +23,6 @@
       li {
         list-style: none;
       }
-    }
-    &-errorInfo {
-      font-style: italic;
-      font-size: smaller;
-    }
-    &-errorId {
-      margin: 0 0 0 19px;
-      font-weight: bold;
-      &-detail {
-        margin: 0 0 0 19px;
-      }
-    }
-  }
-  &-AccordionBlock {
-    .panel-title {
-      > a {
-        display: block;
-      }
-    }
-    &-details {
-      border: none;
-      background: none;
-    }
-  }
-  &-ColorBlock {
-    &-ok, &-ok-sign {
-      color: green;
-    }
-    &-ignored {
-      color: #000;
-    }
-    &-alert {
-      color: orange;
-    }
-    &-remove, &-minus-sign {
-      color: red;
-    }
-  }
-  &-BgColorBlock {
-    &-ok, &-ok-sign {
-      background-color: green !important;
-    }
-    &-ignored {
-      background-color: #000 !important;
-    }
-    &-alert {
-      background-color: orange !important;
-    }
-    &-remove, &-minus-sign {
-      background-color: red !important;
     }
   }
 }
