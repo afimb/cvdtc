@@ -1,23 +1,4 @@
 GIT
-  remote: git://github.com/afimb/ievkit.git
-  revision: 14299142c248c0f43d97310700bd2f196b81f2c9
-  branch: master
-  specs:
-    ievkit (0.2.0)
-      faraday_middleware (~> 0.10.0)
-      figaro (~> 1.1.1)
-      redis (~> 3.2)
-      rest-client (~> 1.8.0)
-
-GIT
-  remote: git://github.com/afimb/ievkit_views.git
-  revision: d9927d96f83ca5cd0ccec58da4ab109af0475f5b
-  branch: master
-  specs:
-    ievkit_views (0.1.0)
-      rails (~> 4.2.6)
-
-GIT
   remote: https://github.com/afimb/chouette-projects-i18n.git
   revision: 50a5591fac5e1b89a838cdf3f19a33d4643066eb
   branch: master
@@ -34,6 +15,25 @@ GIT
     cvdtc-i18n (0.1.0)
       i18n
       railties
+
+GIT
+  remote: https://github.com/afimb/ievkit.git
+  revision: 14299142c248c0f43d97310700bd2f196b81f2c9
+  branch: master
+  specs:
+    ievkit (0.2.0)
+      faraday_middleware (~> 0.10.0)
+      figaro (~> 1.1.1)
+      redis (~> 3.2)
+      rest-client (~> 1.8.0)
+
+GIT
+  remote: https://github.com/afimb/ievkit_views.git
+  revision: d9927d96f83ca5cd0ccec58da4ab109af0475f5b
+  branch: master
+  specs:
+    ievkit_views (0.1.0)
+      rails (~> 4.2.6)
 
 GEM
   remote: https://rubygems.org/
