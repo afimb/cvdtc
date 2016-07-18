@@ -27,7 +27,7 @@ gem 'ievkit', github: 'afimb/ievkit', branch: 'master'
 gem 'bitly', '~> 0.10.4'
 gem 'kaminari', '~> 0.16.3'
 gem 'therubyracer', '~> 0.12.2'
-gem 'ievkit_views', github: 'afimb/ievkit', branch: 'master'
+gem 'ievkit_views', github: 'afimb/ievkit_views', branch: 'master'
 
 # I18n
 gem 'rails-i18n', '~> 4.0.7'
