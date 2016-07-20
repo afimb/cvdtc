@@ -29,7 +29,7 @@ GIT
 
 GIT
   remote: https://github.com/afimb/ievkit_views.git
-  revision: d9927d96f83ca5cd0ccec58da4ab109af0475f5b
+  revision: c946117709fa21409803ca09aa08317b79a24bd7
   branch: develop
   specs:
     ievkit_views (0.1.0)

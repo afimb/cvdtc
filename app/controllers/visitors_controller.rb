@@ -24,6 +24,13 @@ class VisitorsController < ApplicationController
     end
   end
 
+  def parameters_file
+    data = ParametersService.validate_params_3.merge!(
+      ParametersService.validate_params_4
+    )
+    send_data JSON.pretty_generate(data), { filename: 'cvdtc_parameters.json' }
+  end
+ 
   private
 
   def job

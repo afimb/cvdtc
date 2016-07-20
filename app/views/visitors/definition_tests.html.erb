@@ -1,0 +1,37 @@
+<% content_for :title do %>Définition des tests<% end %>
+
+<h1>Définition des tests</h1>
+
+<h2>Tests de Validation de Conformité aux formats Neptune et GTFS</h2>
+
+<ul>
+  <li>
+    <%= link_to "#{ENV['SPEC_VALIDATION_URL']}/fr/index_neptune.html", target: '_blank', rel: 'noreferrer' do %>
+      Contrôles syntaxiques et sémantiques Neptune</li>
+    <% end %>
+  </li>
+  <li>
+    <%= link_to "#{ENV['SPEC_VALIDATION_URL']}/fr/index_gtfs.html", target: '_blank', rel: 'noreferrer' do %>
+      Contrôles syntaxiques et sémantiques GTFS</li>
+    <% end %>
+  </li>
+</ul>
+
+<h2>Tests de Contrôle Qualité des données</h2>
+
+<ul>
+  <li>
+    <%= link_to "#{ENV['SPEC_VALIDATION_URL']}/fr/index_t3.html", target: '_blank', rel: 'noreferrer' do %>
+      Contrôles qualitatifs</li>
+    <% end %>
+  <li>
+    <%= link_to "#{ENV['SPEC_VALIDATION_URL']}/fr/index_t4.html", target: '_blank', rel: 'noreferrer' do %>
+      Contrôles qualitatifs complémentaires</li>
+    <% end %>
+  <li>
+    <%= link_to parameters_path do %>
+      Paramètres des tests
+    <% end %>
+  </li>
+</ul>
+
