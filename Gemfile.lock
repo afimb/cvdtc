@@ -29,7 +29,7 @@ GIT
 
 GIT
   remote: https://github.com/afimb/ievkit_views.git
-  revision: c946117709fa21409803ca09aa08317b79a24bd7
+  revision: 8474757293d3b7b65c3cf87e6c160f979a468afe
   branch: develop
   specs:
     ievkit_views (0.1.0)
@@ -205,7 +205,7 @@ GEM
     i18n (0.7.0)
     ice_nine (0.11.2)
     interception (0.5)
-    jbuilder (2.5.0)
+    jbuilder (2.6.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
     jquery-rails (4.0.5)
@@ -272,7 +272,7 @@ GEM
     pry-rescue (1.4.4)
       interception (>= 0.5)
       pry
-    puma (3.5.0)
+    puma (3.5.2)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.4)
