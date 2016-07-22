@@ -4,37 +4,35 @@
 
   <ul>
     <li>
-      <h3>Formats supportés : NEPTUNE, GTFS</h3>
-      <ul>
-        <li>
-          Les points de contrôle comprennent une série de tests de conformité aux formats Neptune et GTFS,
-          utilisés lors de la validation de données (tests 1-xxx et 2-xxx).
-          <ul>
-            <li>
-              Test de conformité Neptune 1 &amp; 2
-              <span class="glyphicon glyphicon-link"></span>
-              <%= link_to "#{ENV['SPEC_VALIDATION_URL']}/#{I18n.locale}/index_neptune.html", "#{ENV['SPEC_VALIDATION_URL']}/#{I18n.locale}/index_neptune.html", target: '_blank', rel: 'noreferrer' %>
-            </li>
-            <li>
-              Test de conformité GTFS 1 &amp; 2
-              <span class="glyphicon glyphicon-link"></span>
-              <%= link_to "#{ENV['SPEC_VALIDATION_URL']}/#{I18n.locale}/index_gtfs.html", "#{ENV['SPEC_VALIDATION_URL']}/#{I18n.locale}/index_gtfs.html", target: '_blank', rel: 'noreferrer' %>
-            </li>
-          </ul>
-        </li>
-        <li>
-          Pour plus de détails
+      <h3>Les formats actuellement supportés sont NEPTUNE et GTFS</h3>
+       <li>
+        Pour plus de détails sur la prise en compte de ces formats dans Chouette
           <span class="glyphicon glyphicon-link"></span>
-          <%= link_to 'http://www.chouette.mobi/developpeurs/formats-supportes/', 'http://www.chouette.mobi/developpeurs/formats-supportes/', target: '_blank', rel: 'noreferrer' %>
-        </li>
-      </ul>
+          <%= link_to 'visitez le site Chouette', 'http://www.chouette.mobi/developpeurs/formats-supportes/', target: '_blank', rel: 'noreferrer' %>
+        </li><li>
+      Pour en savoir plus sur NEPTUNE
+        <span class="glyphicon glyphicon-link"></span>
+        <%= link_to 'visitez le site www.normes-donnees-tc.org', 'http://www.normes-donnees-tc.org/format-dechange/donnees-theoriques/neptune/', target: '_blank', rel: 'noreferrer' %>
+      </li>
+      <li>
+      Pour en savoir plus sur GTFS
+        <span class="glyphicon glyphicon-link"></span>
+        <%= link_to 'visitez le site www.normes-donnees-tc.org', 'http://www.normes-donnees-tc.org/format-dechange/donnees-theoriques/neptune/', target: '_blank', rel: 'noreferrer' %>
+      </li> 
     </li>
     <li>
-      <h3>Normes Données TC</h3>
+      <h3>Tests</h3>
       <p>
-        Pour en savoir plus, visitez le portail des normes pour les données d'offre du transport collectif
+        Les tests sont de 2 types : 
+        <li>
+        des tests de validation de conformité (1-format-xxx ou 2-format-xxx) : le tampon vert "conforme NEPTUNE" ou "conforme GTFS" signifie qu'aucun test de validation n'a produit d'erreur. (en revanche ces test peuvent avoir produit des avertissements)
+        </li>
+        <li>
+        des tests complémentaires, de contrôle qualité (3-format-xxx ou 4-format-xxx)
+        </li>
+        Pour le détail des tests, voir la page 
         <span class="glyphicon glyphicon-link"></span>
-        <%= link_to 'http://www.normes-donnees-tc.org', 'http://www.normes-donnees-tc.org', target: '_blank', rel: 'noreferrer' %>
+        <%= link_to 'Définition des Tests', 'http://preview.conversion-validation-donnees-tc.org/definition_tests', target: '_blank', rel: 'noreferrer' %>
       </p>
     </li>
   </ul>
