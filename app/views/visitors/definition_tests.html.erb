@@ -24,10 +24,14 @@
     <%= link_to "#{ENV['SPEC_VALIDATION_URL']}/fr/index_t3.html", target: '_blank', rel: 'noreferrer' do %>
       Contrôles qualitatifs</li>
     <% end %>
+  </li>
+  <% if false %>
   <li>
     <%= link_to "#{ENV['SPEC_VALIDATION_URL']}/fr/index_t4.html", target: '_blank', rel: 'noreferrer' do %>
       Contrôles qualitatifs complémentaires</li>
     <% end %>
+  </li>
+  <% end %>
   <li>
     <%= link_to parameters_path do %>
       Paramètres des tests

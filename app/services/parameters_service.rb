@@ -41,7 +41,7 @@ class ParametersService
     {
       validation: { }.
         merge!(ParametersService.validate_params_3).
-        merge!(ParametersService.validate_params_4).
+        # merge!(ParametersService.validate_params_4).
         merge!(@job.parameters)
     }
   end

@@ -11,10 +11,11 @@
   </div>
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <% unless @job.list_links.key?(:output) %>
+      <% if @job.list_links.key?(:output) %>
+        <%= link_to t('convert_download'), download_convert_job_path(@job), class: 'btn btn-primary', 'data-no-turbolink': true %>
+      <% else %>
         <p>Erreur lors de la conversion votre fichier source est peut-être non valide. <%= link_to 'Tester la validité de mon fichier', root_path, class: 'btn btn-info' %></p>
       <% end %>
-      <%= link_to t('convert_download'), download_convert_job_path(@job), class: 'btn btn-primary', 'data-no-turbolink': true %>
     </div>
   </div>
 </div>
