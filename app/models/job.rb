@@ -145,11 +145,10 @@ class Job < ActiveRecord::Base
 
   def tests_views(_type = nil)
     report = IevkitViews::ValidationReport.new(referential, @all_links[:validation_report], 'validation_report', @all_links[:validation_report], search)
-    sum_report = report.sum_report(report.check_points)
     [
       report.result,
       report.search_for(report.check_points),
-      report.sum_report_for_tests(sum_report),
+      report.sum_report_for_tests(report.check_points),
       report.errors
     ]
   end

@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/afimb/chouette-projects-i18n.git
-  revision: 8833a7b16fae72efa987f55a6e7039266e125187
+  revision: 4e906c8839f3a108095a0d2ee8699741ada09e58
   branch: master
   specs:
     chouette-projects-i18n (0.1.0)
