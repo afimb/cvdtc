@@ -1,8 +1,13 @@
 .cvd {
-  &-SpritesBlock-stamp {
+  &-SpritesBlock-stamp-normal {
     position: absolute;
     top: 30px;
     right: 30px;
+  }
+  &-SpritesBlock-stamp-little {
+    background-size: 120px;
+    display: inline-block;
+    vertical-align: middle;
   }
   &-ReportBlock {
     &-lines {

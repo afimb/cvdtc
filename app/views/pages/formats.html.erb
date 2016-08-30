@@ -1,7 +1,6 @@
 <% content_for :title do %>Formats<% end %>
 <div class="row cvd-FormatsBlock">
   <h1>Formats</h1>
-
   <ul>
     <li>
       <h3>Formats supportés : NEPTUNE, GTFS</h3>
@@ -11,14 +10,40 @@
           utilisés lors de la validation de données (tests 1-xxx et 2-xxx).
           <ul>
             <li>
-              Test de conformité Neptune 1 &amp; 2
-              <span class="glyphicon glyphicon-link"></span>
-              <%= link_to "#{ENV['SPEC_VALIDATION_URL']}/#{I18n.locale}/index_neptune.html", "#{ENV['SPEC_VALIDATION_URL']}/#{I18n.locale}/index_neptune.html", target: '_blank', rel: 'noreferrer' %>
+              Format Neptune
+              <ul>
+                <li>
+                  Test de conformité 1 &amp; 2
+                  <span class="glyphicon glyphicon-link"></span>
+                  <%= link_to "#{ENV['SPEC_VALIDATION_URL']}/#{I18n.locale}/index_neptune.html", "#{ENV['SPEC_VALIDATION_URL']}/#{I18n.locale}/index_neptune.html", target: '_blank', rel: 'noreferrer' %>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-link"></span>
+                  <%= link_to page_path('tests-required', format: 'neptune') do %>
+                    Tests requis pour être conforme au format Neptune
+                    <span class="cvd-SpritesBlock cvd-SpritesBlock-stamp-little
+                                 cvd-SpritesBlock-stamp-neptune-ok"></span>
+                   <% end %>
+                </li>
+              </ul>
             </li>
             <li>
-              Test de conformité GTFS 1 &amp; 2
-              <span class="glyphicon glyphicon-link"></span>
-              <%= link_to "#{ENV['SPEC_VALIDATION_URL']}/#{I18n.locale}/index_gtfs.html", "#{ENV['SPEC_VALIDATION_URL']}/#{I18n.locale}/index_gtfs.html", target: '_blank', rel: 'noreferrer' %>
+              Format GTFS
+              <ul>
+                <li>
+                  Test de conformité 1 &amp; 2
+                  <span class="glyphicon glyphicon-link"></span>
+                  <%= link_to "#{ENV['SPEC_VALIDATION_URL']}/#{I18n.locale}/index_gtfs.html", "#{ENV['SPEC_VALIDATION_URL']}/#{I18n.locale}/index_gtfs.html", target: '_blank', rel: 'noreferrer' %>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-link"></span>
+                  <%= link_to page_path('tests-required', format: 'gtfs') do %>
+                    Tests requis pour être conforme au format GTFS
+                    <span class="cvd-SpritesBlock cvd-SpritesBlock-stamp-little
+                                 cvd-SpritesBlock-stamp-gtfs-ok"></span>
+                  <% end %>
+                </li>
+              </ul>
             </li>
           </ul>
         </li>

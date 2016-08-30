@@ -10,6 +10,15 @@
       </p>
     </div>
   </div>
+  <% if @elements_to_paginate.any? %>
+    <%= link_to page_path('formats') do %>
+      <span title="Conditions à remplir pour être conforme au format" data-toggle="tooltip" data-placement="left"
+            class="cvd-SpritesBlock cvd-SpritesBlock-stamp-normal
+                   cvd-SpritesBlock-stamp-normal-<%= @job.format.downcase %>-<%= @result == :error ? 'nok' : 'ok' %>">
+        <span><%= @result == :error ? 'Refusé' : 'Approuvé' %></span>
+      </span>
+    <% end %>
+  <% end %>
   <%= render 'ievkit_views/report', { current_page: validation_job_path(@job) } %>
   <% if @job.mine?(current_user) %>
     <div class="row">
