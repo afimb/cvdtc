@@ -30,7 +30,13 @@ class VisitorsController < ApplicationController
     )
     send_data JSON.pretty_generate(data), { filename: 'cvdtc_parameters.json' }
   end
- 
+
+  def list_tests
+    @format = params[:format]
+    ievkit_job = Ievkit::Job.new('anonymous')
+    @list_tests = ievkit_job.list_tests('validator', @format)
+  end
+
   private
 
   def job
