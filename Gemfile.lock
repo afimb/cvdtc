@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/afimb/chouette-projects-i18n.git
-  revision: 3805a2437a5897cd3424c07a6516a10793a98965
+  revision: 723853e15874c03c70e3f0bbea57beb1621f452f
   branch: master
   specs:
     chouette-projects-i18n (0.1.0)
@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: https://github.com/afimb/cvdtc-i18n.git
-  revision: 83007bed7631d522f9ef3570039c40c7b94ea123
+  revision: c27374d15e2c9d0b620a185f75d550f64cec9055
   branch: master
   specs:
     cvdtc-i18n (0.1.0)
@@ -29,10 +29,12 @@ GIT
 
 GIT
   remote: https://github.com/afimb/ievkit_views.git
-  revision: 049dd6661ec204ac53abf9e91df7460a61333b4d
+  revision: 644372170fba9338f94452fa44a02c8b498328a4
   branch: develop
   specs:
     ievkit_views (0.1.0)
+      kaminari (~> 0.16.3)
+      kaminari-i18n (~> 0.3.2)
       rails (~> 4.2.6)
 
 GEM

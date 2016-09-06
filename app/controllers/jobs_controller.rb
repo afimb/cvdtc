@@ -37,6 +37,7 @@ class JobsController < ApplicationController
     # TODO - Faire une classe services pour toutes les vars
     @transport_datas_selected = params[:type_td]
     @default_view = params[:default_view] ? params[:default_view].to_sym : :files
+    @download_page = download_validation_job_path(id: @job.id, default_view: @default_view)
     @result, @datas, @sum_report, @errors = @job.send("#{@default_view}_views", (@transport_datas_selected != 'all' ? @transport_datas_selected : nil ))
     @elements_to_paginate = Kaminari.paginate_array(@datas)
                                     .page(params[:page])
