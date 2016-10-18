@@ -33,18 +33,6 @@
       margin-right: 10px;
     }
   }
-  &-SearchBlock {
-    margin: 20px 0;
-    background-color: #eee;
-    padding: 8px 16px;
-    border: 1px solid #ddd;
-    &-search {
-      margin-right: 20px;
-    }
-    input[type=search] {
-      width: 200px;
-    }
-  }
   &-ShowOnHoverBlock {
     &-element {
       visibility: hidden;

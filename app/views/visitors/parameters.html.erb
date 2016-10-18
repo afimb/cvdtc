@@ -1,4 +1,4 @@
-<% content_for :title do %>Liste des paramètres de validation<% end %>
+<% content_for :title do %>Paramètres des tests de contrôle qualité<% end %>
 
 <!--
   http://appli.chouette.mobi/chouette2/help/parametersets
@@ -19,6 +19,13 @@
 -->
 
 <h1>Paramètres des tests de contrôle qualité</h1>
+
+<p>
+  <%= link_to parameters_file_path do %>
+    <span class="glyphicon glyphicon-file"></span>
+    Télécharger le fichier Json d'exemple
+  <% end %>
+</p>
 
 <h3>Paramètres généraux</h3>
 <ul>

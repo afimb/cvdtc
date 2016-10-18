@@ -7,32 +7,39 @@
     display: none;
   }
   &-stamp {
-    width: 158px;
-    height: 152px;
-    display: block;
-    &-gtfs {
-      &-ok {
-        background-position: -3px -3px;
+    &-normal {
+      width: 158px;
+      height: 152px;
+      display: block;
+      &-gtfs {
+        &-ok {
+          background-position: -3px -3px;
+        }
+        &-nok {
+          background-position: -163px -3px;
+        }
       }
-      &-nok {
-        background-position: -163px -3px;
+      &-neptune {
+        &-ok {
+          background-position: -3px -157px;
+        }
+        &-nok {
+          background-position: -163px -157px;
+        }
+      }
+      &-netex {
+        &-ok {
+          background-position: -3px -311px;
+        }
+        &-nok {
+          background-position: -163px -311px;
+        }
       }
     }
-    &-neptune {
-      &-ok {
-        background-position: -3px -157px;
-      }
-      &-nok {
-        background-position: -163px -157px;
-      }
-    }
-    &-netex {
-      &-ok {
-        background-position: -3px -311px;
-      }
-      &-nok {
-        background-position: -163px -311px;
-      }
+    &-little {
+      width: 30px;
+      height: 30px;
+      background-position: initial;
     }
   }
 }

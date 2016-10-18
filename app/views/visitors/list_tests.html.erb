@@ -1,0 +1,15 @@
+<% content_for :title do %>Tests requis pour être conforme au format <%= @format.capitalize %><% end %>
+<div class="row cvd-FormatsBlock">
+  <h1>Tests requis pour être conforme au format <%= @format.capitalize %></h1>
+  <ul>
+    <% @list_tests['Tests'].each do |test| %>
+      <% next if test['severity'] != 'ERROR' %>
+      <li>
+        <span class="glyphicon glyphicon-link"></span>
+        <%= link_to "#{ENV['SPEC_VALIDATION_URL']}/#{I18n.locale}/#{test['code']}.html", target: '_blank', rel: 'noreferrer' do %>
+          <strong><%= test['code'] %></strong> - <%= I18n.t("compliance_check_results.details.#{test['code']}") %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>

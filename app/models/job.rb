@@ -148,7 +148,7 @@ class Job < ActiveRecord::Base
     [
       report.result,
       report.search_for(report.check_points),
-      report.sum_report(report.check_points),
+      report.sum_report_for_tests(report.check_points),
       report.errors
     ]
   end
