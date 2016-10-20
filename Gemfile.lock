@@ -18,7 +18,7 @@ GIT
 
 GIT
   remote: https://github.com/afimb/ievkit.git
-  revision: 404fd4ebaa64f3d1b829b320cee76d0bc73bd881
+  revision: 7ed9e171fedbae434f34357198bb5db8153c5ab5
   branch: develop
   specs:
     ievkit (0.2.0)
@@ -29,7 +29,7 @@ GIT
 
 GIT
   remote: https://github.com/afimb/ievkit_views.git
-  revision: 644372170fba9338f94452fa44a02c8b498328a4
+  revision: d65445a676141105ed2d778f8f2104000a74aab8
   branch: develop
   specs:
     ievkit_views (0.1.0)
@@ -199,7 +199,7 @@ GEM
       tilt
     hashie (3.4.4)
     high_voltage (2.4.0)
-    http-cookie (1.0.2)
+    http-cookie (1.0.3)
       domain_name (~> 0.5)
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
@@ -535,4 +535,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.12.5
+   1.13.1

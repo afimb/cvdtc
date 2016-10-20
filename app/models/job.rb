@@ -220,6 +220,7 @@ class Job < ActiveRecord::Base
 
   def convert_report
     file = @all_links[:output] ? @all_links[:output] : @all_links[:data]
+    @ievkit.disable_cache = true
     @ievkit.get_job(file)
   end
 
