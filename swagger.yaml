@@ -307,15 +307,14 @@ definitions:
         minimum: 0
         maximum: 4
       format:
-        type: integer
-        enum:
-          - 0
-          - 1
+        type: string
+        enum: ['gtfs', 'neptune']
+      iev_action:
+        type: string
+        enum: ['validate_job', 'convert_job']
       format_convert:
-        type: integer
-        enum:
-          - 0
-          - 1
+        type: string
+        enum: ['convert_gtfs', 'convert_neptune']
       object_id_prefix:
         type: string
       time_zone:

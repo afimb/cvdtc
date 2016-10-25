@@ -142,10 +142,10 @@ module API
 
         desc 'Post new url job'
         params do
-          requires :format, type: Integer, desc: 'Format'
+          requires :format, type: String, desc: 'Format', values: %w(gtfs neptune)
           requires :url, type: String, desc: 'URL'
-          requires :iev_action, type: Integer, desc: 'Action'
-          optional :format_convert, type: Integer, desc: 'Format to convert'
+          requires :iev_action, type: String, desc: 'Action', values: %w(validate_job convert_job)
+          optional :format_convert, type: String, desc: 'Format to convert', values: %w(convert_gtfs convert_neptune)
           optional :object_id_prefix, type: String, desc: 'IDs prefix'
           optional :time_zone, type: String, desc: 'Time zone'
           optional :ignore_last_word, type: Boolean, desc: 'Ignore the last word'
@@ -157,9 +157,9 @@ module API
         post '/url' do
           job = ::Job.new
           job.user = current_user
-          job.format = params[:format].to_i
-          job.iev_action = params[:iev_action].to_i
-          job.format_convert = params[:format_convert].to_i if params[:format_convert].present?
+          job.format = params[:format]
+          job.iev_action = params[:iev_action]
+          job.format_convert = params[:format_convert] if params[:format_convert].present?
           job.object_id_prefix = params[:object_id_prefix ]
           job.time_zone = params[:time_zone ]
           job.ignore_last_word = params[:ignore_last_word] if params[:ignore_last_word].present?
@@ -179,10 +179,10 @@ module API
 
         desc 'Post new file job'
         params do
-          requires :format, type: Integer, desc: 'Format'
+          requires :format, type: String, desc: 'Format', values: %w(gtfs neptune)
           requires :file, type: File, desc: 'File'
-          requires :iev_action, type: Integer, desc: 'Action'
-          optional :format_convert, type: Integer, desc: 'Format to convert'
+          requires :iev_action, type: String, desc: 'Action', values: %w(validate_job convert_job)
+          optional :format_convert, type: String, desc: 'Format to convert', values: %w(convert_gtfs convert_neptune)
           optional :object_id_prefix, type: String, desc: 'IDs prefix'
           optional :time_zone, type: String, desc: 'Time zone'
           optional :ignore_last_word, type: Boolean, desc: 'Ignore the last word'
@@ -194,9 +194,9 @@ module API
         post '/file' do
           job = ::Job.new
           job.user = current_user
-          job.format = params[:format].to_i
-          job.iev_action = params[:iev_action].to_i
-          job.format_convert = params[:format_convert].to_i if params[:format_convert].present?
+          job.format = params[:format]
+          job.iev_action = params[:iev_action]
+          job.format_convert = params[:format_convert] if params[:format_convert].present?
           job.object_id_prefix = params[:object_id_prefix ]
           job.time_zone = params[:time_zone ]
           job.ignore_last_word = params[:ignore_last_word] if params[:ignore_last_word].present?
