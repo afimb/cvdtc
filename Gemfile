@@ -23,11 +23,11 @@ gem 'grape-swagger', '~> 0.20.1'
 gem 'grape-swagger-rails', '~> 0.2.0'
 gem 'sidekiq', '~> 4.0.1'
 gem 'sinatra', '~> 1.4.6', require: nil
-gem 'ievkit', git: 'https://github.com/afimb/ievkit.git', branch: 'develop'
+gem 'ievkit', '~> 0.3.0'
 gem 'bitly', '~> 0.10.4'
 gem 'kaminari', '~> 0.16.3'
 gem 'therubyracer', '~> 0.12.2'
-gem 'ievkit_views', git: 'https://github.com/afimb/ievkit_views.git', branch: 'develop'
+gem 'ievkit_views', '~> 0.2.0'
 
 # I18n
 gem 'rails-i18n', '~> 4.0.7'
