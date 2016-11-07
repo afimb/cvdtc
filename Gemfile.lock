@@ -16,27 +16,6 @@ GIT
       i18n
       railties
 
-GIT
-  remote: https://github.com/afimb/ievkit.git
-  revision: 88fa612ea944c0ab91f1dfa825e3ad6a1516ae45
-  branch: develop
-  specs:
-    ievkit (0.2.0)
-      faraday_middleware (~> 0.10.0)
-      figaro (~> 1.1.1)
-      redis (~> 3.2)
-      rest-client (~> 1.8.0)
-
-GIT
-  remote: https://github.com/afimb/ievkit_views.git
-  revision: d65445a676141105ed2d778f8f2104000a74aab8
-  branch: develop
-  specs:
-    ievkit_views (0.1.0)
-      kaminari (~> 0.16.3)
-      kaminari-i18n (~> 0.3.2)
-      rails (~> 4.2.6)
-
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -146,7 +125,7 @@ GEM
     devise-i18n (0.12.1)
     devise-i18n-views (0.3.7)
     diff-lcs (1.2.5)
-    domain_name (0.5.20160826)
+    domain_name (0.5.20161021)
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.11)
     erubis (2.7.0)
@@ -205,6 +184,15 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
     ice_nine (0.11.2)
+    ievkit (0.3.0)
+      faraday_middleware (~> 0.10.0)
+      figaro (~> 1.1.1)
+      redis (~> 3.2)
+      rest-client (~> 1.8.0)
+    ievkit_views (0.2.0)
+      kaminari (~> 0.16.3)
+      kaminari-i18n (~> 0.3.2)
+      rails (~> 4.2.6)
     interception (0.5)
     jbuilder (2.6.0)
       activesupport (>= 3.0.0, < 5.1)
@@ -484,8 +472,8 @@ DEPENDENCIES
   grape-swagger-rails (~> 0.2.0)
   grape_logging (~> 1.1.2)
   high_voltage (~> 2.4.0)
-  ievkit!
-  ievkit_views!
+  ievkit (~> 0.3.0)
+  ievkit_views (~> 0.2.0)
   jbuilder (~> 2.0)
   jquery-rails (~> 4.0.5)
   kaminari (~> 0.16.3)
@@ -533,4 +521,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.13.1
+   1.13.6
