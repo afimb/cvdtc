@@ -52,8 +52,8 @@ class JobsController < ApplicationController
   # end
 
   def download_validation
-    datas, args = @job.download_validation_report(params[:default_view])
-    send_data datas, args
+    csv_file, args = @job.download_validation_report(params[:default_view])
+    send_data csv_file, args
   end
 
   def download_convert
