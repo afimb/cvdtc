@@ -1,40 +1,6 @@
 "use strict";
 
 (function($){
-  var setProgressBar = function(val1, val2) {
-    var $pb1 = $('#progress-bar-steps');
-    $pb1.css('width', val1 + '%');
-    $pb1.find('.progress-bar-value').text(val1);
-    $pb1.attr('aria-valuenow', val1);
-    var $pb2 = $('#progress-bar-current-step');
-    $pb2.css('width', val2 + '%');
-    $pb2.find('.progress-bar-value').text(val2);
-    $pb2.attr('aria-valuenow', val2);
-  };
-
-  var progressJob = function() {
-    var $el = $('[data-progress-job]');
-    if($el.length == 1) {
-      var url = $el.data('progress-job');
-      $.ajax({
-        url: url
-      })
-      .done(function( datas ) {
-        if (datas.redirect) {
-          setProgressBar(100, 100);
-          window.location.href = datas.redirect;
-        } else if (datas.error_code) {
-          $('.cvd-JobListActionsBlock').after('<p>Erreur impossible de traiter votre demande : ' + datas.error_code + '</p>');
-          $('.cvd-JobListActionsBlock').remove();
-          $('.progress').remove();
-        } else {
-          setProgressBar(datas.steps_percent, datas.current_step_percent);
-        }
-      });
-      window.setTimeout(progressJob, <%= raw ENV['TIMEOUT'] %>);
-    }
-  };
-
   var shortUrl = function() {
     var $el = $('[data-shorturl]');
     if($el.length == 1) {
@@ -93,7 +59,6 @@
 
   $(document).on('page:change', function () {
     window.setTimeout(waitingStatus, <%= raw ENV['TIMEOUT'] %>);
-    progressJob();
     shortUrl();
     format_switch();
     $('[name="job[format]"]').change( function() {
