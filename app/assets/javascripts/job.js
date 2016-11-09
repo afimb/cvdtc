@@ -6,7 +6,7 @@
     if($el.length == 1) {
       var url = $el.data('shorturl');
       $.get(url);
-      window.setTimeout(shortUrl, <%= raw ENV['TIMEOUT'] %>);
+      window.setTimeout(shortUrl, 10000);
     }
   };
 
@@ -15,7 +15,7 @@
     if($el.length == 1) {
       var url = $el.data('statusurl');
       $.get(url);
-      window.setTimeout(waitingStatus, <%= raw ENV['TIMEOUT'] %>);
+      window.setTimeout(waitingStatus, 10000);
     }
   };
 
@@ -58,7 +58,7 @@
   };
 
   $(document).on('page:change', function () {
-    window.setTimeout(waitingStatus, <%= raw ENV['TIMEOUT'] %>);
+    window.setTimeout(waitingStatus, 10000);
     shortUrl();
     format_switch();
     $('[name="job[format]"]').change( function() {
