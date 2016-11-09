@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-sm-12" data-progress-job="<%= progress_job_path(@job.id, format: :js) %>">
+  <div class="col-sm-12">
     <h1><%= t('jobs.progress') %></h1>
     <p>
       Nom du fichier/URL en cours de <%= @job.format_convert ? 'conversion' : 'validation' %> : <%= @job.name %> - <%= @job.format %>
@@ -16,7 +16,7 @@
       </li>
       <% unless @job.scheduled? %>
         <li>
-          Le traitement de votre fichier est en file d'attente et commencera après téléchargement de votre fichier dans un peu plus de <%= (Sidekiq::Queue.new.latency + ((ENV['TIMEOUT'].to_i / 1000) * 2 )).round %> secondes.
+          Le traitement de votre fichier est en file d'attente et commencera après téléchargement de votre fichier dans un peu plus de <%= (Sidekiq::Queue.new.latency + ((ENV['PROGRESS_BAR_TIMEOUT'].to_i / 1000) * 2 )).round %> secondes.
         </li>
       <% end %>
       <li>
@@ -30,7 +30,7 @@
       </li>
     </ol>
 
-    <%= render 'progress_bar' %>
+    <%= render 'ievkit_views/progress_bar', { path_to_progress_job: progress_job_path(@job.id, format: :js) } %>
 
     <div class="text-center">
       <%= link_to t('job.cancel'), cancel_job_path(@job), 'data-method': :delete, 'data-confirm': t('job.destroy.confirm'), class: 'btn btn-warning' %>
