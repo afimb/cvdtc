@@ -44,6 +44,8 @@ or
 
 `foreman start`
 
+Note: If you need to test the bitly shorten URL you need to do: `bin/rails s -b cvdtc.lvh.me`
+
 Do not forget to start Sidekiq
 ------------------------------
 
